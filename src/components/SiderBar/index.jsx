@@ -69,7 +69,7 @@ function Sidebar({ location }) {
           setCollapsed(!collapsed)
         }}
       >
-        <div className={style.siderHeader}>{collapsed ? 'RPA' : '吾伴RPA'}</div>
+        <div className={style.siderHeader}></div>
         <Menu
           theme="dark"
           defaultOpenKeys={openKeys}

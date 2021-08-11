@@ -23,135 +23,105 @@ export function getRoutes() {
       {
         "path": "/overview",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__overview' */'/Users/lzy/myproject/UmiForCode/src/pages/overview')}),
-        "title": "总览",
+        "title": "个人数据",
         "icon": "",
         "access": "/overview",
         "exact": true
       },
       {
-        "path": "/user",
-        "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__user' */'/Users/lzy/myproject/UmiForCode/src/pages/user')}),
-        "title": "用户",
-        "icon": "",
-        "access": "/user",
-        "routes": [
-          {
-            "path": "/",
-            "redirect": "/user/user-management",
-            "exact": true
-          },
-          {
-            "path": "/user/role-management",
-            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__user__RoleManagement' */'/Users/lzy/myproject/UmiForCode/src/pages/user/RoleManagement')}),
-            "title": "角色管理",
-            "icon": "",
-            "access": "/user/role-management",
-            "exact": true
-          },
-          {
-            "path": "/user/user-management",
-            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__user__UserManagement' */'/Users/lzy/myproject/UmiForCode/src/pages/user/UserManagement')}),
-            "title": "用户管理",
-            "icon": "",
-            "access": "/user/user-management",
-            "exact": true
-          }
-        ]
-      },
-      {
-        "path": "/creator",
-        "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__creator' */'/Users/lzy/myproject/UmiForCode/src/pages/creator')}),
-        "title": "Creator",
-        "icon": "",
-        "access": "/creator",
-        "exact": true
-      },
-      {
-        "path": "/procedure",
-        "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__procedure' */'/Users/lzy/myproject/UmiForCode/src/pages/procedure')}),
-        "title": "流程",
-        "icon": "",
-        "access": "/procedure",
-        "routes": [
-          {
-            "path": "/",
-            "redirect": "/procedure/procedure-management",
-            "exact": true
-          },
-          {
-            "path": "/procedure/procedure-management",
-            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__procedure__ProcedureManagement' */'/Users/lzy/myproject/UmiForCode/src/pages/procedure/ProcedureManagement')}),
-            "title": "流程管理",
-            "icon": "",
-            "access": "/procedure/procedure-management",
-            "exact": true
-          },
-          {
-            "path": "/procedure/process-package-management",
-            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__procedure__ProcessPackageManagement' */'/Users/lzy/myproject/UmiForCode/src/pages/procedure/ProcessPackageManagement')}),
-            "title": "流程包管理",
-            "icon": "",
-            "access": "/procedure/process-package-management",
-            "exact": true
-          }
-        ]
-      },
-      {
         "path": "/task",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__task' */'/Users/lzy/myproject/UmiForCode/src/pages/task')}),
-        "title": "任务",
+        "title": "任务计划",
         "icon": "",
         "access": "/task",
         "routes": [
           {
             "path": "/",
-            "redirect": "/task/task-management",
+            "redirect": "/task/task/task-plan",
             "exact": true
           },
           {
-            "path": "/task/task-management",
-            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__task__TaskManagement' */'/Users/lzy/myproject/UmiForCode/src/pages/task/TaskManagement')}),
-            "title": "任务管理",
+            "path": "/task/task-plan",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__task__TaskPlan' */'/Users/lzy/myproject/UmiForCode/src/pages/task/TaskPlan')}),
+            "title": "今日计划",
             "icon": "",
-            "access": "/task/task-management",
+            "access": "/task/task-plan",
             "exact": true
           },
           {
-            "path": "/task/task-view",
-            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__task__TaskView' */'/Users/lzy/myproject/UmiForCode/src/pages/task/TaskView')}),
-            "title": "任务视图",
+            "path": "/task/task-history",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__task__TaskHistory' */'/Users/lzy/myproject/UmiForCode/src/pages/task/TaskHistory')}),
+            "title": "历史",
             "icon": "",
-            "access": "/task/task-view",
+            "access": "/task/task-history",
             "exact": true
           }
         ]
       },
       {
-        "path": "/plan",
-        "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__plan' */'/Users/lzy/myproject/UmiForCode/src/pages/plan')}),
-        "title": "计划",
+        "path": "/hotel",
+        "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotel' */'/Users/lzy/myproject/UmiForCode/src/pages/hotel')}),
+        "title": "客栈",
         "icon": "",
-        "access": "/plan",
+        "access": "/hotel",
         "routes": [
           {
             "path": "/",
-            "redirect": "/plan/plan-management",
+            "redirect": "/hotel/hotel-board",
             "exact": true
           },
           {
-            "path": "/plan/plan-management",
-            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__plan__PlanManagement' */'/Users/lzy/myproject/UmiForCode/src/pages/plan/PlanManagement')}),
-            "title": "计划管理",
+            "path": "/hotel/hotel-board",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: '__hotel__HotelBoard' */'/Users/lzy/myproject/UmiForCode/src/pages/hotel/HotelBoard')}),
+            "title": "排行榜",
             "icon": "",
-            "access": "/plan/plan-management",
+            "access": "/hotel/hotel-board",
             "exact": true
           },
           {
-            "path": "/plan/plan-calendar",
-            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__plan__calendar' */'/Users/lzy/myproject/UmiForCode/src/pages/plan/calendar')}),
-            "title": "计划日历",
+            "path": "/hotel/hotel-studyguide",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotel__HotelStudyGuide' */'/Users/lzy/myproject/UmiForCode/src/pages/hotel/HotelStudyGuide')}),
+            "title": "学习指南",
             "icon": "",
-            "access": "/plan/plan-calendar",
+            "access": "/hotel/hotel-studyguide",
+            "exact": true
+          },
+          {
+            "path": "/hotel/hotel-studyroad",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotel__HotelStudyRoad' */'/Users/lzy/myproject/UmiForCode/src/pages/hotel/HotelStudyRoad')}),
+            "title": "学习路线",
+            "icon": "",
+            "access": "/hotel/hotel-studyroad",
+            "exact": true
+          }
+        ]
+      },
+      {
+        "path": "/other",
+        "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__other' */'/Users/lzy/myproject/UmiForCode/src/pages/other')}),
+        "title": "其他",
+        "icon": "",
+        "access": "/other",
+        "routes": [
+          {
+            "path": "/",
+            "redirect": "/other",
+            "exact": true
+          },
+          {
+            "path": "/other",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__other' */'/Users/lzy/myproject/UmiForCode/src/pages/other')}),
+            "title": "暂未开放",
+            "icon": "",
+            "access": "",
+            "exact": true
+          },
+          {
+            "path": "/other",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__other' */'/Users/lzy/myproject/UmiForCode/src/pages/other')}),
+            "title": "暂未开放",
+            "icon": "",
+            "access": "",
             "exact": true
           }
         ]

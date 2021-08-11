@@ -12,113 +12,90 @@ export const pageRoutes = {
     {
       path: '/overview',
       component: 'overview',
-      title: '总览',
+      title: '个人数据',
       icon: '',
       access: '/overview'
     },
     {
-      path: '/user',
-      component: 'user',
-      title: '用户',
-      icon: '',
-      access: '/user',
-      routes: [
-        { path: '/', redirect: '/user/user-management' },
-        {
-          path: '/user/role-management',
-          component: 'user/RoleManagement',
-          title: '角色管理',
-          icon: '',
-          access: '/user/role-management'
-        },
-        {
-          path: '/user/user-management',
-          component: 'user/UserManagement',
-          title: '用户管理',
-          icon: '',
-          access: '/user/user-management'
-        }
-      ]
-    },
-    {
-      path: '/creator',
-      component: 'creator',
-      title: 'Creator',
-      icon: '',
-      access: '/creator'
-    },
-    {
-      path: '/procedure',
-      component: 'procedure',
-      title: '流程',
-      icon: '',
-      access: '/procedure',
-      routes: [
-        { path: '/', redirect: '/procedure/procedure-management' },
-        {
-          path: '/procedure/procedure-management',
-          component: 'procedure/ProcedureManagement',
-          title: '流程管理',
-          icon: '',
-          access: '/procedure/procedure-management'
-        },
-        {
-          path: '/procedure/process-package-management',
-          component: 'procedure/ProcessPackageManagement',
-          title: '流程包管理',
-          icon: '',
-          access: '/procedure/process-package-management'
-        }
-      ]
-    },
-    {
       path: '/task',
       component: 'task',
-      title: '任务',
+      title: '任务计划',
       icon: '',
       access: '/task',
       routes: [
-        { path: '/', redirect: '/task/task-management' },
+        { path: '/', redirect: 'task/task-plan' },
         {
-          path: '/task/task-management',
-          component: 'task/TaskManagement',
-          title: '任务管理',
+          path: '/task/task-plan',
+          component: 'task/TaskPlan',
+          title: '今日计划',
           icon: '',
-          access: '/task/task-management'
+          access: '/task/task-plan'
         },
         {
-          path: '/task/task-view',
-          component: 'task/TaskView',
-          title: '任务视图',
+          path: '/task/task-history',
+          component: 'task/TaskHistory',
+          title: '历史',
           icon: '',
-          access: '/task/task-view'
+          access: '/task/task-history'
         }
       ]
     },
     {
-      path: '/plan',
-      component: 'plan',
-      title: '计划',
+      path: '/hotel',
+      component: 'hotel',
+      title: '客栈',
       icon: '',
-      access: '/plan',
+      access: '/hotel',
       routes: [
-        { path: '/', redirect: '/plan/plan-management' },
+        { path: '/', redirect: '/hotel/hotel-board' },
         {
-          path: '/plan/plan-management',
-          component: 'plan/PlanManagement',
-          title: '计划管理',
+          path: '/hotel/hotel-board',
+          component: '/hotel/HotelBoard',
+          title: '排行榜',
           icon: '',
-          access: '/plan/plan-management'
+          access: '/hotel/hotel-board'
         },
         {
-          path: '/plan/plan-calendar',
-          component: 'plan/calendar',
-          title: '计划日历',
+          path: '/hotel/hotel-studyguide',
+          component: 'hotel/HotelStudyGuide',
+          title: '学习指南',
           icon: '',
-          access: '/plan/plan-calendar'
+          access: '/hotel/hotel-studyguide'
+        },
+        {
+          path: '/hotel/hotel-studyroad',
+          component: 'hotel/HotelStudyRoad',
+          title: '学习路线',
+          icon: '',
+          access: '/hotel/hotel-studyroad'
         }
       ]
-    }
+    },
+    {
+      path: '/other',
+      component: 'other',
+      title: '其他',
+      icon: '',
+      access: '/other',
+      routes: [
+        { path: '/', redirect: '/other' },
+        {
+          path: '/other',
+          component: 'other',
+          title: '暂未开放',
+          icon: '',
+          access: ''
+        },
+        {
+          path: '/other',
+          component: 'other',
+          title: '暂未开放',
+          icon: '',
+          access: ''
+        }
+      ]
+    },
+
   ]
 }
 

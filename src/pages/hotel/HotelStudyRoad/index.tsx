@@ -1,10 +1,10 @@
 import style from './index.less'
 
-export default function LoginPage() {
+export default function HotelStudyRoad() {
 
   return (
     <div>
-      ProcedureManagement
+      HotelStudyRoad
     </div>
    )
 }

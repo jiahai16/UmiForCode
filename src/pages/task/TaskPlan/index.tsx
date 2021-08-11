@@ -1,10 +1,10 @@
 import style from './index.less'
 
-export default function LoginPage() {
+export default function TaskForNow() {
 
   return (
     <div>
-      TaskView
+      TaskForNow
     </div>
    )
 }

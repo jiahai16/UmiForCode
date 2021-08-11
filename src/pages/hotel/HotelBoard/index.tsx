@@ -1,10 +1,10 @@
 import style from './index.less'
 
-export default function creator() {
+export default function HotelBoard() {
 
   return (
     <div>
-      creator
+      HotelBoard
     </div>
    )
 }

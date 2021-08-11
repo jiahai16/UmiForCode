@@ -1,10 +1,10 @@
 import style from './index.less'
 import { IRouteProps } from 'umi'
 
-export default function ProcedurePage({ children }: IRouteProps) {
+export default function HotelPage({ children }: IRouteProps) {
   return (
     <div>
-      ProcedurePage----
+      HotelPage----
       {children}
     </div>
   )
