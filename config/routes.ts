@@ -47,10 +47,10 @@ export const pageRoutes = {
       icon: '',
       access: '/hotel',
       routes: [
-        { path: '/', redirect: '/hotel/hotel-board' },
+        { path: '/', redirect: 'hotel/hotel-board' },
         {
           path: '/hotel/hotel-board',
-          component: '/hotel/HotelBoard',
+          component: 'hotel/HotelBoard',
           title: '排行榜',
           icon: '',
           access: '/hotel/hotel-board'

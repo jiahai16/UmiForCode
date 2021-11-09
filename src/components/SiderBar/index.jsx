@@ -48,7 +48,6 @@ function Sidebar({ location }) {
         .filter((route) => !route.redirect)
         .map((item) => {
           if (item.routes) {
-            openKeys.push(item.path)
             return renderSubMenu(item)
           }
 
@@ -57,8 +56,15 @@ function Sidebar({ location }) {
     )
   }
 
-  const openKeys = []
   const menuList = getMenuList(routes)
+
+  const openKeys = [`/${location.pathname.split('/')[1]}`]
+
+  useEffect(() => {
+    const route = `/${location.pathname.replace('/', '')}`
+    setSelectedKeys([route])
+  }, [])
+
 
   return (
     <div className={style.sidebarWrap}>

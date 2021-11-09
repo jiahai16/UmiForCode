@@ -7,7 +7,6 @@ import { match } from 'react-router-dom';
 import { Location, LocationState, History } from 'history';
 
 export * from '/Users/lzy/myproject/UmiForCode/src/models/auth';
-export * from '/Users/lzy/myproject/UmiForCode/src/models/count';
 
 export interface Action<T = any> {
   type: T

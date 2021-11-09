@@ -67,12 +67,12 @@ export function getRoutes() {
         "routes": [
           {
             "path": "/",
-            "redirect": "/hotel/hotel-board",
+            "redirect": "/hotel/hotel/hotel-board",
             "exact": true
           },
           {
             "path": "/hotel/hotel-board",
-            "component": dynamic({ loader: () => import(/* webpackChunkName: '__hotel__HotelBoard' */'/Users/lzy/myproject/UmiForCode/src/pages/hotel/HotelBoard')}),
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotel__HotelBoard' */'/Users/lzy/myproject/UmiForCode/src/pages/hotel/HotelBoard')}),
             "title": "排行榜",
             "icon": "",
             "access": "/hotel/hotel-board",

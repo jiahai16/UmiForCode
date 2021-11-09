@@ -6,7 +6,6 @@ import dva from 'dva';
 import createLoading from '/Users/lzy/myproject/UmiForCode/node_modules/dva-loading/dist/index.esm.js';
 import { plugin, history } from '../core/umiExports';
 import ModelAuth0 from '/Users/lzy/myproject/UmiForCode/src/models/auth.ts';
-import ModelCount1 from '/Users/lzy/myproject/UmiForCode/src/models/count.js';
 import dvaImmer, { enableES5, enableAllPlugins } from '/Users/lzy/myproject/UmiForCode/node_modules/dva-immer/dist/index.js';
 
 let app:any = null;
@@ -32,7 +31,6 @@ export function _onCreate(options = {}) {
     app.use(plugin);
   });
   app.model({ namespace: 'auth', ...ModelAuth0 });
-app.model({ namespace: 'count', ...ModelCount1 });
   return app;
 }
 
