@@ -127,6 +127,43 @@ export function getRoutes() {
         ]
       }
     ]
+  },
+  {
+    "routes": [
+      {
+        "path": "/hotInfo",
+        "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotInfo' */'/Users/lzy/myproject/UmiForCode/src/pages/hotInfo')}),
+        "title": "热点资讯",
+        "icon": "",
+        "access": "/hotInfo",
+        "exact": true
+      },
+      {
+        "path": "/setting",
+        "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting')}),
+        "title": "设置",
+        "icon": "",
+        "access": "/theme-setting",
+        "routes": [
+          {
+            "path": "/personal-settings",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting__PersonalSetting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting/PersonalSetting')}),
+            "title": "个人设置",
+            "icon": "",
+            "access": "/personal-settings",
+            "exact": true
+          },
+          {
+            "path": "/theme-setting",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting__ThemeSetting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting/ThemeSetting')}),
+            "title": "主题设置",
+            "icon": "",
+            "access": "/theme-setting",
+            "exact": true
+          }
+        ]
+      }
+    ]
   }
 ];
 

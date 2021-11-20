@@ -99,9 +99,45 @@ export const pageRoutes = {
   ]
 }
 
+export const headRoutes = {
+  routes: [
+    {
+      path: '/hotInfo',
+      component: 'hotInfo',
+      title: '热点资讯',
+      icon: '',
+      access: '/hotInfo'
+    },
+    {
+      path: '/setting',
+      component: 'setting',
+      title: '设置',
+      icon: '',
+      access: '/theme-setting',
+      routes: [
+        {
+          path: '/personal-settings',
+          component: 'setting/PersonalSetting',
+          title: '个人设置',
+          icon: '',
+          access: '/personal-settings'
+        },
+        {
+          path: '/theme-setting',
+          component: 'setting/ThemeSetting',
+          title: '主题设置',
+          icon: '',
+          access: '/theme-setting'
+        },
+      ]
+    },
+  ]
+}
+
 const route = [
   { path: '/login', component: './login' },
-  { ...pageRoutes }
+  { ...pageRoutes },
+  { ...headRoutes }
 ]
 
 export default route

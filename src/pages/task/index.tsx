@@ -4,7 +4,6 @@ import { IRouteProps } from 'umi'
 export default function TaskPage({ children }: IRouteProps) {
   return (
     <div>
-      TaskPage----
       {children}
     </div>
   )
