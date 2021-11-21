@@ -6,8 +6,8 @@ const NewTaskDrawer = ({ visible, onClose = () => {} }: DrawerProps) => {
   const [form] = Form.useForm()
 
   const layout = {
-    labelCol: { span: 2 },
-    wrapperCol: { span: 16 }
+    labelCol: { span: 4 },
+    wrapperCol: { span: 12 }
   }
 
   const onFinish = (values: any) => {
