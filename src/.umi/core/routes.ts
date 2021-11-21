@@ -109,7 +109,7 @@ export function getRoutes() {
             "exact": true
           },
           {
-            "path": "/other",
+            "path": "/other1",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__other' */'/Users/lzy/myproject/UmiForCode/src/pages/other')}),
             "title": "暂未开放",
             "icon": "",
@@ -117,7 +117,7 @@ export function getRoutes() {
             "exact": true
           },
           {
-            "path": "/other",
+            "path": "/other2",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__other' */'/Users/lzy/myproject/UmiForCode/src/pages/other')}),
             "title": "暂未开放",
             "icon": "",
@@ -125,10 +125,37 @@ export function getRoutes() {
             "exact": true
           }
         ]
+      },
+      {
+        "path": "/setting",
+        "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting')}),
+        "title": "设置",
+        "icon": "",
+        "access": "/theme-setting",
+        "routes": [
+          {
+            "path": "/personal-settings",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting__PersonalSetting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting/PersonalSetting')}),
+            "title": "个人设置",
+            "icon": "",
+            "access": "/personal-settings",
+            "exact": true
+          },
+          {
+            "path": "/theme-setting",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting__ThemeSetting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting/ThemeSetting')}),
+            "title": "主题设置",
+            "icon": "",
+            "access": "/theme-setting",
+            "exact": true
+          }
+        ]
       }
     ]
   },
   {
+    "path": "/",
+    "component": dynamic({ loader: () => import(/* webpackChunkName: 'layouts' */'@/layouts')}),
     "routes": [
       {
         "path": "/hotInfo",

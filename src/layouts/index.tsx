@@ -4,7 +4,8 @@ import SiderBar from 'SiderBar'
 import 'style/index.less' // 全局样式引入
 import style from './index.less'
 import { hasAccess } from '@/../config/userAccess'
-import { pageRoutes } from '@/../config/routes'
+import { pageRoutes, headRoutes } from '@/../config/routes'
+import HeaderBar from 'HeaderBar'
 
 const { Header, Content, Footer } = Layout
 
@@ -18,7 +19,7 @@ function renderChildren(props: IRouteProps) {
     return <Redirect to="/login" />
   }
 
-  const pageRoutesJSON = JSON.stringify(pageRoutes)
+  const pageRoutesJSON = JSON.stringify(pageRoutes) + JSON.stringify(headRoutes)
   if (!pageRoutesJSON.includes(routerURL)) {
     return (
       <div className={style.antResultWrap}>
@@ -54,7 +55,9 @@ function LayoutPage({ children }: IRouteProps) {
     <Layout style={{ minHeight: '100vh' }}>
       <SiderBar></SiderBar>
       <Layout className={style.siteLayout}>
-        <Header className={style.siteLayoutHeader} style={{ padding: 0 }} />
+        <Header className={style.siteLayoutHeader} style={{ padding: 0 }} >
+          <HeaderBar/>
+        </Header>
         <Content className={style.content}>
           <div className={style.contentBody}>
             {renderChildren({ children })}

@@ -80,14 +80,14 @@ export const pageRoutes = {
       routes: [
         { path: '/', redirect: '/other' },
         {
-          path: '/other',
+          path: '/other1',
           component: 'other',
           title: '暂未开放',
           icon: '',
           access: ''
         },
         {
-          path: '/other',
+          path: '/other2',
           component: 'other',
           title: '暂未开放',
           icon: '',
@@ -95,11 +95,35 @@ export const pageRoutes = {
         }
       ]
     },
-
+    {
+      path: '/setting',
+      component: 'setting',
+      title: '设置',
+      icon: '',
+      access: '/theme-setting',
+      routes: [
+        {
+          path: '/personal-settings',
+          component: 'setting/PersonalSetting',
+          title: '个人设置',
+          icon: '',
+          access: '/personal-settings'
+        },
+        {
+          path: '/theme-setting',
+          component: 'setting/ThemeSetting',
+          title: '主题设置',
+          icon: '',
+          access: '/theme-setting'
+        },
+      ]
+    },
   ]
 }
 
 export const headRoutes = {
+  path: '/',
+  component: '@/layouts',
   routes: [
     {
       path: '/hotInfo',
@@ -136,6 +160,8 @@ export const headRoutes = {
 
 const route = [
   { path: '/login', component: './login' },
+  // { path: '/hotNews', component: './hotInfo' },
+  // { path: '/setting-ThemeSetting', component: './setting/ThemeSetting' },
   { ...pageRoutes },
   { ...headRoutes }
 ]
