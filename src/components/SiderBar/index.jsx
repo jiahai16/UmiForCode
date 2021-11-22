@@ -4,6 +4,14 @@ import style from './index.less'
 import { history, withRouter } from 'umi'
 import { pageRoutes } from '@/../config/routes'
 import { hasAccess } from '@/../config/userAccess'
+import {
+  MailOutlined,
+  SettingOutlined,
+  PieChartOutlined,
+  DesktopOutlined,
+  AppstoreOutlined,
+  TeamOutlined
+} from '@ant-design/icons'
 
 const { Sider } = Layout
 const { SubMenu, Item } = Menu
@@ -12,6 +20,15 @@ const { routes } = pageRoutes
 function Sidebar({ location }) {
   const [collapsed, setCollapsed] = useState(false)
   const [selectedKeys, setSelectedKeys] = useState(['/overview'])
+
+  const IconMap = new Map([
+    ['setting', <SettingOutlined />],
+    ['hotInfo', <MailOutlined />],
+    ['other', <AppstoreOutlined />],
+    ['overview', <PieChartOutlined />],
+    ['task', <DesktopOutlined />],
+    ['hotel', <TeamOutlined />]
+  ])
 
   useEffect(() => {
     const route = '/' + location.pathname.replace('/', '')
@@ -26,7 +43,7 @@ function Sidebar({ location }) {
   const renderMenu = ({ path, title, icon }) => {
     return (
       hasAccess(path) && (
-        <Item key={path} icon={icon ? icon : ''}>
+        <Item key={path} icon={IconMap.has(icon) ? IconMap.get(icon) : ''}>
           {title}
         </Item>
       )
@@ -35,7 +52,11 @@ function Sidebar({ location }) {
   const renderSubMenu = ({ path, icon, title, routes }) => {
     return (
       hasAccess(path) && (
-        <SubMenu key={path} icon={icon ? icon : ''} title={title}>
+        <SubMenu
+          key={path}
+          icon={IconMap.has(icon) ? IconMap.get(icon) : ''}
+          title={title}
+        >
           {getMenuList(routes)}
         </SubMenu>
       )
@@ -64,7 +85,6 @@ function Sidebar({ location }) {
     const route = `/${location.pathname.replace('/', '')}`
     setSelectedKeys([route])
   }, [])
-
 
   return (
     <div className={style.sidebarWrap}>

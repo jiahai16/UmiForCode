@@ -10,17 +10,24 @@ export const pageRoutes = {
   routes: [
     { path: '/', redirect: '/overview' },
     {
+      path: '/hotInfo',
+      component: 'hotInfo',
+      title: '热点资讯',
+      icon: 'hotInfo',
+      access: '/hotInfo'
+    },
+    {
       path: '/overview',
       component: 'overview',
       title: '个人数据',
-      icon: '',
+      icon: 'overview',
       access: '/overview'
     },
     {
       path: '/task',
       component: 'task',
       title: '任务计划',
-      icon: '',
+      icon: 'task',
       access: '/task',
       routes: [
         { path: '/', redirect: 'task/task-plan' },
@@ -44,7 +51,7 @@ export const pageRoutes = {
       path: '/hotel',
       component: 'hotel',
       title: '客栈',
-      icon: '',
+      icon: 'hotel',
       access: '/hotel',
       routes: [
         { path: '/', redirect: 'hotel/hotel-board' },
@@ -75,7 +82,7 @@ export const pageRoutes = {
       path: '/other',
       component: 'other',
       title: '其他',
-      icon: '',
+      icon: 'other',
       access: '/other',
       routes: [
         { path: '/', redirect: '/other' },
@@ -99,71 +106,32 @@ export const pageRoutes = {
       path: '/setting',
       component: 'setting',
       title: '设置',
-      icon: '',
-      access: '/theme-setting',
+      icon: 'setting',
+      access: '/setting',
       routes: [
         {
-          path: '/personal-settings',
+          path: '/setting/personal-settings',
           component: 'setting/PersonalSetting',
           title: '个人设置',
           icon: '',
-          access: '/personal-settings'
+          access: 'setting/personal-settings'
         },
         {
-          path: '/theme-setting',
+          path: '/setting/theme-setting',
           component: 'setting/ThemeSetting',
           title: '主题设置',
           icon: '',
-          access: '/theme-setting'
+          access: 'setting/theme-setting'
         },
       ]
     },
   ]
 }
 
-export const headRoutes = {
-  path: '/',
-  component: '@/layouts',
-  routes: [
-    {
-      path: '/hotInfo',
-      component: 'hotInfo',
-      title: '热点资讯',
-      icon: '',
-      access: '/hotInfo'
-    },
-    {
-      path: '/setting',
-      component: 'setting',
-      title: '设置',
-      icon: '',
-      access: '/theme-setting',
-      routes: [
-        {
-          path: '/personal-settings',
-          component: 'setting/PersonalSetting',
-          title: '个人设置',
-          icon: '',
-          access: '/personal-settings'
-        },
-        {
-          path: '/theme-setting',
-          component: 'setting/ThemeSetting',
-          title: '主题设置',
-          icon: '',
-          access: '/theme-setting'
-        },
-      ]
-    },
-  ]
-}
 
 const route = [
   { path: '/login', component: './login' },
-  // { path: '/hotNews', component: './hotInfo' },
-  // { path: '/setting-ThemeSetting', component: './setting/ThemeSetting' },
   { ...pageRoutes },
-  { ...headRoutes }
 ]
 
 export default route

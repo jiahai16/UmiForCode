@@ -21,10 +21,18 @@ export function getRoutes() {
         "exact": true
       },
       {
+        "path": "/hotInfo",
+        "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotInfo' */'/Users/lzy/myproject/UmiForCode/src/pages/hotInfo')}),
+        "title": "热点资讯",
+        "icon": "hotInfo",
+        "access": "/hotInfo",
+        "exact": true
+      },
+      {
         "path": "/overview",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__overview' */'/Users/lzy/myproject/UmiForCode/src/pages/overview')}),
         "title": "个人数据",
-        "icon": "",
+        "icon": "overview",
         "access": "/overview",
         "exact": true
       },
@@ -32,7 +40,7 @@ export function getRoutes() {
         "path": "/task",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__task' */'/Users/lzy/myproject/UmiForCode/src/pages/task')}),
         "title": "任务计划",
-        "icon": "",
+        "icon": "task",
         "access": "/task",
         "routes": [
           {
@@ -62,7 +70,7 @@ export function getRoutes() {
         "path": "/hotel",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotel' */'/Users/lzy/myproject/UmiForCode/src/pages/hotel')}),
         "title": "客栈",
-        "icon": "",
+        "icon": "hotel",
         "access": "/hotel",
         "routes": [
           {
@@ -100,7 +108,7 @@ export function getRoutes() {
         "path": "/other",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__other' */'/Users/lzy/myproject/UmiForCode/src/pages/other')}),
         "title": "其他",
-        "icon": "",
+        "icon": "other",
         "access": "/other",
         "routes": [
           {
@@ -130,62 +138,23 @@ export function getRoutes() {
         "path": "/setting",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting')}),
         "title": "设置",
-        "icon": "",
-        "access": "/theme-setting",
+        "icon": "setting",
+        "access": "/setting",
         "routes": [
           {
-            "path": "/personal-settings",
+            "path": "/setting/personal-settings",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting__PersonalSetting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting/PersonalSetting')}),
             "title": "个人设置",
             "icon": "",
-            "access": "/personal-settings",
+            "access": "setting/personal-settings",
             "exact": true
           },
           {
-            "path": "/theme-setting",
+            "path": "/setting/theme-setting",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting__ThemeSetting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting/ThemeSetting')}),
             "title": "主题设置",
             "icon": "",
-            "access": "/theme-setting",
-            "exact": true
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "path": "/",
-    "component": dynamic({ loader: () => import(/* webpackChunkName: 'layouts' */'@/layouts')}),
-    "routes": [
-      {
-        "path": "/hotInfo",
-        "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotInfo' */'/Users/lzy/myproject/UmiForCode/src/pages/hotInfo')}),
-        "title": "热点资讯",
-        "icon": "",
-        "access": "/hotInfo",
-        "exact": true
-      },
-      {
-        "path": "/setting",
-        "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting')}),
-        "title": "设置",
-        "icon": "",
-        "access": "/theme-setting",
-        "routes": [
-          {
-            "path": "/personal-settings",
-            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting__PersonalSetting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting/PersonalSetting')}),
-            "title": "个人设置",
-            "icon": "",
-            "access": "/personal-settings",
-            "exact": true
-          },
-          {
-            "path": "/theme-setting",
-            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting__ThemeSetting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting/ThemeSetting')}),
-            "title": "主题设置",
-            "icon": "",
-            "access": "/theme-setting",
+            "access": "setting/theme-setting",
             "exact": true
           }
         ]

@@ -1,3 +1,5 @@
+@import './antd.less';
+
 // 全局css改动放这里
 html, body, #root {
   margin: 0;
@@ -9,6 +11,38 @@ html, body, #root {
 
 li {
   list-style: none;
+}
+
+
+/*---滚动条默认显示样式--*/
+::-webkit-scrollbar-thumb {
+  background-color: #00000040;
+  height: 50px;
+  border-radius: 4px;
+}
+
+/*---滚动条大小--*/
+::-webkit-scrollbar {
+  width: 4px;
+  height: 8px;
+}
+
+/*---滚动框背景样式--*/
+::-webkit-scrollbar-track-piece {
+  background-color: 0 0;
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:active {
+  height: 50px;
+  background-color: #00000090;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #5490df;
+  height: 50px;
+  border-radius: 4px;
 }
 
 .ant-layout-sider {

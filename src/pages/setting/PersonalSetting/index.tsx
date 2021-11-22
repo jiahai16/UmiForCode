@@ -1,7 +1,7 @@
 import style from './index.less'
 
-const OverView: React.FC = () => {
-  return <div>overview</div>
+const PersonalSetting: React.FC = () => {
+  return <div>PersonalSetting</div>
 }
 
-export default OverView
+export default PersonalSetting
