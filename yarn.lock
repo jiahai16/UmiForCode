@@ -2059,9 +2059,8 @@ camelcase@^6.0.0:
   integrity sha1-kkr4gcnVJaydh/QNlk5c6pgqGAk=
 
 caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001248:
-  version "1.0.30001249"
-  resolved "https://registry.nlark.com/caniuse-lite/download/caniuse-lite-1.0.30001249.tgz#90a330057f8ff75bfe97a94d047d5e14fabb2ee8"
-  integrity sha1-kKMwBX+P91v+l6lNBH1eFPq7Lug=
+  version "1.0.30001282"
+  resolved "https://registry.npmmirror.com/caniuse-lite/download/caniuse-lite-1.0.30001282.tgz"
 
 capture-exit@^2.0.0:
   version "2.0.0"

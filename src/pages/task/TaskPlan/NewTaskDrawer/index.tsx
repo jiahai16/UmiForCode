@@ -21,6 +21,24 @@ const NewTaskDrawer = ({ visible, onClose = () => {} }: DrawerProps) => {
       placement="right"
       onClose={onClose}
       visible={visible}
+      footer={
+        <div style={{ float: 'right' }} key="foot">
+          <Button
+            style={{ marginRight: 15, width: 88 }}
+            key="cancel"
+            type="default"
+          >
+            取消
+          </Button>
+          <Button
+            style={{ marginRight: 15, width: 88 }}
+            key="ok"
+            type="primary"
+          >
+            完成
+          </Button>
+        </div>
+      }
     >
       <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
         <Form.Item name="taskName" label="计划名称">
