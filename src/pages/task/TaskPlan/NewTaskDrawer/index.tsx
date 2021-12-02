@@ -47,6 +47,7 @@ const NewTaskDrawer = ({ visible, onClose = () => {} }: DrawerProps) => {
         <p>Some contents...</p>
         <p>Some contents...</p>
         <p>Some contents...</p>
+        <p>Some contents...</p>
       </Form>
     </Drawer>
   )
