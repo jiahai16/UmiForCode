@@ -1,14 +1,10 @@
-import { Drawer, Form, Input, Button, DrawerProps } from 'antd'
+import { Drawer, Form, Input, Button, DrawerProps, Space } from 'antd'
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { initDrawerProps } from 'task/type'
 import style from './index.less'
 
 const NewTaskDrawer = ({ visible, onClose = () => {} }: DrawerProps) => {
   const [form] = Form.useForm()
-
-  const layout = {
-    labelCol: { span: 4 },
-    wrapperCol: { span: 12 }
-  }
 
   const onFinish = (values: any) => {
     console.log(values)
@@ -40,14 +36,54 @@ const NewTaskDrawer = ({ visible, onClose = () => {} }: DrawerProps) => {
         </div>
       }
     >
-      <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
-        <Form.Item name="taskName" label="计划名称">
+      <Form form={form} name="control-hooks" onFinish={onFinish}>
+        <Form.Item name="todayName" label="计划名称">
           <Input placeholder="请填写" />
         </Form.Item>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+
+        <Form.List name="todayTasks">
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map(({ key, name, fieldKey, ...restField }) => (
+                <Space
+                  key={key}
+                  style={{ display: 'flex', marginBottom: 8 }}
+                  align="baseline"
+                >
+                  <Form.Item
+                    {...restField}
+                    label="任务名"
+                    name={[name, 'taskName']}
+                    fieldKey={[fieldKey, 'taskName']}
+                    rules={[{ required: true, message: 'Missing taskName' }]}
+                  >
+                    <Input placeholder="请填写" />
+                  </Form.Item>
+                  <Form.Item
+                    {...restField}
+                    label="任务内容"
+                    name={[name, 'taskContent']}
+                    fieldKey={[fieldKey, 'taskContent']}
+                    rules={[{ required: true, message: 'Missing taskContent' }]}
+                  >
+                    <Input placeholder="请填写" />
+                  </Form.Item>
+                  <MinusCircleOutlined onClick={() => remove(name)} />
+                </Space>
+              ))}
+              <Form.Item>
+                <Button
+                  type="dashed"
+                  onClick={() => add()}
+                  block
+                  icon={<PlusOutlined />}
+                >
+                  添加任务
+                </Button>
+              </Form.Item>
+            </>
+          )}
+        </Form.List>
       </Form>
     </Drawer>
   )
