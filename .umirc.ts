@@ -8,6 +8,7 @@ const isDev = process.env.NODE_ENV === 'development'
 
 export default defineConfig({
   title: 'ForCoder',
+  favicon: '/favicon.ico',
   hash: true, //生成hash文件名
   history: {
     //hash路由
@@ -49,6 +50,6 @@ export default defineConfig({
   },
   dva: {
     immer: true,
-    hmr: false,
-  },
+    hmr: false
+  }
 })

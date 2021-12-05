@@ -23,7 +23,8 @@ export function getRoutes() {
       {
         "path": "/hotInfo",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotInfo' */'/Users/lzy/myproject/UmiForCode/src/pages/hotInfo')}),
-        "title": "热点资讯",
+        "name": "热点资讯",
+        "title": "程序员成长榨汁机 - 热点资讯",
         "icon": "hotInfo",
         "access": "/hotInfo",
         "exact": true
@@ -31,7 +32,8 @@ export function getRoutes() {
       {
         "path": "/overview",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__overview' */'/Users/lzy/myproject/UmiForCode/src/pages/overview')}),
-        "title": "个人数据",
+        "name": "个人数据",
+        "title": "程序员成长榨汁机 - 个人数据",
         "icon": "overview",
         "access": "/overview",
         "exact": true
@@ -39,7 +41,8 @@ export function getRoutes() {
       {
         "path": "/task",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__task' */'/Users/lzy/myproject/UmiForCode/src/pages/task')}),
-        "title": "任务计划",
+        "name": "任务计划",
+        "title": "程序员成长榨汁机 - 任务计划",
         "icon": "task",
         "access": "/task",
         "routes": [
@@ -51,7 +54,8 @@ export function getRoutes() {
           {
             "path": "/task/task-plan",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__task__TaskPlan' */'/Users/lzy/myproject/UmiForCode/src/pages/task/TaskPlan')}),
-            "title": "今日计划",
+            "name": "今日计划",
+            "title": "程序员成长榨汁机 - 今日计划",
             "icon": "",
             "access": "/task/task-plan",
             "exact": true
@@ -59,7 +63,8 @@ export function getRoutes() {
           {
             "path": "/task/task-history",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__task__TaskHistory' */'/Users/lzy/myproject/UmiForCode/src/pages/task/TaskHistory')}),
-            "title": "历史",
+            "name": "历史",
+            "title": "程序员成长榨汁机 - 历史",
             "icon": "",
             "access": "/task/task-history",
             "exact": true
@@ -69,7 +74,8 @@ export function getRoutes() {
       {
         "path": "/hotel",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotel' */'/Users/lzy/myproject/UmiForCode/src/pages/hotel')}),
-        "title": "客栈",
+        "name": "客栈",
+        "title": "程序员成长榨汁机 - 客栈",
         "icon": "hotel",
         "access": "/hotel",
         "routes": [
@@ -81,7 +87,8 @@ export function getRoutes() {
           {
             "path": "/hotel/hotel-board",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotel__HotelBoard' */'/Users/lzy/myproject/UmiForCode/src/pages/hotel/HotelBoard')}),
-            "title": "排行榜",
+            "name": "排行榜",
+            "title": "程序员成长榨汁机 - 排行榜",
             "icon": "",
             "access": "/hotel/hotel-board",
             "exact": true
@@ -89,7 +96,8 @@ export function getRoutes() {
           {
             "path": "/hotel/hotel-studyguide",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotel__HotelStudyGuide' */'/Users/lzy/myproject/UmiForCode/src/pages/hotel/HotelStudyGuide')}),
-            "title": "学习指南",
+            "name": "学习指南",
+            "title": "程序员成长榨汁机 - 学习指南",
             "icon": "",
             "access": "/hotel/hotel-studyguide",
             "exact": true
@@ -97,7 +105,8 @@ export function getRoutes() {
           {
             "path": "/hotel/hotel-studyroad",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__hotel__HotelStudyRoad' */'/Users/lzy/myproject/UmiForCode/src/pages/hotel/HotelStudyRoad')}),
-            "title": "学习路线",
+            "name": "学习路线",
+            "title": "程序员成长榨汁机 - 学习路线",
             "icon": "",
             "access": "/hotel/hotel-studyroad",
             "exact": true
@@ -107,7 +116,8 @@ export function getRoutes() {
       {
         "path": "/other",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__other' */'/Users/lzy/myproject/UmiForCode/src/pages/other')}),
-        "title": "其他",
+        "name": "其他",
+        "title": "程序员成长榨汁机 - 其他",
         "icon": "other",
         "access": "/other",
         "routes": [
@@ -119,7 +129,8 @@ export function getRoutes() {
           {
             "path": "/other1",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__other' */'/Users/lzy/myproject/UmiForCode/src/pages/other')}),
-            "title": "暂未开放",
+            "name": "暂未开放",
+            "title": "程序员成长榨汁机 - 暂未开放",
             "icon": "",
             "access": "",
             "exact": true
@@ -127,7 +138,8 @@ export function getRoutes() {
           {
             "path": "/other2",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__other' */'/Users/lzy/myproject/UmiForCode/src/pages/other')}),
-            "title": "暂未开放",
+            "name": "暂未开放",
+            "title": "程序员成长榨汁机 - 暂未开放",
             "icon": "",
             "access": "",
             "exact": true
@@ -137,14 +149,16 @@ export function getRoutes() {
       {
         "path": "/setting",
         "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting')}),
-        "title": "设置",
+        "name": "设置",
+        "title": "程序员成长榨汁机 - 设置",
         "icon": "setting",
         "access": "/setting",
         "routes": [
           {
             "path": "/setting/personal-settings",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting__PersonalSetting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting/PersonalSetting')}),
-            "title": "个人设置",
+            "name": "个人设置",
+            "title": "程序员成长榨汁机 - 个人设置",
             "icon": "",
             "access": "setting/personal-settings",
             "exact": true
@@ -152,7 +166,8 @@ export function getRoutes() {
           {
             "path": "/setting/theme-setting",
             "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting__ThemeSetting' */'/Users/lzy/myproject/UmiForCode/src/pages/setting/ThemeSetting')}),
-            "title": "主题设置",
+            "name": "主题设置",
+            "title": "程序员成长榨汁机 - 主题设置",
             "icon": "",
             "access": "setting/theme-setting",
             "exact": true

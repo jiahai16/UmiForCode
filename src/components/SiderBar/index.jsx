@@ -40,22 +40,22 @@ function Sidebar({ location }) {
     history.push(key)
   }
 
-  const renderMenu = ({ path, title, icon }) => {
+  const renderMenu = ({ path, name, icon }) => {
     return (
       hasAccess(path) && (
         <Item key={path} icon={IconMap.has(icon) ? IconMap.get(icon) : ''}>
-          {title}
+          {name}
         </Item>
       )
     )
   }
-  const renderSubMenu = ({ path, icon, title, routes }) => {
+  const renderSubMenu = ({ path, icon, name, routes }) => {
     return (
       hasAccess(path) && (
         <SubMenu
           key={path}
           icon={IconMap.has(icon) ? IconMap.get(icon) : ''}
-          title={title}
+          title={name}
         >
           {getMenuList(routes)}
         </SubMenu>

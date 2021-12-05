@@ -6,8 +6,9 @@ import style from './index.less'
 const NewTaskDrawer = ({ visible, onClose = () => {} }: DrawerProps) => {
   const [form] = Form.useForm()
 
-  const onFinish = (values: any) => {
-    console.log(values)
+  const onFinish = () => {
+
+    console.log(form.getFieldsValue(true))
   }
 
   return (
@@ -30,6 +31,7 @@ const NewTaskDrawer = ({ visible, onClose = () => {} }: DrawerProps) => {
             style={{ marginRight: 15, width: 88 }}
             key="ok"
             type="primary"
+            onClick={onFinish}
           >
             完成
           </Button>
