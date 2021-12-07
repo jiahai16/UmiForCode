@@ -64,7 +64,7 @@ function LayoutPage({ children }: IRouteProps) {
           </div>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©2018 Created by Ant UED
+          <a href="#">KKO</a> Design ©2021 Power by XJH
         </Footer>
       </Layout>
     </Layout>

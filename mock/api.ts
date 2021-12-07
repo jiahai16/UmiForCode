@@ -1,6 +1,6 @@
 export default {
   // 支持值为 Object 和 Array
-  'GET /api/tasks': { tasks: [1, 2] },
+  'GET /api/tasks': {res: { tasks: [1, 2] }},
 
   // GET 可忽略
   '/api/users/1': { id: 1 },
