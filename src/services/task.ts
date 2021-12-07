@@ -1,6 +1,6 @@
 import { request } from 'umi'
 
-export const getTodayTaskList = async () => {
-  return await request('/api/tasks', { method: 'get' })
+export const getTodayTaskList = () => {
+  return request('/api/tasks', { method: 'get' })
 }
 
