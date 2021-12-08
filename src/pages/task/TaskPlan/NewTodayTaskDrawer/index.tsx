@@ -3,7 +3,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { initDrawerProps } from 'task/type'
 import style from './index.less'
 
-const NewTaskDrawer = ({ visible, onClose = () => {} }: DrawerProps) => {
+const NewTodayTaskDrawer = ({ visible, onClose = () => {} }: DrawerProps) => {
   const [form] = Form.useForm()
 
   const onFinish = () => {
@@ -91,4 +91,4 @@ const NewTaskDrawer = ({ visible, onClose = () => {} }: DrawerProps) => {
   )
 }
 
-export default NewTaskDrawer
+export default NewTodayTaskDrawer

@@ -1,10 +1,16 @@
+import { useRequest } from 'umi'
 import { Collapse, List, Typography } from 'antd'
+import { getTodayTaskList } from 'services/task'
 import style from './index.less'
 
 const { Panel } = Collapse
 
 const TaskList: React.FC<any> = (props) => {
-  const data = [
+  const { data, error, loading } = useRequest(() =>
+    getTodayTaskList()
+  )
+  console.log(data)
+  const data1 = [
     'Racing car sprays burning fuel into crowd.',
     'Japanese princess to wed commoner.',
     'Australian walks 100km after outback crash.',
@@ -17,11 +23,11 @@ const TaskList: React.FC<any> = (props) => {
   }
   return (
     <div className={style.wrap}>
-      <Collapse defaultActiveKey={['1']} onChange={callback} >
-        <Panel header="今日任务" key="1" style={{ padding: "0" }}>
+      <Collapse defaultActiveKey={['1']} onChange={callback}>
+        <Panel header="今日任务" key="1" style={{ padding: '0' }}>
           <List
             bordered
-            dataSource={data}
+            dataSource={data1}
             renderItem={(item) => (
               <List.Item>
                 <Typography.Text mark>[ITEM]</Typography.Text> {item}

@@ -1,20 +1,30 @@
 import { Button } from 'antd'
 import { useState } from 'react'
-import NewTaskDrawer from './NewTaskDrawer'
+import NewTaskDrawer from './NewTodayTaskDrawer'
+import NewLongPlanDrawer from './NewLongPlanDrawer'
 import style from './index.less'
 import Lable from './Lable'
 import TaskList from './TaskList'
 
 const TaskForNow: React.FC = () => {
-  const [isNewTaskDrawerVisble, setIsNewTaskDrawerVisble] =
-    useState<boolean>(false)
+  const [isTodayTaskDrawerVisble, setTodayTaskDrawerVisble] = useState<boolean>(false)
+  const [isLongTaskDrawerVisble, setLongTaskDrawerVisble] = useState<boolean>(false)
+  
 
   const handleNewTaskClick = (): void => {
-    setIsNewTaskDrawerVisble(true)
+    setTodayTaskDrawerVisble(true)
   }
 
   const handleNewTaskClose = (): void => {
-    setIsNewTaskDrawerVisble(false)
+    setTodayTaskDrawerVisble(false)
+  }
+
+  const handleNewLongClick = (): void => {
+    setLongTaskDrawerVisble(true)
+  }
+
+  const handleNewLongClose = (): void => {
+    setLongTaskDrawerVisble(false)
   }
 
   return (
@@ -29,7 +39,7 @@ const TaskForNow: React.FC = () => {
         </Button>
         <Button
           type="primary"
-          onClick={handleNewTaskClick}
+          onClick={handleNewLongClick}
           style={{ marginLeft: 20 }}
         >
           新建长期计划
@@ -39,8 +49,12 @@ const TaskForNow: React.FC = () => {
         <TaskList />
       </div>
       <NewTaskDrawer
-        visible={isNewTaskDrawerVisble}
+        visible={isTodayTaskDrawerVisble}
         onClose={handleNewTaskClose}
+      />
+      <NewLongPlanDrawer
+        visible={isLongTaskDrawerVisble}
+        onClose={handleNewLongClose}
       />
     </div>
   )
