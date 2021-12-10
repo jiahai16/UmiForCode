@@ -4,13 +4,35 @@ export default {
     code: 200,
     data: {
       id: 1,
-      name: '第一次测试',
+      name: '第一次测试的今日计划标题',
       userId: 1,
       createTime: '2021-12-07T16:00:00.000+0000',
       tasks: [
         {
           id: 1,
           name: '第一次测试',
+          content: '躺平摆烂的一下午',
+          planId: 1,
+          userId: 1,
+          createTime: '2021-12-07T16:00:00.000+0000',
+          endTime: '2021-12-08T16:00:00.000+0000',
+          type: 0,
+          status: 1
+        },
+        {
+          id: 2,
+          name: '第二次测试',
+          content: '躺平摆烂的一下午',
+          planId: 1,
+          userId: 1,
+          createTime: '2021-12-07T16:00:00.000+0000',
+          endTime: '2021-12-08T16:00:00.000+0000',
+          type: 0,
+          status: 0
+        },
+        {
+          id: 3,
+          name: '第三次测试',
           content: '躺平摆烂的一下午',
           planId: 1,
           userId: 1,

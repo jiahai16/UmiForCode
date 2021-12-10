@@ -8,3 +8,22 @@ export interface taskLable{
   name: string
   count: string | number
 }
+
+export type task = {
+  id: number
+  name: string,
+  content: string,
+  createTime: string,
+  endTime: string,
+  planId: number,
+  status: number,
+  type: number,
+  userId: number,
+}
+
+export type todayPlan = {
+  id: number,
+  name: string,
+  createTime: string,
+  tasks: task[],
+}

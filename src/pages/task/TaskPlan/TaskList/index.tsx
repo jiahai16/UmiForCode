@@ -1,36 +1,55 @@
-import { useRequest } from 'umi'
 import { Collapse, List, Typography } from 'antd'
 import { getTodayTaskList } from 'services/task'
+import { useEffect, useState } from 'react'
+import { todayPlan, task } from '../../type'
+import { EditOutlined } from '@ant-design/icons'
 import style from './index.less'
 
 const { Panel } = Collapse
 
 const TaskList: React.FC<any> = (props) => {
-  const { data, error, loading } = useRequest(() =>
-    getTodayTaskList()
-  )
-  console.log(data)
-  const data1 = [
-    'Racing car sprays burning fuel into crowd.',
-    'Japanese princess to wed commoner.',
-    'Australian walks 100km after outback crash.',
-    'Man charged over missing wedding girl.',
-    'Los Angeles battles huge wildfires.'
-  ]
+  const [todayTaskData, setTodayTaskData] = useState<todayPlan>()
 
-  function callback(key: string | string[]) {
-    console.log(key)
+  const initData = async () => {
+    const res = await getTodayTaskList()
+    if (res.code === 200) {
+      setTodayTaskData(res.data)
+    }
   }
+
+  const handleTaskUpdata = (value: any) => {
+    console.log(value)
+    value.status === 0 ? 1 : 0
+  }
+
+  useEffect(() => {
+    initData()
+  }, [])
+
   return (
     <div className={style.wrap}>
-      <Collapse defaultActiveKey={['1']} onChange={callback}>
+      <Collapse defaultActiveKey={['1']}>
         <Panel header="今日任务" key="1" style={{ padding: '0' }}>
+          <h3>
+            {todayTaskData?.name} <EditOutlined />
+          </h3>
           <List
             bordered
-            dataSource={data1}
-            renderItem={(item) => (
-              <List.Item>
-                <Typography.Text mark>[ITEM]</Typography.Text> {item}
+            dataSource={todayTaskData?.tasks}
+            renderItem={(item: task) => (
+              <List.Item
+                className={item.status === 0 ? style.normal : style.completed}
+                actions={[
+                  <a
+                    className={item.status === 0 ? style.contentNormal : style.contentCompleted}
+                    onClick={() => handleTaskUpdata(item)}
+                  >
+                    {' '}
+                    {item?.content}
+                  </a>
+                ]}
+              >
+                <Typography.Text mark>{item?.name}</Typography.Text>
               </List.Item>
             )}
           />
