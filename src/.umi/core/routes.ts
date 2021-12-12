@@ -171,6 +171,15 @@ export function getRoutes() {
             "icon": "",
             "access": "setting/theme-setting",
             "exact": true
+          },
+          {
+            "path": "/setting/about",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__setting__About' */'/Users/lzy/myproject/UmiForCode/src/pages/setting/About')}),
+            "name": "关于",
+            "title": "程序员成长榨汁机 - 关于",
+            "icon": "",
+            "access": "setting/about",
+            "exact": true
           }
         ]
       }

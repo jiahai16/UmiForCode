@@ -137,6 +137,14 @@ export const pageRoutes = {
           title: title + '主题设置',
           icon: '',
           access: 'setting/theme-setting'
+        },
+        {
+          path: '/setting/about',
+          component: 'setting/About',
+          name: '关于',
+          title: title + '关于',
+          icon: '',
+          access: 'setting/about'
         }
       ]
     }
