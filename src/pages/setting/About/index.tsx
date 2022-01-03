@@ -7,6 +7,7 @@ export default function About() {
       <Timeline mode={'left'} pending="疯狂打码中...">
         <Timeline.Item label="2021-11-21">项目init</Timeline.Item>
         <Timeline.Item label="2021-12-12">今日计划页面搭建完成</Timeline.Item>
+        <Timeline.Item label="2021-01-02">指南思维脑图雏形搭建完成</Timeline.Item>
         
       </Timeline>
     </div>
