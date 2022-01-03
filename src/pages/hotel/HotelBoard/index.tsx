@@ -1,5 +1,6 @@
 import CrownOutlined from '@ant-design/icons/lib/icons/CrownOutlined'
 import { Tabs } from 'antd'
+import Board from './Board'
 import style from './index.less'
 
 const { TabPane } = Tabs
@@ -16,8 +17,8 @@ const HotelBoard: React.FC<any> = () => {
             </span>
           }
           key="overview"
-        ></TabPane>
-        <TabPane tab="月排名" key="month"></TabPane>
+        ><Board /></TabPane>
+        <TabPane tab="月排名" key="month">987987</TabPane>
         <TabPane tab="周排名" key="week"></TabPane>
       </Tabs>
     </div>

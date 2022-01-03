@@ -1,10 +1,12 @@
+import GraphBar from './GraphBar'
+import GraphLable from './GraphLable'
 import style from './index.less'
 
 export default function HotelStudyGuide() {
-
   return (
-    <div>
-      HotelStudyGuide
+    <div className={style.wrap}>
+      <GraphBar />
+      <GraphLable />
     </div>
-   )
+  )
 }
