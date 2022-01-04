@@ -15,7 +15,9 @@ export default defineConfig({
     type: 'hash'
   },
   //开启按需加载
-  dynamicImport: {},
+  dynamicImport: {
+    loading: '@/components/loading'
+  },
   fastRefresh: {},
   antd: {
     config: {
