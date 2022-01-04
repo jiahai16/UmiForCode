@@ -348,7 +348,7 @@ export default function GraphLable() {
           },
           true
         )
-        setData(treeData)
+        setTreeData(treeData)
       }
     }
   }, [editFlag, currentId, editValue])
@@ -357,26 +357,26 @@ export default function GraphLable() {
     // 键盘按下操作
     e.preventDefault()
     const { keyCode } = e
-    if (keyCode === 9 && editorStore.currentId) {
+    if (keyCode === 9 && currentId) {
       // tab键 添加子节点
       addChildItem()
     }
-    if (keyCode === 13 && editorStore.currentId) {
+    if (keyCode === 13 && currentId) {
       // 回车时 找到目标节点 显示文本编辑框
-      const model = graph.findDataById(editorStore.currentId)
+      const model = graph.findDataById(currentId)
       textShow()
       setCurrentId(model.id)
       setCurrentType('node')
       initEdit(model, 'node')
     }
 
-    if (keyCode === 8 && editorStore.currentId) {
+    if (keyCode === 8 && currentId) {
       // 按下Backspace按钮时删除节点
-      if (editorStore.currentId === '1') {
+      if (currentId === '1') {
         message.warning('根节点不能删除～')
         return
       }
-      graph.removeChild(editorStore.currentId)
+      graph.removeChild(currentId)
       graph.paint()
       setTreeData(graph.findDataById('1'))
     }
