@@ -1,9 +1,21 @@
-import { List, Avatar, Space, Image } from 'antd'
+import { List, Avatar, Space, Image, Skeleton } from 'antd'
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons'
 import style from './index.less'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 export default function HotelStudyRoad() {
+  const [loading, setLoading] = useState<boolean>(true)
+  const load = setTimeout(() => {
+    setLoading(false)
+  }, 1000)
+
+  useEffect(() => {
+    load
+    return () => {
+      clearTimeout(load)
+    }
+  }, [])
+  
   const listData = [
     {
       href: 'https://ant.design',
@@ -37,36 +49,44 @@ export default function HotelStudyRoad() {
         renderItem={(item) => (
           <List.Item
             key={item.title}
-            actions={[
-              <IconText
-                icon={StarOutlined}
-                text="156"
-                key="list-vertical-star-o"
-              />,
-              <IconText
-                icon={LikeOutlined}
-                text="156"
-                key="list-vertical-like-o"
-              />,
-              <IconText
-                icon={MessageOutlined}
-                text="2"
-                key="list-vertical-message"
-              />
-            ]}
+            actions={
+              !loading
+                ? [
+                    <IconText
+                      icon={StarOutlined}
+                      text="156"
+                      key="list-vertical-star-o"
+                    />,
+                    <IconText
+                      icon={LikeOutlined}
+                      text="156"
+                      key="list-vertical-like-o"
+                    />,
+                    <IconText
+                      icon={MessageOutlined}
+                      text="2"
+                      key="list-vertical-message"
+                    />
+                  ]
+                : undefined
+            }
             extra={
-              <Image
-                width={272}
-                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-              />
+              !loading && (
+                <Image
+                  width={272}
+                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                />
+              )
             }
           >
-            <List.Item.Meta
-              avatar={<Avatar src={item.avatar} />}
-              title={<a href={item.href}>{item.title}</a>}
-              description={item.description}
-            />
-            {item.content}
+            <Skeleton loading={loading} active avatar>
+              <List.Item.Meta
+                avatar={<Avatar src={item.avatar} />}
+                title={<a href={item.href}>{item.title}</a>}
+                description={item.description}
+              />
+              {item.content}
+            </Skeleton>
           </List.Item>
         )}
       />
