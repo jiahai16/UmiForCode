@@ -15,6 +15,12 @@ const data = [
   {
     title: "Ant Design Title 4",
   },
+  {
+    title: "Ant Design Title 5",
+  },
+  {
+    title: "Ant Design Title 6",
+  },
 ];
 
 const Board: React.FC<any> = () => {
@@ -24,7 +30,7 @@ const Board: React.FC<any> = () => {
           itemLayout="horizontal"
           dataSource={data}
           renderItem={(item, idx) => (
-            <List.Item>
+            <List.Item className={style.boardList}>
               <h1 className={style.boardNumber}>{++idx}.</h1>
               <List.Item.Meta
                 avatar={
