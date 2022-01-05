@@ -5,7 +5,6 @@ import style from './index.less'
 export default function HotelStudyGuide() {
   return (
     <div className={style.wrap}>
-      <GraphBar />
       <GraphLable />
     </div>
   )

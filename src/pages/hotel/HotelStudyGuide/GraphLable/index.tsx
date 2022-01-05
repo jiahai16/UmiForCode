@@ -2,8 +2,9 @@ import G6 from '@antv/g6'
 import { useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { cloneDeep } from 'lodash'
-import classNames from "classnames";
-import { message } from 'antd'
+import classNames from 'classnames'
+import { message, Switch, Button } from 'antd'
+import { PlusCircleOutlined } from '@ant-design/icons'
 import style from './index.less'
 
 // 初始数据
@@ -384,6 +385,40 @@ export default function GraphLable() {
 
   return (
     <div>
+      <div className={style.barWrap}>
+        <div className={style.editBtn}>
+          启用编辑：
+          <Switch
+            checkedChildren="开启"
+            unCheckedChildren="关闭"
+            onChange={() => {
+              changeModeToEdit()
+            }}
+          />
+        </div>
+        <div className={edit ? style.editBtnBar : style.editBtnBarHidden}>
+          添加节点：
+          <Button
+            type="primary"
+            shape="round"
+            icon={<PlusCircleOutlined />}
+            size={'small'}
+            style={{ marginRight: 20 }}
+            onClick={addPeerItem}
+          >
+            添加同级节点
+          </Button>
+          <Button
+            type="primary"
+            shape="round"
+            icon={<PlusCircleOutlined />}
+            size={'small'}
+            onClick={addChildItem}
+          >
+            添加子节点
+          </Button>
+        </div>
+      </div>
       <div>
         <div id={'container'}>
           <input
