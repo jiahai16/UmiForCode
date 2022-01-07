@@ -1,5 +1,5 @@
 import G6 from '@antv/g6'
-import { useRef, useState } from 'react'
+import { useRef, useState, memo } from 'react'
 import { useEffect } from 'react'
 import { cloneDeep } from 'lodash'
 import classNames from 'classnames'
@@ -28,7 +28,7 @@ const initData = {
   ], // 四个锚点
   children: []
 }
-export default function GraphLable() {
+ function GraphLable() {
   const inputEditRef = useRef()
   const graphRef = useRef(null)
 
@@ -189,7 +189,7 @@ export default function GraphLable() {
       },
       nodeStateStyles: {
         selected: {
-          stroke: 'red'
+          stroke: 'blue'
         }
       },
       // 布局
@@ -436,3 +436,5 @@ export default function GraphLable() {
     </div>
   )
 }
+
+export default memo(GraphLable)
