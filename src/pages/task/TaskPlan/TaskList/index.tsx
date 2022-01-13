@@ -12,7 +12,7 @@ const TaskList: React.FC<any> = (props) => {
 
   const initData = async () => {
     const res = await getTodayTaskList()
-    if (res.code === 200) {
+    if (res && res.code === 200) {
       setTodayTaskData(res.data)
     }
   }

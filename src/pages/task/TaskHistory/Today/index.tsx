@@ -1,4 +1,7 @@
 import { Collapse, List, Typography } from 'antd'
+import { useEffect, useState } from 'react'
+import { getTodayHistoryList } from 'services/task'
+import { taskParams, todayPlan } from 'task/type'
 import style from './index.less'
 
 const { Panel } = Collapse
@@ -34,7 +37,30 @@ const data = [
   }
 ]
 
+const initParams: taskParams = {
+  type: 1,
+  userid: 1,
+  querType: 1
+}
+
 const Today: React.FC<any> = () => {
+  const [todayTask, setTodayTask] = useState<todayPlan>({})
+
+  const initData = async () => {
+    const res = await getTodayHistoryList(initParams)
+    if(res && res.code === 200){
+      setTodayTask(res.data)
+      console.log(res.data)
+    }
+  }
+
+
+  useEffect(() => {
+    initData()
+    return () => {
+    }
+  }, [])
+  
   const renderPanel = (data: any) => {
     return data.map((e, idx) => (
       <Panel header={e.date} key={idx}>

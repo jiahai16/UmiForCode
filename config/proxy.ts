@@ -1,8 +1,14 @@
+const env = {
+  dev: 'http://101.43.25.47',
+
+}
+
+const target = env.dev
+
 const proxy = {
-  '/api': {
-    target: 'http://localhost:3000',
-    changeOrigin: true,
-    pathRewrite: { '^/api': '' }
+  '/core-api': {
+    target,
+    changeOrigin: true
   }
 }
 
