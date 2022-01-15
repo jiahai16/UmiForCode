@@ -41,7 +41,7 @@ const TaskList: React.FC<any> = (props) => {
                 className={item.status === 0 ? style.normal : style.completed}
                 actions={[
                   <a
-                    className={item.status === 0 ? style.contentNormal : style.contentCompleted}
+                    className={item.status === 'UN_FINISH_TASK' ? style.contentNormal : style.contentCompleted}
                     onClick={() => handleTaskUpdata(item)}
                   >
                     {' '}

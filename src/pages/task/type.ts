@@ -1,4 +1,8 @@
 import { DrawerProps } from 'antd'
+import { planTypeEnum, queryPlanEnum, taskStatusEnum } from './enum'
+
+
+
 export type initDrawerProps = DrawerProps & {
   planType: string
   visible: boolean
@@ -13,22 +17,12 @@ export interface taskLable {
 export type taskParams = {
   pid?: number
   tid?: number
-  userid: number
+  userId: number
   planName?: string
-  status?: string
-  type?: string | number
-  querType: number
+  status?: taskStatusEnum | string
+  type?: planTypeEnum | string
+  queryType: queryPlanEnum | string
   queryTime?: string
-}
-
-enum taskStatus {
-  FINISH_TASK,
-  UN_FINISH_TASK
-}
-enum planType {
-  TODAY_PLAN,
-  LONG_PLAN,
-  COUNTDOWN_PLAN
 }
 
 export type task = {
@@ -37,17 +31,17 @@ export type task = {
   content: string
   createTime: string
   planId: number
-  status: taskStatus
+  status: taskStatusEnum | string
   userId: number
 }
 
 export type todayPlan = {
   id: number
   name: string
-  type: planType
+  type: planTypeEnum | string
   timeLen: number
   userId: number
   createTime: string
   endTime: string
   tasks: task[]
-} 
+}
