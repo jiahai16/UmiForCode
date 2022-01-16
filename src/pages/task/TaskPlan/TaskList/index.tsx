@@ -38,7 +38,6 @@ const TaskList: React.FC<any> = (props) => {
             dataSource={todayTaskData?.tasks}
             renderItem={(item: task) => (
               <List.Item
-                className={item.status === 0 ? style.normal : style.completed}
                 actions={[
                   <a
                     className={item.status === 'UN_FINISH_TASK' ? style.contentNormal : style.contentCompleted}

@@ -6,37 +6,6 @@ import style from './index.less'
 
 const { Panel } = Collapse
 
-const data = [
-  {
-    date: '2020-10-20',
-    children: [
-      { id: 1, text: 'xxxxxx' },
-      { id: 2, text: 'ssssss' }
-    ]
-  },
-  {
-    date: '2020-11-20',
-    children: [
-      { id: 1, text: 'xxxxxx' },
-      { id: 2, text: 'ssssss' }
-    ]
-  },
-  {
-    date: '2020-12-20',
-    children: [
-      { id: 1, text: 'xxxxxx' },
-      { id: 2, text: 'ssssss' }
-    ]
-  },
-  {
-    date: '2020-13-20',
-    children: [
-      { id: 1, text: 'xxxxxx' },
-      { id: 2, text: 'ssssss' }
-    ]
-  }
-]
-
 const initParams: taskParams = {
   userId: 1,
   type: 'TODAY_PLAN',
@@ -60,16 +29,8 @@ const Today: React.FC<any> = () => {
 
   const renderPanel = (data: any) => {
     return data.map((e: todayPlan, idx: any) => (
-      <Panel
-        header={
-          <>
-            {e.createTime.slice(0, 10)}
-            ———
-            <Typography.Text mark>《{e?.name}》</Typography.Text>
-          </>
-        }
-        key={e.id}
-      >
+      <Panel header={<>{e.createTime.slice(0, 10)}</>} key={e.id}>
+        <h3>{e?.name}</h3>
         <List
           bordered
           dataSource={e?.tasks}
