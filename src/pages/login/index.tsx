@@ -14,7 +14,7 @@ export default function LoginPage() {
   }
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Header>
+      <Header className={style.siteLayoutHeader} >
         <div className={style.siderHeader} onClick={handleGoHome}></div>
       </Header>
       <Content>
