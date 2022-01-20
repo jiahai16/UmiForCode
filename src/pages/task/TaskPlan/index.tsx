@@ -13,13 +13,13 @@ const TaskForNow: React.FC = () => {
   const handleNewPlanClick = (type: string): void => {
     switch (type) {
       case 'today':
-        setPlanType('today')
+        setPlanType('TODAY_PLAN')
         break
       case 'long':
-        setPlanType('long')
+        setPlanType('LONG_PLAN')
         break
       case 'countdown':
-        setPlanType('countdown')
+        setPlanType('COUNTDOWN_PLAN')
     }
     setPlanDrawerVisble(true)
   }

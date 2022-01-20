@@ -1,10 +1,34 @@
-import { Drawer, Form, Input, Button, Space, DatePicker, Tooltip } from 'antd'
+import {
+  Drawer,
+  Form,
+  Input,
+  Button,
+  Space,
+  DatePicker,
+  Tooltip,
+  message
+} from 'antd'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
-import { initDrawerProps } from 'task/type'
+import { initDrawerProps, taskPostParams } from 'task/type'
 import moment from 'moment'
 import style from './index.less'
 
 const { RangePicker } = DatePicker
+
+const initParams: taskPostParams = {
+  name: '',
+  type: '',
+  userId: 0,
+  tasks: {
+    id: undefined,
+    name: '',
+    content: '',
+    createTime: undefined,
+    planId: undefined,
+    status: '',
+    userId: 0
+  }
+}
 
 const NewPlanDrawer = ({
   planType,
@@ -14,13 +38,21 @@ const NewPlanDrawer = ({
   const [form] = Form.useForm()
 
   const titleMap = new Map([
-    ['today', '新建今日计划'],
-    ['long', '新建长期计划'],
-    ['countdown', '新建倒计时任务']
+    ['TODAY_PLAN', '新建今日计划'],
+    ['LONG_PLAN', '新建长期计划'],
+    ['COUNTDOWN_PLAN', '新建倒计时任务']
   ])
 
   const onFinish = () => {
-    console.log(form.getFieldsValue(true))
+    form.setFieldsValue({ type: planType })
+    form
+      .validateFields()
+      .then(() => {
+        console.log(form.getFieldsValue(true))
+      })
+      .catch(() => {
+        message.warn('请补充完必填项')
+      })
   }
   const onCancel = () => {
     form.resetFields()
@@ -62,16 +94,17 @@ const NewPlanDrawer = ({
     >
       <Form form={form} name="control-hooks" onFinish={onFinish}>
         <Form.Item
-          name="todayName"
+          name="name"
           label={
             <Tooltip title="计划总要有个响亮的名字吧=。=">
               <span>计划名称</span>
             </Tooltip>
           }
+          rules={[{ required: true, message: 'Missing name' }]}
         >
           <Input placeholder="请填写" />
         </Form.Item>
-        {planType === 'long' ? (
+        {planType === 'LONG_PLAN' ? (
           <Form.Item
             name="createTime"
             label={
@@ -85,7 +118,7 @@ const NewPlanDrawer = ({
         ) : (
           ''
         )}
-        {planType === 'countdown' ? (
+        {planType === 'COUNTDOWN_PLAN' ? (
           <Form.Item
             name="createTime"
             label={
@@ -103,7 +136,7 @@ const NewPlanDrawer = ({
         ) : (
           ''
         )}
-        <Form.List name="todayTasks">
+        <Form.List name="tasks">
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, fieldKey, ...restField }) => (
@@ -119,8 +152,8 @@ const NewPlanDrawer = ({
                         <span>任务名</span>
                       </Tooltip>
                     }
-                    name={[name, 'taskName']}
-                    fieldKey={[fieldKey, 'taskName']}
+                    name={[name, 'name']}
+                    fieldKey={[fieldKey, 'name']}
                     rules={[{ required: true, message: 'Missing taskName' }]}
                   >
                     <Input placeholder="请填写" />
@@ -132,8 +165,8 @@ const NewPlanDrawer = ({
                         <span>任务内容</span>
                       </Tooltip>
                     }
-                    name={[name, 'taskContent']}
-                    fieldKey={[fieldKey, 'taskContent']}
+                    name={[name, 'content']}
+                    fieldKey={[fieldKey, 'content']}
                     rules={[{ required: true, message: 'Missing taskContent' }]}
                   >
                     <Input placeholder="请填写" />
@@ -142,7 +175,7 @@ const NewPlanDrawer = ({
                 </Space>
               ))}
               <Form.Item>
-                <Tooltip title="开始干活！！！" placement="bottom" >
+                <Tooltip title="开始干活！！！" placement="bottom">
                   <Button
                     type="dashed"
                     onClick={() => add()}

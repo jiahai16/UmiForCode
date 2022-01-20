@@ -1,12 +1,12 @@
 import { Collapse, List, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { getTodayHistoryList } from 'services/task'
-import { task, taskParams, todayPlan } from 'task/type'
+import { task, taskGetParams, todayPlan } from 'task/type'
 import style from './index.less'
 
 const { Panel } = Collapse
 
-const initParams: taskParams = {
+const initParams: taskGetParams = {
   userId: 1,
   type: 'LONG_PLAN',
   queryType: 'HISTORY_PLAN'

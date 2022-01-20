@@ -14,7 +14,7 @@ export interface taskLable {
   count: string | number
 }
 
-export type taskParams = {
+export type taskGetParams = {
   pid?: number
   tid?: number
   userId: number
@@ -25,12 +25,29 @@ export type taskParams = {
   queryTime?: string
 }
 
-export type task = {
+export type taskPostParams = {
+  name: string
+  type: string | planTypeEnum
+  userId: number
+  tasks: task 
+  timeLen?: number 
+}
+
+export type taskPutParams = {
   id: number
   name: string
+  type: string | planTypeEnum
+  userId: number
+  tasks: task 
+  timeLen?: number 
+}
+
+export type task = {
+  id?: number
+  name: string
   content: string
-  createTime: string
-  planId: number
+  createTime?: string
+  planId?: number
   status: taskStatusEnum | string
   userId: number
 }
