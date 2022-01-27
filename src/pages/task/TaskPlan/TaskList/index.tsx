@@ -1,19 +1,34 @@
 import { Collapse, List, Typography } from 'antd'
 import { getTaskList } from 'services/task'
-import { useEffect, useState } from 'react'
-import { todayPlan, task } from '../../type'
+import { FC, useEffect, useState } from 'react'
+import { todayPlan, task, taskGetParams } from '../../type'
 import { EditOutlined } from '@ant-design/icons'
 import style from './index.less'
 
 const { Panel } = Collapse
 
-const TaskList: React.FC<any> = (props) => {
-  const [todayTaskData, setTodayTaskData] = useState<todayPlan>()
+const initParams: taskGetParams = {
+  userId: 1,
+  type: 'TODAY_PLAN',
+  queryType: 'ALIVE_PLAN'
+}
 
-  const initData = async () => {
-    const res = await getTaskList()
+const TaskList: React.FC<any> = (props) => {
+  const [todayTaskData, setTodayTaskData] = useState<todayPlan>([])
+  const [longTaskData, setLongTaskData] = useState<todayPlan>([])
+  const [countDownTaskData, setCountDownTaskData] = useState<todayPlan>([])
+
+  const initData = () => {
+    getTask('TODAY_PLAN', setTodayTaskData)
+    getTask('LONG_PLAN', setLongTaskData)
+    getTask('COUNTDOWN_PLAN', setCountDownTaskData)
+  }
+
+  const getTask = async (type: string, fn: Function) => {
+    initParams.type = type
+    const res = await getTaskList(initParams)
     if (res && res.code === 200) {
-      setTodayTaskData(res.data)
+      fn(res.data)
     }
   }
 
@@ -26,35 +41,46 @@ const TaskList: React.FC<any> = (props) => {
     initData()
   }, [])
 
+  const renderPanel = (title: string, data: any) => {
+    return data.map((e: todayPlan, idx: any) => (
+      <Panel header={title} key={e.id}>
+        <h3>{e?.name}</h3>
+        <List
+          bordered
+          dataSource={e?.tasks}
+          renderItem={(item: task) => (
+            <List.Item
+              className={
+                item?.status === 'UN_FINSH_TASK'
+                  ? style.normal
+                  : style.completed
+              }
+              actions={[
+                <a
+                  className={
+                    item?.status === 'UN_FINSH_TASK'
+                      ? style.contentNormal
+                      : style.contentCompleted
+                  }
+                >
+                  {' '}
+                  {item?.content}
+                </a>
+              ]}
+            >
+              <Typography.Text mark>{item?.name}</Typography.Text>
+            </List.Item>
+          )}
+        />
+      </Panel>
+    ))
+  }
   return (
     <div className={style.wrap}>
       <Collapse defaultActiveKey={['1']}>
-        <Panel header="今日任务" key="1" style={{ padding: '0' }}>
-          <h3>
-            {todayTaskData?.name} <EditOutlined />
-          </h3>
-          <List
-            bordered
-            dataSource={todayTaskData?.tasks}
-            renderItem={(item: task) => (
-              <List.Item
-                actions={[
-                  <a
-                    className={item.status === 'UN_FINISH_TASK' ? style.contentNormal : style.contentCompleted}
-                    onClick={() => handleTaskUpdata(item)}
-                  >
-                    {' '}
-                    {item?.content}
-                  </a>
-                ]}
-              >
-                <Typography.Text mark>{item?.name}</Typography.Text>
-              </List.Item>
-            )}
-          />
-        </Panel>
-        <Panel header="倒计时中的任务" key="2"></Panel>
-        <Panel header="进行中的长期任务" key="3"></Panel>
+        {renderPanel('今日任务', todayTaskData)}
+        {renderPanel('倒计时中的任务', longTaskData)}
+        {renderPanel('进行中的长期任务', countDownTaskData)}
       </Collapse>
     </div>
   )
