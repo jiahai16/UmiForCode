@@ -1,6 +1,6 @@
 import { Collapse, List, Typography } from 'antd'
 import { useEffect, useState } from 'react'
-import { getTodayHistoryList } from 'services/task'
+import { getTaskList } from 'services/task'
 import { task, taskGetParams, todayPlan } from 'task/type'
 import style from './index.less'
 
@@ -16,7 +16,7 @@ const Today: React.FC<any> = () => {
   const [todayTask, setTodayTask] = useState<todayPlan>([])
 
   const initData = async () => {
-    const res = await getTodayHistoryList(initParams)
+    const res = await getTaskList(initParams)
     if (res && res.code === 200) {
       setTodayTask(res.data)
     }

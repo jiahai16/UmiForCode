@@ -1,5 +1,5 @@
 import { Collapse, List, Typography } from 'antd'
-import { getTodayTaskList } from 'services/task'
+import { getTaskList } from 'services/task'
 import { useEffect, useState } from 'react'
 import { todayPlan, task } from '../../type'
 import { EditOutlined } from '@ant-design/icons'
@@ -11,7 +11,7 @@ const TaskList: React.FC<any> = (props) => {
   const [todayTaskData, setTodayTaskData] = useState<todayPlan>()
 
   const initData = async () => {
-    const res = await getTodayTaskList()
+    const res = await getTaskList()
     if (res && res.code === 200) {
       setTodayTaskData(res.data)
     }
