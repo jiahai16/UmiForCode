@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import { message, Switch, Button } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import style from './index.less'
+import openNotification from '@/components/Notification'
 
 // 初始数据
 const initData = {
@@ -42,7 +43,27 @@ function GraphLable() {
   const [fontSize, setFontSize] = useState<number>(14)
   const [treeData, setTreeData] = useState(initData)
 
-  const addItem = (target) => {
+  const saveLocal = (): void => {
+    localStorage.setItem('localGuideData', JSON.stringify(treeData))
+  }
+
+  const recoverData = (): void => {
+    const Data = localStorage.getItem("localGuideData")
+    setTreeData(JSON.parse(Data as string))
+    console.log(treeData)
+  }
+
+  const destroyData = (): void => {
+    localStorage.removeItem('localGuideData')
+  }
+
+  const isHasLoaclData = (): void => {
+    if(localStorage.getItem('localGuideData') != null){
+      openNotification(recoverData, destroyData)
+    }
+  }
+
+  const addItem = (target: any) => {
     // 添加节点
     let id = null
     if (target.children && target.children.length > 0) {
@@ -91,6 +112,7 @@ function GraphLable() {
     const data = addItem(target)
     graph?.addChild(data, currentId)
     setTreeData(graph?.findDataById('1'))
+    saveLocal()
     graph?.paint()
     graph?.fitView()
   }
@@ -114,6 +136,7 @@ function GraphLable() {
     const data = addItem(parent)
     graph?.addChild(data, target.parent)
     setTreeData(graph?.findDataById('1'))
+    saveLocal()
     graph?.paint()
     graph?.fitView()
   }
@@ -256,6 +279,7 @@ function GraphLable() {
         setCurrentId(model.id)
         setCurrentType('node')
         initEdit(model, 'node', realPosition)
+        saveLocal()
       }
     })
 
@@ -305,16 +329,6 @@ function GraphLable() {
     setGraph(graphRef.current)
   }
 
-  useEffect(() => {
-    setGraphObj() // 初始化画布
-  }, [])
-
-  useEffect(() => {
-    if (graph && treeData) {
-      renderGraph() // 渲染画布
-    }
-  }, [treeData, graph])
-
   const renderGraph = () => {
     graph.clear() // 清除画布
     graph.data(cloneDeep(treeData)) // 传递数据
@@ -324,7 +338,6 @@ function GraphLable() {
 
   const initEdit = (target, type, position) => {
     const edit = inputEditRef.current
-    console.log(target)
     setEditValue(() => '')
     edit.value = target.label
     if (type === 'node') {
@@ -338,6 +351,17 @@ function GraphLable() {
     }
     edit.focus()
   }
+
+  useEffect(() => {
+    setGraphObj() // 初始化画布
+    isHasLoaclData() //检查是否有本地缓存数据
+  }, [])
+
+  useEffect(() => {
+    if (graph && treeData) {
+      renderGraph() // 渲染画布
+    }
+  }, [treeData, graph])
 
   useEffect(() => {
     // 当编辑文本的内容改变时  更新数据的label
