@@ -28,7 +28,7 @@ const initData = {
   ], // 四个锚点
   children: []
 }
- function GraphLable() {
+function GraphLable() {
   const inputEditRef = useRef()
   const graphRef = useRef(null)
 
@@ -91,7 +91,6 @@ const initData = {
     const data = addItem(target)
     graph?.addChild(data, currentId)
     setTreeData(graph?.findDataById('1'))
-    console.log(treeData)
     graph?.paint()
     graph?.fitView()
   }
@@ -149,20 +148,21 @@ const initData = {
   const setGraphObj = () => {
     const graph = new G6.TreeGraph({
       container: 'container',
-      width: 1200,
-      height: 600,
+      width: 1300,
+      height: 800,
+      fitView: true,
       modes: {
         default: [
-          {
-            type: 'collapse-expand',
-            onChange: function onChange(item, collapsed) {
-              // const data = item.get('model').data;
-              // data.collapsed = collapsed;
-              const model = item!.getModel()
-              model.collapsed = collapsed
-              return true
-            }
-          },
+          // {
+          //   type: 'collapse-expand',
+          //   onChange: function onChange(item, collapsed) {
+          //     // const data = item.get('model').data;
+          //     // data.collapsed = collapsed;
+          //     const model = item!.getModel()
+          //     model.collapsed = collapsed
+          //     return true
+          //   }
+          // },
           'drag-canvas',
           'zoom-canvas'
         ],
@@ -175,7 +175,7 @@ const initData = {
       defaultEdge: {
         type: 'cubic-horizontal',
         style: {
-          stroke: 'rgb(79, 79, 79)',
+          stroke: '#002649',
           cursor: 'default'
         },
         labelCfg: {
@@ -189,7 +189,11 @@ const initData = {
       },
       nodeStateStyles: {
         selected: {
-          stroke: 'blue'
+          stroke: '#002649',
+          lineWidth: 1,
+          shadowBlur: 5,
+          fill: '#F5F5F7',
+          cursor: 'pointer'
         }
       },
       // 布局
@@ -241,15 +245,17 @@ const initData = {
     })
 
     graph.on('node:dblclick', (evt) => {
+      const { x, y } = evt?.item?.calculateBBox()
+      const realPosition = evt.currentTarget.getClientByPoint(x, y)
       const { item } = evt
-      const model = item.getModel()
+      const model = item?.getModel()
       const mode = graph.getCurrentMode()
       if (mode === 'edit') {
         // 显示input编辑框  设置目标节点id 类型 初始化input样式
         textShow()
         setCurrentId(model.id)
         setCurrentType('node')
-        initEdit(model, 'node')
+        initEdit(model, 'node', realPosition)
       }
     })
 
@@ -316,19 +322,19 @@ const initData = {
     graph.fitView() // 适应视图
   }
 
-  const initEdit = (target, type) => {
+  const initEdit = (target, type, position) => {
     const edit = inputEditRef.current
-    const canvasXY = graphRef.current.getCanvasByPoint(target.x, target.y)
+    console.log(target)
     setEditValue(() => '')
-    edit.value = ''
+    edit.value = target.label
     if (type === 'node') {
-      edit.style.left = `${canvasXY.x - target.size[0] / 2 + 1}px`
-      edit.style.top = `${canvasXY.y - target.size[1] / 2 + 1}px`
-      edit.style.width = `${target.size[0] - 2}px`
-      edit.style.height = `${target.size[1] - 2}px`
+      edit.style.left = `${position.x + 1}px`
+      edit.style.top = `${position.y + 1}px`
+      edit.style.width = `${target.size[0] - 3}px`
+      edit.style.height = `${target.size[1] - 3}px`
       edit.style.fontSize = `${fontSize}px`
       edit.style.borderRadius = `6px`
-      edit.style.background = `#FFF`
+      edit.style.background = `#F5F5F7`
     }
     edit.focus()
   }
@@ -354,34 +360,34 @@ const initData = {
     }
   }, [editFlag, currentId, editValue])
 
-  document.onkeydown = (e) => {
-    // 键盘按下操作
-    e.preventDefault()
-    const { keyCode } = e
-    if (keyCode === 9 && currentId) {
-      // tab键 添加子节点
-      addChildItem()
-    }
-    if (keyCode === 13 && currentId) {
-      // 回车时 找到目标节点 显示文本编辑框
-      const model = graph.findDataById(currentId)
-      textShow()
-      setCurrentId(model.id)
-      setCurrentType('node')
-      initEdit(model, 'node')
-    }
+  // document.onkeydown = (e) => {
+  //   // 键盘按下操作
+  //   e.preventDefault()
+  //   const { keyCode } = e
+  //   if (keyCode === 9 && currentId) {
+  //     // tab键 添加子节点
+  //     addChildItem()
+  //   }
+  //   if (keyCode === 13 && currentId) {
+  //     // 回车时 找到目标节点 显示文本编辑框
+  //     const model = graph.findDataById(currentId)
+  //     textShow()
+  //     setCurrentId(model.id)
+  //     setCurrentType('node')
+  //     initEdit(model, 'node')
+  //   }
 
-    if (keyCode === 8 && currentId) {
-      // 按下Backspace按钮时删除节点
-      if (currentId === '1') {
-        message.warning('根节点不能删除～')
-        return
-      }
-      graph.removeChild(currentId)
-      graph.paint()
-      setTreeData(graph.findDataById('1'))
-    }
-  }
+  //   if (keyCode === 8 && currentId) {
+  //     // 按下Backspace按钮时删除节点
+  //     if (currentId === '1') {
+  //       message.warning('根节点不能删除～')
+  //       return
+  //     }
+  //     graph.removeChild(currentId)
+  //     graph.paint()
+  //     setTreeData(graph.findDataById('1'))
+  //   }
+  // }
 
   return (
     <div>
