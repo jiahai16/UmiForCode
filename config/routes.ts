@@ -151,6 +151,14 @@ export const pageRoutes = {
   ]
 }
 
-const route = [{ path: '/login', component: './login' }, { ...pageRoutes }]
+const route = [
+  {
+    path: '/login',
+    component: './login',
+    name: '登录注册',
+    title: title + '登录or注册'
+  },
+  { ...pageRoutes }
+]
 
 export default route
