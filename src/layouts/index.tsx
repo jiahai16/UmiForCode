@@ -45,12 +45,17 @@ function renderChildren(props: IRouteProps) {
     return (
       <div className={style.antResultWrap}>
         <Result
-          status="403"
           title="403"
-          subTitle="抱歉，您没有该页面的权限，请联系管理员"
+          icon={
+            <img
+              style={{ width: 300 }}
+              src={require('@/assets/ikigai-black-maneki-neko-with-figurine-and-houseplant.png')}
+            />
+          }
+          subTitle="登录解锁更多姿势哦！请先登录吧～"
           extra={
-            <Button type="primary" onClick={() => history.push('/overview')}>
-              返回首页
+            <Button type="primary" onClick={() => history.push('/login')}>
+              去登录！
             </Button>
           }
         />
