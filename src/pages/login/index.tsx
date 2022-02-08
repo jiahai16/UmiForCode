@@ -1,14 +1,30 @@
 import { history } from 'umi'
-import { Layout, Input } from 'antd'
+import { Layout, Input, Button } from 'antd'
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 import classNames from 'classnames'
 
 const { Header, Footer, Content } = Layout
 import style from './index.less'
 import { useState } from 'react'
+import SignIn from './SignIn'
+import SignUp from './SignUp'
+import Forget from './Forget'
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState<boolean>(false)
+  const [isForgetModalVisible, setIsForgetModalVisible] = useState<boolean>(false)
+
+  const handleClickForget = (): void => {
+    setIsForgetModalVisible(true)
+  }
+
+  const handleForgetCancel = (): void => {
+    setIsForgetModalVisible(false)
+  }
+
+  const handleForgetOk = (): void => {
+    setIsForgetModalVisible(false)
+  }
 
   const changeLoginState = (): void => {
     setIsLogin(!isLogin)
@@ -31,35 +47,8 @@ export default function LoginPage() {
         className={classNames(style.container, isLogin ? style.signUpMode : '')}
       >
         <div className={style.formWarp}>
-          <form className={style.signInForm}>
-            <h2 className={style.formTitle}>登 录</h2>
-            <Input className={style.input} placeholder="用户名" />
-            <Input.Password
-              className={style.input}
-              placeholder="密码"
-              iconRender={(visible) =>
-                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-              }
-            />
-            <div className={style.submitBtn}>立即登录</div>
-          </form>
-          <form className={style.signUpForm}>
-            <h2 className={style.formTitle}>注 册!</h2>
-            <Input className={style.input} placeholder="用户名" />
-            <Input className={style.input} placeholder="邮箱" />
-            <div className={style.emailWrap}>
-              <Input className={style.checkInput} placeholder="验证码" />
-              <div className={style.submitCheckBtn}>发送验证码</div>
-            </div>
-            <Input.Password
-              className={style.input}
-              placeholder="密码"
-              iconRender={(visible) =>
-                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-              }
-            />
-            <div className={style.submitBtn}>立即注册</div>
-          </form>
+          <SignIn isForget={handleClickForget}/>
+          <SignUp />
         </div>
         <div className={style.descWarp}>
           <div className={classNames(style.descWarpItem, style.signUpDesc)}>
@@ -92,6 +81,7 @@ export default function LoginPage() {
       >
         <a href="#">KKO</a> Design ©2021 Power by XJH
       </Footer>
+      <Forget visible={isForgetModalVisible} onHandleCancel={handleForgetCancel} onHandleOk={handleForgetOk}/>
     </Layout>
   )
 }

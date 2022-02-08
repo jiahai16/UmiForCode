@@ -76,7 +76,6 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 20px;
   /* 将两个 form 布局在 grid 同一位置 */
   grid-row: 1 / 2;
   grid-column: 1 / 2;
@@ -85,12 +84,14 @@
   z-index: 4;
 }
 .form-title {
-  margin: 0;
+  margin-bottom: 0 10px;
   position: relative;
   left: -120px;
   color: #002649;
 }
-
+.sign-in-form, .sign-up-form {
+  transition: all 0.2s 1s;
+}
 .form-warp .sign-up-form {
   opacity: 0;
   z-index: 3;
@@ -107,6 +108,7 @@
   z-index: 4;
 }
 .submit-btn {
+  height: 40px;
   min-width: 300px;
   outline: none;
   padding: 12px 30px;
