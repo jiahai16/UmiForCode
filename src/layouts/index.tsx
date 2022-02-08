@@ -24,10 +24,18 @@ function renderChildren(props: IRouteProps) {
     return (
       <div className={style.antResultWrap}>
         <Result
-          status="404"
-          title="404"
-          subTitle="Sorry, the page you visited does not exist."
-          extra={<Button type="primary" onClick={() => history.push('/overview')}>返回首页</Button>}
+          icon={
+            <img
+              style={{ width: 300 }}
+              src={require('@/assets/ikigai-cat-putting-up-a-404-error-sign-1.png')}
+            />
+          }
+          subTitle="别找了，不存在的."
+          extra={
+            <Button type="primary" onClick={() => history.push('/hotInfo')}>
+              返回首页
+            </Button>
+          }
         />
       </div>
     )
@@ -40,7 +48,11 @@ function renderChildren(props: IRouteProps) {
           status="403"
           title="403"
           subTitle="抱歉，您没有该页面的权限，请联系管理员"
-          extra={<Button type="primary" onClick={() => history.push('/overview')}>返回首页</Button>}
+          extra={
+            <Button type="primary" onClick={() => history.push('/overview')}>
+              返回首页
+            </Button>
+          }
         />
       </div>
     )
@@ -55,8 +67,8 @@ function LayoutPage({ children }: IRouteProps) {
     <Layout style={{ minHeight: '100vh' }}>
       <SiderBar></SiderBar>
       <Layout className={style.siteLayout}>
-        <Header className={style.siteLayoutHeader} style={{ padding: 0 }} >
-          <HeaderBar/>
+        <Header className={style.siteLayoutHeader} style={{ padding: 0 }}>
+          <HeaderBar />
         </Header>
         <Content className={style.content}>
           <div className={style.contentBody}>
