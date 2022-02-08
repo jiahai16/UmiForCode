@@ -48,9 +48,8 @@ function GraphLable() {
   }
 
   const recoverData = (): void => {
-    const Data = localStorage.getItem("localGuideData")
+    const Data = localStorage.getItem('localGuideData')
     setTreeData(JSON.parse(Data as string))
-    console.log(treeData)
   }
 
   const destroyData = (): void => {
@@ -58,7 +57,7 @@ function GraphLable() {
   }
 
   const isHasLoaclData = (): void => {
-    if(localStorage.getItem('localGuideData') != null){
+    if (localStorage.getItem('localGuideData') != null) {
       openNotification(recoverData, destroyData)
     }
   }
