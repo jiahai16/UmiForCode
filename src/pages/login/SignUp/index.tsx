@@ -6,7 +6,23 @@ import style from '../index.less'
 import { useState } from 'react'
 
 export default function SignUp() {
+  const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
+  const [checkBtnText, setCheckBtnText] = useState<string>('发送验证码')
   const [form] = Form.useForm()
+
+  const handleOk = () => {
+    let a = 60
+    setConfirmLoading(true)
+    const timer = setInterval(() => {
+      setCheckBtnText(`${a}秒`)
+      a -= 1
+    }, 1000)
+    setTimeout(() => {
+      clearInterval(timer)
+      setCheckBtnText('发送验证码')
+      setConfirmLoading(false)
+    }, 60000)
+  }
 
   const onFinish = (values: any) => {
     console.log('Success:', values)
@@ -50,7 +66,7 @@ export default function SignUp() {
         >
           <div className={style.emailWrap}>
             <Input className={style.checkInput} placeholder="验证码" />
-            <div className={style.submitCheckBtn}>发送验证码</div>
+            <Button className={style.submitCheckBtn} onClick={handleOk} loading={confirmLoading}>{checkBtnText}</Button>
           </div>
         </Form.Item>
 
