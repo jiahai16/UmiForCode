@@ -59,8 +59,7 @@ export default function Forget({
     <Modal
       title="找回密码"
       visible={visible}
-      onOk={handleOk}
-      confirmLoading={confirmLoading}
+      onOk={onFinish}
       onCancel={handleCancel}
     >
       <Form

@@ -28,7 +28,7 @@ export default function SignIn({ isForget }: SignIn) {
   return (
     <div className={style.signInForm}>
       <Form
-        name="basic"
+        name="login"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         form={form}

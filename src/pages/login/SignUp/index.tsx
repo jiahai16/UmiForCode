@@ -33,7 +33,7 @@ export default function SignUp() {
   }
   return (
     <div className={style.signUpForm}>
-      <Form name="basic" onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
+      <Form name="register" onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
         <h2 className={style.formTitle}>注 册!</h2>
         <Form.Item
           name="username"
