@@ -4,7 +4,6 @@ import classNames from 'classnames'
 
 import style from '../index.less'
 import { useState } from 'react'
-import Forget from 'login/Forget'
 
 type SignIn = {
   isForget: () => void
