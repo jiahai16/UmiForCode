@@ -10,6 +10,8 @@ export function getRoutes() {
   {
     "path": "/login",
     "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__login' */'/Users/lzy/myproject/UmiForCode/src/pages/login'), loading: LoadingComponent}),
+    "name": "登录注册",
+    "title": "程序员成长榨汁机 - 登录or注册",
     "exact": true
   },
   {

@@ -76,7 +76,7 @@ export default function UserPerformanceData() {
         </div>
         <div className={style.radarCard}>
           {data.map((e) => (
-            <div className={style.item}>
+            <div className={style.item} key={e.name}>
               <div className={style.itemTitle}>{e.name}:</div>
               <div className={style.itemDetail}>
                 <LikeOutlined />
