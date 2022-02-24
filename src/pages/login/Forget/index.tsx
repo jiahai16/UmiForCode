@@ -91,16 +91,16 @@ export default function Forget({
         <Form.Item
           name="password"
           label="新密码"
-          rules={[{ required: true, message: '名字忘了吗？' }]}
+          rules={[{ required: true, message: '名字忘了吗？限制长度 0-16 位' }]}
         >
-          <Input.Password placeholder="请输入" />
+          <Input.Password placeholder="请输入" showCount maxLength={16}/>
         </Form.Item>
         <Form.Item
           name="checkPassWord"
           label="密码确认"
           rules={[{ required: true, message: '名字忘了吗？' }]}
         >
-          <Input.Password placeholder="请输入" />
+          <Input.Password placeholder="请输入" maxLength={16}/>
         </Form.Item>
       </Form>
     </Modal>

@@ -33,18 +33,28 @@ export default function SignUp() {
   }
   return (
     <div className={style.signUpForm}>
-      <Form name="register" onFinish={onFinish} onFinishFailed={onFinishFailed} form={form}>
+      <Form
+        name="register"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        form={form}
+      >
         <h2 className={style.formTitle}>注 册!</h2>
         <Form.Item
           name="username"
           rules={[{ required: true, message: '交白卷可不行' }]}
         >
-          <Input className={style.input} placeholder="用户名" />
+          <Input
+            className={style.input}
+            placeholder="用户名"
+            maxLength={8}
+            showCount
+          />
         </Form.Item>
 
         <Form.Item
           name="password"
-          rules={[{ required: true, message: '交白卷可不行!' }]}
+          rules={[{ required: true, message: '交白卷可不行！限制长度 0-16 位' }]}
         >
           <Input.Password
             className={style.input}
@@ -52,21 +62,28 @@ export default function SignUp() {
             iconRender={(visible) =>
               visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
             }
+            maxLength={16}
           />
         </Form.Item>
         <Form.Item
           name="email"
           rules={[{ required: true, message: '交白卷可不行！！' }]}
         >
-          <Input className={style.input} placeholder="用户名" />
+          <Input className={style.input} placeholder="邮箱" />
         </Form.Item>
         <Form.Item
           name="emailCheckCode"
-          rules={[{ required: true, message: '交白卷可不行！！!' }]}
+          rules={[{ required: true, message: '交白卷可不行！' }]}
         >
           <div className={style.emailWrap}>
             <Input className={style.checkInput} placeholder="验证码" />
-            <Button className={style.submitCheckBtn} onClick={handleOk} loading={confirmLoading}>{checkBtnText}</Button>
+            <Button
+              className={style.submitCheckBtn}
+              onClick={handleOk}
+              loading={confirmLoading}
+            >
+              {checkBtnText}
+            </Button>
           </div>
         </Form.Item>
 
