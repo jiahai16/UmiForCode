@@ -1,11 +1,14 @@
-import { Layout, Result, Button } from 'antd'
+import { Layout, Result, Button, ConfigProvider } from 'antd'
 import { IRouteProps, Redirect, history } from 'umi'
 import SiderBar from 'SiderBar'
 import 'style/index.less' // 全局样式引入
 import style from './index.less'
 import { hasAccess } from '@/../config/userAccess'
 import { pageRoutes } from '@/../config/routes'
+import enUS from 'antd/lib/locale/en_US';
+import zhCN from 'antd/lib/locale/zh_CN';
 import HeaderBar from 'HeaderBar'
+import { useState } from 'react'
 
 const { Header, Content, Footer } = Layout
 
@@ -68,23 +71,26 @@ function renderChildren(props: IRouteProps) {
 }
 
 function LayoutPage({ children }: IRouteProps) {
+  const [locale, setLocale] = useState(zhCN)
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <SiderBar></SiderBar>
-      <Layout className={style.siteLayout}>
-        <Header className={style.siteLayoutHeader} style={{ padding: 0 }}>
-          <HeaderBar />
-        </Header>
-        <Content className={style.content}>
-          <div className={style.contentBody}>
-            {renderChildren({ children })}
-          </div>
-        </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          <a href="#">KKO</a> Design ©2021 Power by XJH
-        </Footer>
+    <ConfigProvider locale={locale}>
+      <Layout style={{ minHeight: '100vh' }}>
+        <SiderBar></SiderBar>
+        <Layout className={style.siteLayout}>
+          <Header className={style.siteLayoutHeader} style={{ padding: 0 }}>
+            <HeaderBar />
+          </Header>
+          <Content className={style.content}>
+            <div className={style.contentBody}>
+              {renderChildren({ children })}
+            </div>
+          </Content>
+          <Footer style={{ textAlign: 'center' }}>
+            <a href="#">KKO</a> Design ©2021 Power by XJH
+          </Footer>
+        </Layout>
       </Layout>
-    </Layout>
+    </ConfigProvider>
   )
 }
 

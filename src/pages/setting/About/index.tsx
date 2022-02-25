@@ -11,7 +11,8 @@ export default function About() {
         <Timeline.Item label="2022-01-20">思维导图功能优化</Timeline.Item>
         <Timeline.Item label="2022-02-01">过年 🧨 吃 🥟  --新年快乐</Timeline.Item>
         <Timeline.Item label="2022-02-06">登录页面开发</Timeline.Item>
-        
+        <Timeline.Item label="2022-02-15">沉迷APEX了</Timeline.Item>
+        <Timeline.Item label="2022-02-23">个人数据页面开发</Timeline.Item>
       </Timeline>
     </div>
   )

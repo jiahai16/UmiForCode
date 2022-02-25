@@ -4,7 +4,8 @@ import * as Plugin_0 from '/Users/lzy/myproject/UmiForCode/src/app.ts';
 import * as Plugin_1 from '/Users/lzy/myproject/UmiForCode/src/.umi/plugin-antd/runtime.tsx';
 import * as Plugin_2 from '/Users/lzy/myproject/UmiForCode/src/.umi/plugin-dva/runtime.tsx';
 import * as Plugin_3 from '../plugin-initial-state/runtime';
-import * as Plugin_4 from '../plugin-model/runtime';
+import * as Plugin_4 from '/Users/lzy/myproject/UmiForCode/src/.umi/plugin-locale/runtime.tsx';
+import * as Plugin_5 from '../plugin-model/runtime';
 
   plugin.register({
     apply: Plugin_0,
@@ -24,6 +25,10 @@ import * as Plugin_4 from '../plugin-model/runtime';
   });
   plugin.register({
     apply: Plugin_4,
+    path: '/Users/lzy/myproject/UmiForCode/src/.umi/plugin-locale/runtime.tsx',
+  });
+  plugin.register({
+    apply: Plugin_5,
     path: '../plugin-model/runtime',
   });
 
