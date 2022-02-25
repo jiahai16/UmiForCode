@@ -1,5 +1,6 @@
-import { Modal, Button, Form, Input, Avatar } from 'antd'
+import { Modal, Button, Form, Input, Avatar, Tag } from 'antd'
 import { UserOutlined, PlusOutlined } from '@ant-design/icons'
+import TagItem from './TagItem'
 
 import style from './index.less'
 import { useState } from 'react'
@@ -141,14 +142,19 @@ export default function UserUpdataModal({
           label="旧密码"
           rules={[{ required: true, message: '不可以交白卷哦？' }]}
         >
-          <Input.Password placeholder="请输入" maxLength={16} showCount />
+          <Input.Password placeholder="请输入" maxLength={16} />
         </Form.Item>
         <Form.Item
           name="newPassword"
           label="新密码"
-          rules={[{ required: true, message: '不可以交白卷哦？' }]}
+          rules={[
+            { required: true, message: '不可以交白卷哦？密码长度为 6-16哦！' }
+          ]}
         >
-          <Input.Password placeholder="请输入" maxLength={16} showCount />
+          <Input.Password placeholder="请输入" maxLength={16} />
+        </Form.Item>
+        <Form.Item label="添加标签" name="tags">
+          <TagItem setTagToForm={form.setFieldsValue}/>
         </Form.Item>
       </Form>
     </Modal>

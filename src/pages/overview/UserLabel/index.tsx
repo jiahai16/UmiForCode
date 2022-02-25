@@ -28,11 +28,11 @@ export default function UserLable() {
           <h3>Noob-Builder-JD</h3>
           <p>Level : 301</p>
           <p>Job : null</p>
-          <p>Tag</p>
+          <p>Tag : <span>123</span></p>
         </div>
       </div>
       <div className={style.userlableRight}>
-        <Button type="link" onClick={handleClickUpdata}>编辑资料</Button>
+        <Button type="dashed" onClick={handleClickUpdata}>编辑资料</Button>
       </div>
       <UserUpdataModal
         visible={isUpdataModalVisible}
