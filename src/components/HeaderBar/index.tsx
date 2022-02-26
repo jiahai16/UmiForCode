@@ -1,12 +1,13 @@
 import React from 'react'
 import { Avatar, Popover, Input } from 'antd'
-import { history } from 'umi'
+import { history, useIntl } from 'umi'
 import { UserOutlined } from '@ant-design/icons'
 const { Search } = Input
 import style from './index.less'
 
 const HeaderBar: React.FC = () => {
   const onSearch = (value: string) => console.log(value)
+  const { formatMessage } = useIntl()
 
   const handleLoginClick = () => {
     history.push('/login')
@@ -15,7 +16,7 @@ const HeaderBar: React.FC = () => {
     <div className={style.wrap}>
       <div className={style.searchWrap}>
         <Search
-          placeholder="牛皮程序员修炼指南？"
+          placeholder={formatMessage({ id: 'input.搜索框' })}
           onSearch={onSearch}
           enterButton
           style={{
