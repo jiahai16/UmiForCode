@@ -12,6 +12,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons'
 import { initDrawerProps, taskPostParams } from 'task/type'
 import moment from 'moment'
 import style from './index.less'
+import { useIntl } from 'umi'
 
 const { RangePicker } = DatePicker
 
@@ -36,11 +37,12 @@ const NewPlanDrawer = ({
   onClose = () => {}
 }: initDrawerProps) => {
   const [form] = Form.useForm()
+  const { formatMessage } = useIntl()
 
   const titleMap = new Map([
-    ['TODAY_PLAN', '新建今日计划'],
-    ['LONG_PLAN', '新建长期计划'],
-    ['COUNTDOWN_PLAN', '新建倒计时任务']
+    ['TODAY_PLAN', `${formatMessage({ id: 'taskplan.新建今日计划' })}`],
+    ['LONG_PLAN', `${formatMessage({ id: 'taskplan.新建长期计划' })}`],
+    ['COUNTDOWN_PLAN', `${formatMessage({ id: 'taskplan.新建倒计时任务' })}`]
   ])
 
   const onFinish = () => {
@@ -79,7 +81,7 @@ const NewPlanDrawer = ({
             key="cancel"
             type="default"
           >
-            取消
+            {formatMessage({ id: 'input.取消' })}
           </Button>
           <Button
             style={{ marginRight: 15, width: 88 }}
@@ -87,7 +89,7 @@ const NewPlanDrawer = ({
             type="primary"
             onClick={onFinish}
           >
-            完成
+            {formatMessage({ id: 'input.完成' })}
           </Button>
         </div>
       }
@@ -96,20 +98,26 @@ const NewPlanDrawer = ({
         <Form.Item
           name="name"
           label={
-            <Tooltip title="计划总要有个响亮的名字吧=。=">
-              <span>计划名称</span>
+            <Tooltip
+              title={formatMessage({ id: 'taskplan.新建抽屉.计划名称.提示' })}
+            >
+              <span>{formatMessage({ id: 'taskplan.新建抽屉.计划名称' })}</span>
             </Tooltip>
           }
           rules={[{ required: true, message: 'Missing name' }]}
         >
-          <Input placeholder="请填写" />
+          <Input placeholder={formatMessage({ id: 'input.请输入' })} />
         </Form.Item>
         {planType === 'LONG_PLAN' ? (
           <Form.Item
             name="createTime"
             label={
-              <Tooltip title="这东西也就是说！你想在什么时候开始什么时候结束一件事啊！">
-                <span>执行期间</span>
+              <Tooltip
+                title={formatMessage({ id: 'taskplan.新建抽屉.执行期间.提示' })}
+              >
+                <span>
+                  {formatMessage({ id: 'taskplan.新建抽屉.执行期间' })}
+                </span>
               </Tooltip>
             }
           >
@@ -122,8 +130,12 @@ const NewPlanDrawer = ({
           <Form.Item
             name="createTime"
             label={
-              <Tooltip title="做事要有始有终！计划从现在开始进入倒计时！！！">
-                <span>结束日期</span>
+              <Tooltip
+                title={formatMessage({ id: 'taskplan.新建抽屉.结束日期.提示' })}
+              >
+                <span>
+                  {formatMessage({ id: 'taskplan.新建抽屉.结束日期' })}
+                </span>
               </Tooltip>
             }
           >
@@ -148,41 +160,62 @@ const NewPlanDrawer = ({
                   <Form.Item
                     {...restField}
                     label={
-                      <Tooltip title="将自己的一天切成小块，逐个消化！">
-                        <span>任务名</span>
+                      <Tooltip
+                        title={formatMessage({
+                          id: 'taskplan.新建抽屉.任务名.提示'
+                        })}
+                      >
+                        <span>
+                          {formatMessage({ id: 'taskplan.新建抽屉.任务名' })}
+                        </span>
                       </Tooltip>
                     }
                     name={[name, 'name']}
                     fieldKey={[fieldKey, 'name']}
                     rules={[{ required: true, message: 'Missing taskName' }]}
                   >
-                    <Input placeholder="请填写" />
+                    <Input
+                      placeholder={formatMessage({ id: 'input.请输入' })}
+                    />
                   </Form.Item>
                   <Form.Item
                     {...restField}
                     label={
-                      <Tooltip title="写上你到底要干啥，好吧。">
-                        <span>任务内容</span>
+                      <Tooltip
+                        title={formatMessage({
+                          id: 'taskplan.新建抽屉.任务内容.提示'
+                        })}
+                      >
+                        <span>
+                          {formatMessage({ id: 'taskplan.新建抽屉.任务内容' })}
+                        </span>
                       </Tooltip>
                     }
                     name={[name, 'content']}
                     fieldKey={[fieldKey, 'content']}
                     rules={[{ required: true, message: 'Missing taskContent' }]}
                   >
-                    <Input placeholder="请填写" />
+                    <Input
+                      placeholder={formatMessage({ id: 'input.请输入' })}
+                    />
                   </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </Space>
               ))}
               <Form.Item>
-                <Tooltip title="开始干活！！！" placement="bottom">
+                <Tooltip
+                  title={formatMessage({
+                    id: 'taskplan.新建抽屉.添加任务.提示'
+                  })}
+                  placement="bottom"
+                >
                   <Button
                     type="dashed"
                     onClick={() => add()}
                     block
                     icon={<PlusOutlined />}
                   >
-                    添加任务
+                    {formatMessage({ id: 'taskplan.新建抽屉.添加任务' })}
                   </Button>
                 </Tooltip>
               </Form.Item>

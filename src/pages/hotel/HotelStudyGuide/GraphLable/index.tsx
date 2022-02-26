@@ -7,6 +7,7 @@ import { message, Switch, Button } from 'antd'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import style from './index.less'
 import openNotification from '@/components/Notification'
+import { useIntl } from 'umi'
 
 // 初始数据
 const initData = {
@@ -30,6 +31,8 @@ const initData = {
   children: []
 }
 function GraphLable() {
+  const { formatMessage } = useIntl()
+
   const inputEditRef = useRef()
   const graphRef = useRef(null)
 
@@ -416,7 +419,7 @@ function GraphLable() {
     <div>
       <div className={style.barWrap}>
         <div className={style.editBtn}>
-          启用编辑：
+          {formatMessage({ id: 'hotelStudyGuide.启用编辑' })}：
           <Switch
             checkedChildren="开启"
             unCheckedChildren="关闭"
@@ -426,7 +429,7 @@ function GraphLable() {
           />
         </div>
         <div className={edit ? style.editBtnBar : style.editBtnBarHidden}>
-          添加节点：
+          {formatMessage({ id: 'hotelStudyGuide.添加节点' })}：
           <Button
             type="primary"
             shape="round"
@@ -435,7 +438,7 @@ function GraphLable() {
             style={{ marginRight: 20 }}
             onClick={addPeerItem}
           >
-            添加同级节点
+            {formatMessage({ id: 'hotelStudyGuide.添加同级节点' })}
           </Button>
           <Button
             type="primary"
@@ -444,7 +447,7 @@ function GraphLable() {
             size={'small'}
             onClick={addChildItem}
           >
-            添加子节点
+            {formatMessage({ id: 'hotelStudyGuide.添加子节点' })}
           </Button>
         </div>
       </div>

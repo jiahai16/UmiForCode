@@ -2,6 +2,7 @@ import { Modal, Button, Form, Input } from 'antd'
 
 import style from '../index.less'
 import { useState } from 'react'
+import { useIntl } from 'umi'
 type IModal = {
   visible: boolean
   onHandleOk: () => void
@@ -13,8 +14,9 @@ export default function Forget({
   onHandleOk,
   onHandleCancel
 }: IModal) {
+  const { formatMessage } = useIntl()
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
-  const [checkBtnText, setCheckBtnText] = useState<string>('发送验证码')
+  const [checkBtnText, setCheckBtnText] = useState<string>(`${formatMessage({ id: 'login.找回密码.邮箱验证按钮' })}`)
   const [form] = Form.useForm()
 
   const formItemLayout = {
@@ -32,12 +34,12 @@ export default function Forget({
     let a = 60
     setConfirmLoading(true)
     const timer = setInterval(() => {
-      setCheckBtnText(`${a}秒后重试`)
+      setCheckBtnText(`${a}s`)
       a -= 1
     }, 1000)
     setTimeout(() => {
       clearInterval(timer)
-      setCheckBtnText('发送验证码')
+      setCheckBtnText(`${formatMessage({ id: 'login.找回密码.邮箱验证按钮' })}`)
       setConfirmLoading(false)
     }, 60000)
   }
@@ -57,9 +59,10 @@ export default function Forget({
 
   return (
     <Modal
-      title="找回密码"
+      title={formatMessage({ id: 'login.找回密码.标题' })}
       visible={visible}
       onOk={onFinish}
+      width="50%"
       onCancel={handleCancel}
     >
       <Form
@@ -71,18 +74,18 @@ export default function Forget({
       >
         <Form.Item
           name="email"
-          label="初始邮箱"
+          label={formatMessage({ id: 'login.找回密码.初始邮箱' })}
           rules={[{ required: true, message: '名字忘了吗？' }]}
         >
-          <Input placeholder="请输入" />
+          <Input placeholder={formatMessage({ id: 'input.请输入' })} />
         </Form.Item>
         <Form.Item
           name="emailCheckCode"
-          label="邮箱验证"
+          label={formatMessage({ id: 'login.找回密码.邮箱验证' })}
           rules={[{ required: true, message: '交白卷可不行！！!' }]}
         >
           <div className={style.emailWrap}>
-            <Input placeholder="验证码" />
+            <Input placeholder={formatMessage({ id: 'input.请输入' })} />
             <Button type="primary" onClick={handleOk} loading={confirmLoading}>
               {checkBtnText}
             </Button>
@@ -90,17 +93,24 @@ export default function Forget({
         </Form.Item>
         <Form.Item
           name="password"
-          label="新密码"
+          label={formatMessage({ id: 'login.找回密码.新密码' })}
           rules={[{ required: true, message: '名字忘了吗？限制长度 0-16 位' }]}
         >
-          <Input.Password placeholder="请输入" showCount maxLength={16}/>
+          <Input.Password
+            placeholder={formatMessage({ id: 'input.请输入' })}
+            showCount
+            maxLength={16}
+          />
         </Form.Item>
         <Form.Item
           name="checkPassWord"
-          label="密码确认"
+          label={formatMessage({ id: 'login.找回密码.密码确认' })}
           rules={[{ required: true, message: '名字忘了吗？' }]}
         >
-          <Input.Password placeholder="请输入" maxLength={16}/>
+          <Input.Password
+            placeholder={formatMessage({ id: 'input.请输入' })}
+            maxLength={16}
+          />
         </Form.Item>
       </Form>
     </Modal>

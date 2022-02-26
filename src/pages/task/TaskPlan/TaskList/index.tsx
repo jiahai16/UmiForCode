@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from 'react'
 import { todayPlan, task, taskGetParams } from '../../type'
 import { EditOutlined } from '@ant-design/icons'
 import style from './index.less'
+import { useIntl } from 'umi'
 
 const { Panel } = Collapse
 
@@ -17,6 +18,8 @@ const TaskList: React.FC<any> = (props) => {
   const [todayTaskData, setTodayTaskData] = useState<todayPlan>([])
   const [longTaskData, setLongTaskData] = useState<todayPlan>([])
   const [countDownTaskData, setCountDownTaskData] = useState<todayPlan>([])
+  const { formatMessage } = useIntl()
+
 
   const initData = () => {
     getTask('TODAY_PLAN', setTodayTaskData)
@@ -78,9 +81,18 @@ const TaskList: React.FC<any> = (props) => {
   return (
     <div className={style.wrap}>
       <Collapse defaultActiveKey={['1']}>
-        {renderPanel('今日任务', todayTaskData)}
-        {renderPanel('倒计时中的任务', longTaskData)}
-        {renderPanel('进行中的长期任务', countDownTaskData)}
+        {renderPanel(
+          `${formatMessage({ id: 'taskplan.今日任务' })}`,
+          todayTaskData
+        )}
+        {renderPanel(
+          `${formatMessage({ id: 'taskplan.进行中的长期任务' })}`,
+          longTaskData
+        )}
+        {renderPanel(
+          `${formatMessage({ id: 'taskplan.倒计时中的任务' })}`,
+          countDownTaskData
+        )}
       </Collapse>
     </div>
   )

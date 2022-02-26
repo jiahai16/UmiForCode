@@ -1,7 +1,7 @@
 import { Menu, Layout } from 'antd'
 import { useState, useEffect } from 'react'
 import style from './index.less'
-import { history, withRouter } from 'umi'
+import { history, useIntl, withRouter } from 'umi'
 import { pageRoutes } from '@/../config/routes'
 import { hasAccess } from '@/../config/userAccess'
 import {
@@ -20,6 +20,7 @@ const { routes } = pageRoutes
 function Sidebar({ location }) {
   const [collapsed, setCollapsed] = useState(false)
   const [selectedKeys, setSelectedKeys] = useState(['/overview'])
+  const { formatMessage } = useIntl()
 
   const IconMap = new Map([
     ['setting', <SettingOutlined />],
@@ -40,11 +41,15 @@ function Sidebar({ location }) {
     history.push(key)
   }
 
+  const formatName = (name) => {
+    return formatMessage({ id: `siderBar.${name}` })
+  }
+
   const renderMenu = ({ path, name, icon }) => {
     return (
       hasAccess(path) && (
         <Item key={path} icon={IconMap.has(icon) ? IconMap.get(icon) : ''}>
-          {name}
+          {formatName(name)}
         </Item>
       )
     )
@@ -55,7 +60,7 @@ function Sidebar({ location }) {
         <SubMenu
           key={path}
           icon={IconMap.has(icon) ? IconMap.get(icon) : ''}
-          title={name}
+          title={formatName(name)}
         >
           {getMenuList(routes)}
         </SubMenu>

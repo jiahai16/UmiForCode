@@ -4,22 +4,26 @@ import classNames from 'classnames'
 
 import style from '../index.less'
 import { useState } from 'react'
+import { useIntl } from 'umi'
 
 export default function SignUp() {
+  const { formatMessage } = useIntl()
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
-  const [checkBtnText, setCheckBtnText] = useState<string>('发送验证码')
+  const [checkBtnText, setCheckBtnText] = useState<string>(
+    `${formatMessage({ id: 'login.注册.邮箱验证按钮' })}`
+  )
   const [form] = Form.useForm()
 
   const handleOk = () => {
     let a = 60
     setConfirmLoading(true)
     const timer = setInterval(() => {
-      setCheckBtnText(`${a}秒`)
+      setCheckBtnText(`${a}s`)
       a -= 1
     }, 1000)
     setTimeout(() => {
       clearInterval(timer)
-      setCheckBtnText('发送验证码')
+      setCheckBtnText(`${formatMessage({ id: 'login.注册.邮箱验证按钮' })}`)
       setConfirmLoading(false)
     }, 60000)
   }
@@ -39,14 +43,23 @@ export default function SignUp() {
         onFinishFailed={onFinishFailed}
         form={form}
       >
-        <h2 className={style.formTitle}>注 册!</h2>
+        <h2 className={style.formTitle}>
+          {formatMessage({ id: 'login.注册.标题' })}
+        </h2>
         <Form.Item
           name="username"
-          rules={[{ required: true, message: '交白卷可不行' }]}
+          rules={[
+            {
+              required: true,
+              message: `${formatMessage({
+                id: 'login.注册.用户名输入框.校验'
+              })}`
+            }
+          ]}
         >
           <Input
             className={style.input}
-            placeholder="用户名"
+            placeholder={formatMessage({ id: 'login.注册.用户名' })}
             maxLength={8}
             showCount
           />
@@ -54,11 +67,16 @@ export default function SignUp() {
 
         <Form.Item
           name="password"
-          rules={[{ required: true, message: '交白卷可不行！限制长度 0-16 位' }]}
+          rules={[
+            {
+              required: true,
+              message: `${formatMessage({ id: 'login.注册.密码输入框.校验' })}`
+            }
+          ]}
         >
           <Input.Password
             className={style.input}
-            placeholder="密码 >_<"
+            placeholder={formatMessage({ id: 'login.注册.密码' })}
             iconRender={(visible) =>
               visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
             }
@@ -67,16 +85,32 @@ export default function SignUp() {
         </Form.Item>
         <Form.Item
           name="email"
-          rules={[{ required: true, message: '交白卷可不行！！' }]}
+          rules={[
+            {
+              required: true,
+              message: `${formatMessage({ id: 'login.注册.邮箱.校验' })}`
+            }
+          ]}
         >
-          <Input className={style.input} placeholder="邮箱" />
+          <Input
+            className={style.input}
+            placeholder={formatMessage({ id: 'login.注册.邮箱' })}
+          />
         </Form.Item>
         <Form.Item
           name="emailCheckCode"
-          rules={[{ required: true, message: '交白卷可不行！' }]}
+          rules={[
+            {
+              required: true,
+              message: `${formatMessage({ id: 'login.注册.邮箱.校验' })}`
+            }
+          ]}
         >
           <div className={style.emailWrap}>
-            <Input className={style.checkInput} placeholder="验证码" />
+            <Input
+              className={style.checkInput}
+              placeholder={formatMessage({ id: 'login.注册.邮箱验证码' })}
+            />
             <Button
               className={style.submitCheckBtn}
               onClick={handleOk}
@@ -89,7 +123,7 @@ export default function SignUp() {
 
         <Form.Item>
           <Button className={style.submitBtn} htmlType="submit">
-            立即注册
+            {formatMessage({ id: 'login.注册.按钮' })}
           </Button>
         </Form.Item>
       </Form>

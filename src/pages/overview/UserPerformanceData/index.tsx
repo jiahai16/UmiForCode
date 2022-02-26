@@ -6,19 +6,22 @@ import {
   TrophyOutlined,
   LikeOutlined
 } from '@ant-design/icons'
+import { useIntl } from 'umi'
 
 export default function UserPerformanceData() {
+  const { formatMessage } = useIntl()
+
   const data = [
     {
-      name: '任务',
+      name: `${formatMessage({ id: 'overview.表现总结.任务' })}`,
       star: 10371
     },
     {
-      name: '分享',
+      name: `${formatMessage({ id: 'overview.表现总结.分享' })}`,
       star: 7380
     },
     {
-      name: '登录',
+      name: `${formatMessage({ id: 'overview.表现总结.登录' })}`,
       star: 17414
     }
   ]
@@ -53,14 +56,12 @@ export default function UserPerformanceData() {
   return (
     <div className={style.wrap}>
       <h1 className={style.title}>
-        表现总结{' '}
+        {formatMessage({ id: 'overview.表现总结' })}{' '}
         <Tooltip
           color={'#FFF'}
           overlayInnerStyle={{ color: '#18191c' }}
           placement="right"
-          title={
-            '为你提供三十天内的数据表现！帮助你更好的自我定位，找到努力的方向，每日24点更新数据.'
-          }
+          title={formatMessage({ id: 'overview.表现总结.提示' })}
         >
           <QuestionCircleOutlined />
         </Tooltip>
@@ -68,7 +69,7 @@ export default function UserPerformanceData() {
 
       <p className={style.subTitle}>
         <TrophyOutlined />
-        恭喜！你的各项表现正在提升中哦，继续努力，期待你的成长！
+        {formatMessage({ id: 'overview.表现总结.子标题' })}
       </p>
       <div className={style.flexBox}>
         <div className={style.radarWrap}>
@@ -80,8 +81,9 @@ export default function UserPerformanceData() {
               <div className={style.itemTitle}>{e.name}:</div>
               <div className={style.itemDetail}>
                 <LikeOutlined />
-                你的{e.name}为<span className={style.textNum}>{e.star}</span>
-                ，表现不错哦！
+                {formatMessage({ id: `overview.表现总结.${e.name}.子标题.前` })}
+                <span className={style.textNum}>{e.star}</span>
+                {formatMessage({ id: `overview.表现总结.${e.name}.子标题.后` })}
               </div>
             </div>
           ))}

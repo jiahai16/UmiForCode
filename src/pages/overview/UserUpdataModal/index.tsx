@@ -4,6 +4,7 @@ import TagItem from './TagItem'
 
 import style from './index.less'
 import { useState } from 'react'
+import { useIntl } from 'umi'
 type IModal = {
   visible: boolean
   onHandleOk: () => void
@@ -16,6 +17,7 @@ export default function UserUpdataModal({
 }: IModal) {
   const [form] = Form.useForm()
   const [avaImgData, setAvaImgData] = useState<string>('default')
+  const { formatMessage } = useIntl()
 
   const avaMap = new Map([
     ['default', <UserOutlined />],
@@ -86,7 +88,7 @@ export default function UserUpdataModal({
 
   return (
     <Modal
-      title="编辑资料"
+      title={formatMessage({ id: 'overview.编辑资料' })}
       visible={visible}
       onOk={onFinish}
       onCancel={handleCancel}
@@ -98,7 +100,7 @@ export default function UserUpdataModal({
         form={form}
         {...formItemLayout}
       >
-        <Form.Item name="avatar" label="编辑头像">
+        <Form.Item name="avatar" label={formatMessage({ id: 'overview.编辑资料.编辑头像' })}>
           <>
             <Avatar size={128} shape="square" icon={avaMap.get(avaImgData)} />
             <div className={style.avaList}>
@@ -131,30 +133,30 @@ export default function UserUpdataModal({
         </Form.Item>
         <Form.Item
           name="username"
-          label="用户名"
-          rules={[{ required: true, message: '名字忘了吗？' }]}
+          label={formatMessage({ id: 'overview.编辑资料.用户名' })}
+          rules={[{ required: true, message: `${formatMessage({ id: 'overview.编辑资料.用户名.校验' })}` }]}
         >
-          <Input placeholder="请输入" maxLength={8} showCount />
+          <Input placeholder={formatMessage({ id: 'input.请输入' })} maxLength={8} showCount />
         </Form.Item>
 
         <Form.Item
           name="oldPassword"
-          label="旧密码"
-          rules={[{ required: true, message: '不可以交白卷哦？' }]}
+          label={formatMessage({ id: 'overview.编辑资料.旧密码' })}
+          rules={[{ required: true, message: `${formatMessage({ id: 'overview.编辑资料.旧密码.校验' })}` }]}
         >
-          <Input.Password placeholder="请输入" maxLength={16} />
+          <Input.Password placeholder={formatMessage({ id: 'input.请输入' })} maxLength={16} />
         </Form.Item>
         <Form.Item
           name="newPassword"
-          label="新密码"
+          label={formatMessage({ id: 'overview.编辑资料.新密码' })}
           rules={[
-            { required: true, message: '不可以交白卷哦？密码长度为 6-16哦！' }
+            { required: true, message: `${formatMessage({ id: 'overview.编辑资料.新密码.校验' })}` }
           ]}
         >
-          <Input.Password placeholder="请输入" maxLength={16} />
+          <Input.Password placeholder={formatMessage({ id: 'input.请输入' })} maxLength={16} />
         </Form.Item>
-        <Form.Item label="添加标签" name="tags">
-          <TagItem setTagToForm={form.setFieldsValue}/>
+        <Form.Item label={formatMessage({ id: 'overview.编辑资料.添加标签' })} name="tags">
+          <TagItem setTagToForm={form.setFieldsValue} />
         </Form.Item>
       </Form>
     </Modal>

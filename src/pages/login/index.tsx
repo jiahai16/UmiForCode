@@ -1,4 +1,4 @@
-import { history } from 'umi'
+import { history, useIntl } from 'umi'
 import { Layout, Input, Button } from 'antd'
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 import classNames from 'classnames'
@@ -12,7 +12,9 @@ import Forget from './Forget'
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState<boolean>(false)
-  const [isForgetModalVisible, setIsForgetModalVisible] = useState<boolean>(false)
+  const [isForgetModalVisible, setIsForgetModalVisible] =
+    useState<boolean>(false)
+  const { formatMessage } = useIntl()
 
   const handleClickForget = (): void => {
     setIsForgetModalVisible(true)
@@ -47,24 +49,28 @@ export default function LoginPage() {
         className={classNames(style.container, isLogin ? style.signUpMode : '')}
       >
         <div className={style.formWarp}>
-          <SignIn isForget={handleClickForget}/>
+          <SignIn isForget={handleClickForget} />
           <SignUp />
         </div>
         <div className={style.descWarp}>
           <div className={classNames(style.descWarpItem, style.signUpDesc)}>
             <div className={style.content}>
-              <h2 className={style.contentTitle}>还没有账号！立即注册一个吧</h2>
+              <h2 className={style.contentTitle}>
+                {formatMessage({ id: 'login.注册.子标题' })}
+              </h2>
               <button className={style.signUpBtn} onClick={changeLoginState}>
-                注册
+                {formatMessage({ id: 'login.注册' })}
               </button>
             </div>
             <img src={require('@/assets/bao-come-back-later-1.png')} alt="" />
           </div>
           <div className={classNames(style.descWarpItem, style.signInDesc)}>
             <div className={style.content}>
-              <h2 className={style.contentTitle}>已有账号！直接登录吧</h2>
+              <h2 className={style.contentTitle}>
+                {formatMessage({ id: 'login.登录.子标题' })}
+              </h2>
               <button className={style.signInBtn} onClick={changeLoginState}>
-                登录
+                {formatMessage({ id: 'login.登录' })}
               </button>
             </div>
             <img src={require('@/assets/bao-social-network-1.png')} alt="" />
@@ -81,7 +87,11 @@ export default function LoginPage() {
       >
         <a href="#">KKO</a> Design ©2021 Power by XJH
       </Footer>
-      <Forget visible={isForgetModalVisible} onHandleCancel={handleForgetCancel} onHandleOk={handleForgetOk}/>
+      <Forget
+        visible={isForgetModalVisible}
+        onHandleCancel={handleForgetCancel}
+        onHandleOk={handleForgetOk}
+      />
     </Layout>
   )
 }

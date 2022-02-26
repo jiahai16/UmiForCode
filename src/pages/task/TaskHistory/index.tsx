@@ -3,20 +3,23 @@ import Today from './Today'
 import Long from './Long'
 import CountDown from './CountDown'
 import style from './index.less'
+import { useIntl } from 'umi'
 
 const { TabPane } = Tabs
 
 const TaskHistory: React.FC<any> = () => {
+  const { formatMessage } = useIntl()
+
   return (
     <div>
       <Tabs defaultActiveKey="1" centered>
-        <TabPane tab="今日计划" key="today">
+        <TabPane tab={formatMessage({ id: 'taskplan.今日任务' })} key="today">
           <Today />
         </TabPane>
-        <TabPane tab="长期计划" key="longtask">
+        <TabPane tab={formatMessage({ id: 'taskplan.长期任务' })} key="longtask">
           <Long />
         </TabPane>
-        <TabPane tab="倒计时任务" key="countdown">
+        <TabPane tab={formatMessage({ id: 'taskplan.倒计时任务' })} key="countdown">
           <CountDown />
         </TabPane>
       </Tabs>

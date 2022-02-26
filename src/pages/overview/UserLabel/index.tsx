@@ -3,6 +3,7 @@ import { Avatar, Tag, Input, Tooltip, Button } from 'antd'
 import { UserOutlined, PlusOutlined } from '@ant-design/icons'
 import style from './index.less'
 import UserUpdataModal from 'overview/UserUpdataModal'
+import { useIntl } from 'umi'
 
 const tagData = ['标签1', '测试标签']
 const tagColor = [
@@ -19,6 +20,7 @@ const tagColor = [
 export default function UserLable() {
   const [isUpdataModalVisible, setIsUpdataModalVisible] =
     useState<boolean>(false)
+  const { formatMessage } = useIntl()
 
   const handleClickUpdata = (): void => {
     setIsUpdataModalVisible(true)
@@ -34,7 +36,9 @@ export default function UserLable() {
 
   const randerTags = (data: string[]) => {
     return data.map((e) => (
-      <Tag color={tagColor[Math.floor(Math.random() * 8)]}>{e}</Tag>
+      <Tag key={e} color={tagColor[Math.floor(Math.random() * 8)]}>
+        {e}
+      </Tag>
     ))
   }
 
@@ -44,16 +48,17 @@ export default function UserLable() {
         <Avatar size={128} shape="square" icon={<UserOutlined />} />
         <div className={style.userDetail}>
           <h3>Noob-Builder-JD</h3>
-          <p>Level : 301</p>
-          <p>Job : null</p>
+          <p>{formatMessage({ id: 'overview.等级' })} : 301</p>
+          <p>{formatMessage({ id: 'overview.工作' })} : null</p>
           <p>
-            Tag : <span>{randerTags(tagData)}</span>
+            {formatMessage({ id: 'overview.标签' })} :{' '}
+            <span>{randerTags(tagData)}</span>
           </p>
         </div>
       </div>
       <div className={style.userlableRight}>
         <Button type="dashed" onClick={handleClickUpdata}>
-          编辑资料
+          {formatMessage({ id: 'overview.编辑资料' })}
         </Button>
       </div>
       <UserUpdataModal
