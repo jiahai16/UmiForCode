@@ -1,6 +1,8 @@
 // src/locales/en-US.ts
 export default {
   'input.请输入': 'Please Enter',
+  'input.搜索框': 'Master programmer secret ?',
+  
   'input.完成': 'OK',
   'input.取消': 'Cancel',
  
@@ -116,5 +118,14 @@ export default {
   'hotelStudyGuide.启用编辑': 'Enable the editor',
   'hotelStudyGuide.添加节点': 'Add a node',
   'hotelStudyGuide.添加同级节点': 'Adding peer Nodes',
-  'hotelStudyGuide.添加子节点': 'Adding child Nodes'
+  'hotelStudyGuide.添加子节点': 'Adding child Nodes',
+
+  '404.返回按钮': 'Go Back',
+  '404.标题': 'Don\'t look for it. It doesn\'t exist.',
+  '403.标题': 'Log in to unlock more poses! Please log in first',
+  '403.返回按钮': 'To Login',
+
+  'setting.主题设置.语言': 'Language',
+  'setting.主题设置.颜色': 'Theme Color',
+
 }

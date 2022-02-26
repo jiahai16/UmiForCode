@@ -1,6 +1,7 @@
 // src/locales/zh-CN.ts
 export default {
   'input.请输入': '请输入',
+  'input.搜索框': '牛皮程序员修炼指南?',
   'input.完成': '完成',
   'input.取消': '取消',
 
@@ -30,7 +31,6 @@ export default {
   'login.注册.邮箱.校验': '交白卷可不行！',
   'login.注册.邮箱验证码': '验证码',
   'login.注册.邮箱验证按钮': '发送验证码',
-  'login.注册.密码': '密码',
   'login.注册.用户名': '用户名',
   'login.注册.用户名输入框.校验': '名字忘了吗？',
   'login.注册.密码': '密码>_<',
@@ -108,5 +108,13 @@ export default {
   'hotelStudyGuide.启用编辑': '启用编辑',
   'hotelStudyGuide.添加节点': '添加节点',
   'hotelStudyGuide.添加同级节点': '添加同级节点',
-  'hotelStudyGuide.添加子节点': '添加子节点'
+  'hotelStudyGuide.添加子节点': '添加子节点',
+
+  '404.返回按钮': '返回刚刚',
+  '404.标题': '别找了，不存在的！.',
+  '403.标题': '登录解锁更多姿势哦！请先登录吧～',
+  '403.返回按钮': '去登录',
+
+  'setting.主题设置.语言': '语言',
+  'setting.主题设置.颜色': '颜色',
 }
