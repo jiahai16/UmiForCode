@@ -1,12 +1,12 @@
 import { Layout, Result, Button, ConfigProvider } from 'antd'
-import { IRouteProps, Redirect, history } from 'umi'
+import { IRouteProps, Redirect, history, useIntl } from 'umi'
 import SiderBar from 'SiderBar'
 import 'style/index.less' // 全局样式引入
 import style from './index.less'
-import { hasAccess } from '@/../config/userAccess'
+import { hasAccess, isLoginAccess } from '@/../config/userAccess'
 import { pageRoutes } from '@/../config/routes'
-import enUS from 'antd/lib/locale/en_US';
-import zhCN from 'antd/lib/locale/zh_CN';
+import enUS from 'antd/lib/locale/en_US'
+import zhCN from 'antd/lib/locale/zh_CN'
 import HeaderBar from 'HeaderBar'
 import { useState } from 'react'
 
@@ -14,13 +14,15 @@ const { Header, Content, Footer } = Layout
 
 function renderChildren(props: IRouteProps) {
   const routerURL = history.location.pathname
+  const { formatMessage } = useIntl();
+
 
   // 这个根据自己判断是否登录
   const isLogin = localStorage.getItem('login') === 'true'
 
-  if (!isLogin) {
-    return <Redirect to="/login" />
-  }
+  // if (!isLogin && accessRouter.includes(routerURL)) {
+  //   return <Redirect to="/login" />
+  // }
 
   const pageRoutesJSON = JSON.stringify(pageRoutes)
   if (!pageRoutesJSON.includes(routerURL)) {
@@ -33,10 +35,10 @@ function renderChildren(props: IRouteProps) {
               src={require('@/assets/ikigai-cat-putting-up-a-404-error-sign-1.png')}
             />
           }
-          subTitle="别找了，不存在的."
+          subTitle={formatMessage({ id: '404.标题'})}
           extra={
-            <Button type="primary" onClick={() => history.push('/hotInfo')}>
-              返回首页
+            <Button type="primary" onClick={() => history.go(-1)}>
+              {formatMessage({ id: '404.返回按钮'})}
             </Button>
           }
         />
@@ -44,7 +46,7 @@ function renderChildren(props: IRouteProps) {
     )
   }
 
-  if (!hasAccess(routerURL)) {
+  if (!isLoginAccess(routerURL)) {
     return (
       <div className={style.antResultWrap}>
         <Result
@@ -55,10 +57,10 @@ function renderChildren(props: IRouteProps) {
               src={require('@/assets/ikigai-black-maneki-neko-with-figurine-and-houseplant.png')}
             />
           }
-          subTitle="登录解锁更多姿势哦！请先登录吧～"
+          subTitle={formatMessage({ id: '403.标题'})}
           extra={
             <Button type="primary" onClick={() => history.push('/login')}>
-              去登录！
+              {formatMessage({ id: '403.返回按钮'})}
             </Button>
           }
         />
