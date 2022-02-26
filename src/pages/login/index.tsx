@@ -33,7 +33,7 @@ export default function LoginPage() {
   }
 
   const handleGoHome = () => {
-    history.push('/overview')
+    history.push('/hotInfo')
   }
   const insertValue = () => {
     localStorage.setItem('login', 'true')
