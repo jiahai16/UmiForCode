@@ -1,11 +1,12 @@
-import { Radio, Descriptions } from 'antd'
-import moment from 'moment'
+import { Radio } from 'antd'
 import 'moment/locale/zh-cn'
 import { useEffect, useState } from 'react'
-import { setLocale } from 'umi'
+import { setLocale, useIntl } from 'umi'
 import style from './index.less'
 
 const ThemeSetting: React.FC = () => {
+  const { formatMessage } = useIntl()
+
   const [localState, setLocalState] = useState<string>('zh-CN')
 
   const localeValue = localStorage.getItem('NC_language')
@@ -19,7 +20,7 @@ const ThemeSetting: React.FC = () => {
     }
   }, [])
 
-  const changeLocale = (e) => {
+  const changeLocale = (e: any) => {
     const localeValue = e.target.value
     setLocalState(localeValue)
     if (localeValue === 'en-US') {
@@ -37,7 +38,7 @@ const ThemeSetting: React.FC = () => {
   return (
     <div className={style.wrap}>
       <div className={style.item}>
-        <h1>语言：</h1>
+        <h1>{formatMessage({ id: 'setting.主题设置.语言' })}：</h1>
         <Radio.Group value={localState} onChange={changeLocale}>
           <Radio.Button key="en" value={'en-US'}>
             English
@@ -48,7 +49,7 @@ const ThemeSetting: React.FC = () => {
         </Radio.Group>
       </div>
       <div className={style.item}>
-        <h1>颜色</h1>
+        <h1>{formatMessage({ id: 'setting.主题设置.颜色' })}：</h1>
         <p>还没写出来呢-。-</p>
       </div>
     </div>
