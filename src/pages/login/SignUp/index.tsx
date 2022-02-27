@@ -47,12 +47,18 @@ export default function SignUp() {
           {formatMessage({ id: 'login.注册.标题' })}
         </h2>
         <Form.Item
-          name="username"
+          name="account"
           rules={[
             {
               required: true,
               message: `${formatMessage({
                 id: 'login.注册.用户名输入框.校验'
+              })}`
+            },
+            {
+              pattern: /^[\s\u4e00-\u9fa5a-z0-9_-]{0,}$/,
+              message: `${formatMessage({
+                id: 'login.注册.用户名输入框.校验.非法字符'
               })}`
             }
           ]}
@@ -89,6 +95,16 @@ export default function SignUp() {
             {
               required: true,
               message: `${formatMessage({ id: 'login.注册.邮箱.校验' })}`
+            },
+            {
+              pattern:
+                /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
+              message: `${formatMessage({ id: 'login.注册.邮箱.校验.格式' })}`
+            },
+
+            {
+              max: 50,
+              message: `${formatMessage({ id: 'login.注册.邮箱.校验.长度' })}`
             }
           ]}
         >
@@ -98,7 +114,7 @@ export default function SignUp() {
           />
         </Form.Item>
         <Form.Item
-          name="emailCheckCode"
+          name="code"
           rules={[
             {
               required: true,

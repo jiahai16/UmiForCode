@@ -5,6 +5,7 @@ import classNames from 'classnames'
 import style from '../index.less'
 import { useState } from 'react'
 import { useIntl } from 'umi'
+import { signInFunc } from 'services/user'
 
 type SignIn = {
   isForget: () => void
@@ -18,11 +19,16 @@ export default function SignIn({ isForget }: SignIn) {
     setFreeLoginCheck(!freeLoginCheck)
   }
 
+  const accountLogin = async () => {
+    const { code } = await signInFunc({ ...form.getFieldsValue() })
+    if (code === 200) history.go(-1)
+  }
+
   const onFinish = () => {
     form.setFieldsValue({
       freeLogin: freeLoginCheck
     })
-    console.log('Success:', form.getFieldsValue())
+    accountLogin()
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -40,7 +46,7 @@ export default function SignIn({ isForget }: SignIn) {
           {formatMessage({ id: 'login.登录.标题' })}
         </h2>
         <Form.Item
-          name="username"
+          name="account"
           rules={[
             {
               required: true,
