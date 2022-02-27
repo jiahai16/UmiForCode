@@ -37,7 +37,7 @@ const errorHandler = (error: error) => {
   if (error.name === "BizError") {
     notification.error({
       message: `请求错误 ${error.data.code}`,
-      description: error.data.msg,
+      description: error.data.resultMsg,
     });
     return error.data.code;
   }
