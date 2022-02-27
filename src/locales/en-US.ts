@@ -31,10 +31,13 @@ export default {
   'login.注册.按钮': 'Register Now',
   'login.注册.邮箱': 'Email',
   'login.注册.邮箱.校验': 'Can\'t hand in blank paper? ',
+  'login.注册.邮箱.校验.长度': 'It\'s too long baby',
+  'login.注册.邮箱.校验.格式': 'This is not a fucking Email ',
   'login.注册.邮箱验证码': 'Email CheckCode',
   'login.注册.邮箱验证按钮': 'Send',
   'login.注册.用户名': 'Username',
   'login.注册.用户名输入框.校验': 'Have you forgotten the name?',
+  'login.注册.用户名输入框.校验.非法字符': 'No illegal characters, man',
   'login.注册.密码': 'Password>_<',
   'login.注册.密码输入框.校验': "You don't have to enter your password",
 
