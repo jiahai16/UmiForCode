@@ -34,7 +34,7 @@ interface error {
  * 异常处理程序
  */
 const errorHandler = (error: error) => {
-  if (error.data.status === 500) {
+  if (error.data.status !== 200) {
     notification.error({
       message: `请求错误`,
       description: '服务器Boooooom了，请稍后再试'
