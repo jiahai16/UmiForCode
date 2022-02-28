@@ -2,15 +2,16 @@ import { request } from 'umi'
 
 type loginBody = {
   account: string
-  password: string
-  email?: string
+  user: { password: string }
 }
-type registerBody = {
-  account: string
+type user = {
+  name: string
   password: string
   email: string
+}
+type registerBody = {
+  user: user
   code: string
-  img: string
 }
 
 export const signInFunc = (data: loginBody) => {
