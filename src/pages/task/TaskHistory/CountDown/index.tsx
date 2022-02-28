@@ -29,7 +29,7 @@ const CountDown: React.FC<any> = () => {
   }, [])
 
   const renderPanel = (data: any) => {
-    return data.map((e: todayPlan, idx: any) => (
+    return data?.map((e: todayPlan, idx: any) => (
       <Panel header={<>{e.createTime.slice(0, 10)}</>} key={e.id}>
         <h3>{e?.name}</h3>
         <List

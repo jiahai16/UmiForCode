@@ -45,7 +45,7 @@ const TaskList: React.FC<any> = (props) => {
   }, [])
 
   const renderPanel = (title: string, data: any) => {
-    return data.map((e: todayPlan, idx: any) => (
+    return data?.map((e: todayPlan, idx: any) => (
       <Panel header={title} key={e.id}>
         <h3>{e?.name}</h3>
         <List
