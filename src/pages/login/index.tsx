@@ -50,7 +50,7 @@ export default function LoginPage() {
       >
         <div className={style.formWarp}>
           <SignIn isForget={handleClickForget} />
-          <SignUp />
+          <SignUp changeLoginState={changeLoginState} />
         </div>
         <div className={style.descWarp}>
           <div className={classNames(style.descWarpItem, style.signUpDesc)}>

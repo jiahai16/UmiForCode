@@ -1,28 +1,51 @@
 import { Input, Button, Form, Checkbox, message } from 'antd'
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
+
 import classNames from 'classnames'
 
 import style from '../index.less'
-import { useState } from 'react'
-import { useIntl } from 'umi'
+import { useCallback, useState } from 'react'
+import { connect, useIntl, IRouteProps } from 'umi'
 import { signInFunc } from 'services/user'
+import { IUser } from 'login/type'
 
-type SignIn = {
+type SignIn = IRouteProps & {
   isForget: () => void
 }
-export default function SignIn({ isForget }: SignIn) {
+function SignIn({ isForget, dispatch }: SignIn) {
   const [freeLoginCheck, setFreeLoginCheck] = useState(false)
   const [form] = Form.useForm()
   const { formatMessage } = useIntl()
+  //const [userInfo, setUserInfo] = useState<IUser>()
+
+  const loadUserInfo = useCallback(
+    (data) => {
+      dispatch({
+        type: 'user/updateUserInfo',
+        payload: {
+          user: { ...data }
+        }
+      })
+    },
+    [dispatch]
+  )
 
   const handleFreeLogin = (): void => {
     setFreeLoginCheck(!freeLoginCheck)
   }
 
   const accountLogin = async () => {
+    const account = form.getFieldsValue().name
+    const user = { password: form.getFieldsValue().password }
     try {
-      const { code } = await signInFunc({ ...form.getFieldsValue() })
-      if (code === 200) history.go(-1)
+      const res = await signInFunc({
+        account: account,
+        user: user
+      })
+      if (res.code === 200) {
+        loadUserInfo(res.data)
+        history.go(-1)
+      }
     } catch (error) {}
   }
 
@@ -104,3 +127,5 @@ export default function SignIn({ isForget }: SignIn) {
     </div>
   )
 }
+
+export default connect(({ user }) => ({ user }))(SignIn)

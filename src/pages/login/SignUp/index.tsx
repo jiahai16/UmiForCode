@@ -6,8 +6,10 @@ import style from '../index.less'
 import { useState } from 'react'
 import { useIntl } from 'umi'
 import { sendEmailFunc, signUpFunc } from 'services/user'
-
-export default function SignUp() {
+type IModal = {
+  changeLoginState: () => void
+}
+export default function SignUp({ changeLoginState }: IModal) {
   const { formatMessage } = useIntl()
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
   const [checkBtnText, setCheckBtnText] = useState<string>(
@@ -39,9 +41,15 @@ export default function SignUp() {
   }
 
   const handleSignUpClick = async () => {
+    const checkCode = form.getFieldsValue().code
+    const user = { ...form.getFieldsValue() }
     try {
-      const { code } = await signUpFunc({ ...form.getFieldsValue() })
-      if (code === 200) message.success('恭喜注册成功！，去登录吧')
+      const { code } = await signUpFunc({ user: user, code: checkCode })
+      if (code === 200) {
+        message.success('恭喜注册成功！去登录吧')
+        changeLoginState && changeLoginState()
+        form.resetFields()
+      }
     } catch (error) {}
   }
 
@@ -50,7 +58,6 @@ export default function SignUp() {
   }
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo)
     message.warning('注册格式有误哦！')
   }
   return (
