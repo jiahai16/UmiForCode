@@ -1,4 +1,4 @@
-import { Input, Button, Form, Checkbox } from 'antd'
+import { Input, Button, Form, Checkbox, message } from 'antd'
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 import classNames from 'classnames'
 
@@ -20,8 +20,10 @@ export default function SignIn({ isForget }: SignIn) {
   }
 
   const accountLogin = async () => {
-    const { code } = await signInFunc({ ...form.getFieldsValue() })
-    if (code === 200) history.go(-1)
+    try {
+      const { code } = await signInFunc({ ...form.getFieldsValue() })
+      if (code === 200) history.go(-1)
+    } catch (error) {}
   }
 
   const onFinish = () => {
@@ -46,7 +48,7 @@ export default function SignIn({ isForget }: SignIn) {
           {formatMessage({ id: 'login.登录.标题' })}
         </h2>
         <Form.Item
-          name="account"
+          name="name"
           rules={[
             {
               required: true,

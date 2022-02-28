@@ -1,10 +1,11 @@
-import { Input, Button, Form } from 'antd'
+import { Input, Button, Form, message } from 'antd'
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 import classNames from 'classnames'
 
 import style from '../index.less'
 import { useState } from 'react'
 import { useIntl } from 'umi'
+import { sendEmailFunc, signUpFunc } from 'services/user'
 
 export default function SignUp() {
   const { formatMessage } = useIntl()
@@ -14,7 +15,8 @@ export default function SignUp() {
   )
   const [form] = Form.useForm()
 
-  const handleOk = () => {
+  const handleSendEmail = () => {
+    sendEmail()
     let a = 60
     setConfirmLoading(true)
     const timer = setInterval(() => {
@@ -28,12 +30,28 @@ export default function SignUp() {
     }, 60000)
   }
 
+  const sendEmail = async () => {
+    const email = form.getFieldsValue().email
+    try {
+      const { code } = await sendEmailFunc({ email: email })
+      if (code === 200) message.success('发送成功，去查看邮箱吧！')
+    } catch (error) {}
+  }
+
+  const handleSignUpClick = async () => {
+    try {
+      const { code } = await signUpFunc({ ...form.getFieldsValue() })
+      if (code === 200) message.success('恭喜注册成功！，去登录吧')
+    } catch (error) {}
+  }
+
   const onFinish = (values: any) => {
-    console.log('Success:', values)
+    handleSignUpClick()
   }
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo)
+    message.warning('注册格式有误哦！')
   }
   return (
     <div className={style.signUpForm}>
@@ -47,7 +65,7 @@ export default function SignUp() {
           {formatMessage({ id: 'login.注册.标题' })}
         </h2>
         <Form.Item
-          name="account"
+          name="name"
           rules={[
             {
               required: true,
@@ -129,7 +147,7 @@ export default function SignUp() {
             />
             <Button
               className={style.submitCheckBtn}
-              onClick={handleOk}
+              onClick={handleSendEmail}
               loading={confirmLoading}
             >
               {checkBtnText}
