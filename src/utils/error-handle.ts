@@ -1,6 +1,6 @@
-import { notification } from 'antd';
+import { notification } from 'antd'
 const codeMessage: {
-  [key: number]: string;
+  [key: number]: string
 } = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -16,16 +16,16 @@ const codeMessage: {
   500: '服务器发生错误，请检查服务器。',
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
-};
+  504: '网关超时。'
+}
 
 interface error {
-  name: string,
-  data: any,
-  type: string,
+  name: string
+  data: any
+  type: string
   response: {
-    status: number,
-    statusText: string,
+    status: number
+    statusText: string
     url: string
   }
 }
@@ -34,20 +34,27 @@ interface error {
  * 异常处理程序
  */
 const errorHandler = (error: error) => {
-  if (error.name === "BizError") {
+  if (error.data.status === 500) {
+    notification.error({
+      message: `请求错误`,
+      description: '服务器Boooooom了，请稍后再试'
+    })
+    return
+  }
+  if (error.name === 'BizError') {
     notification.error({
       message: `请求错误 ${error.data.code}`,
-      description: error.data.resultMsg,
-    });
-    return error.data.code;
+      description: error.data.resultMsg
+    })
+    return error.data.code
   }
-  const { response } = error;
-  const errortext = codeMessage[response.status] || response.statusText;
-  const { status, url } = response;
+  const { response } = error
+  const errortext = codeMessage[response.status] || response.statusText
+  const { status, url } = response
   notification.error({
     message: `请求错误 ${status}: ${url}`,
-    description: errortext,
-  });
-};
+    description: errortext
+  })
+}
 
-export default errorHandler;
+export default errorHandler
