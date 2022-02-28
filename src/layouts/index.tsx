@@ -1,5 +1,5 @@
 import { Layout, Result, Button, ConfigProvider } from 'antd'
-import { IRouteProps, Redirect, history, useIntl } from 'umi'
+import { IRouteProps, history, useIntl, connect } from 'umi'
 import SiderBar from 'SiderBar'
 import 'style/index.less' // 全局样式引入
 import style from './index.less'
@@ -14,8 +14,7 @@ const { Header, Content, Footer } = Layout
 
 function renderChildren(props: IRouteProps) {
   const routerURL = history.location.pathname
-  const { formatMessage } = useIntl();
-
+  const { formatMessage } = useIntl()
 
   // 这个根据自己判断是否登录
   const isLogin = localStorage.getItem('login') === 'true'
@@ -35,10 +34,10 @@ function renderChildren(props: IRouteProps) {
               src={require('@/assets/ikigai-cat-putting-up-a-404-error-sign-1.png')}
             />
           }
-          subTitle={formatMessage({ id: '404.标题'})}
+          subTitle={formatMessage({ id: '404.标题' })}
           extra={
             <Button type="primary" onClick={() => history.go(-1)}>
-              {formatMessage({ id: '404.返回按钮'})}
+              {formatMessage({ id: '404.返回按钮' })}
             </Button>
           }
         />
@@ -57,10 +56,10 @@ function renderChildren(props: IRouteProps) {
               src={require('@/assets/ikigai-black-maneki-neko-with-figurine-and-houseplant.png')}
             />
           }
-          subTitle={formatMessage({ id: '403.标题'})}
+          subTitle={formatMessage({ id: '403.标题' })}
           extra={
             <Button type="primary" onClick={() => history.push('/login')}>
-              {formatMessage({ id: '403.返回按钮'})}
+              {formatMessage({ id: '403.返回按钮' })}
             </Button>
           }
         />
@@ -74,6 +73,7 @@ function renderChildren(props: IRouteProps) {
 
 function LayoutPage({ children }: IRouteProps) {
   const [locale, setLocale] = useState(zhCN)
+ 
   return (
     <ConfigProvider locale={locale}>
       <Layout style={{ minHeight: '100vh' }}>
