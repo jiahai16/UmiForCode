@@ -1,21 +1,30 @@
-import { Card } from "antd";
-import { useIntl } from 'umi';
+import { Card } from 'antd'
+import { useIntl } from 'umi'
 
-function index(props:any) {
-  const { formatMessage } = useIntl();
+function index(data: any) {
+  const { formatMessage } = useIntl()
+  console.log(data.data)
   return (
     <div>
       <Card
-        title={props.title}
-        extra={<a href={props.link}>{formatMessage( {id: 'hotInfo.了解更多'} )}</a>}
-        style={{ width: "25vw", marginBottom: 20, minWidth: 300 }}
+        title={data?.data?.title}
+        extra={
+          <a href={data?.data?.url} target="_blank">
+            {formatMessage({ id: 'hotInfo.了解更多' })}
+          </a>
+        }
+        style={{
+          width: '25vw',
+          height: 230,
+          overflow: 'hidden',
+          marginBottom: 20,
+          minWidth: 300
+        }}
       >
-        <p>Card content</p>
-        <p>Card content</p>
-        <p>Card content</p>
+        <p>{data?.data?.content}</p>
       </Card>
     </div>
-  );
+  )
 }
 
-export default index;
+export default index
