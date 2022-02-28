@@ -3,7 +3,8 @@ import { Avatar, Tag, Input, Tooltip, Button } from 'antd'
 import { UserOutlined, PlusOutlined } from '@ant-design/icons'
 import style from './index.less'
 import UserUpdataModal from 'overview/UserUpdataModal'
-import { useIntl } from 'umi'
+import { connect, useIntl } from 'umi'
+import { IUser } from 'login/type'
 
 const tagData = ['标签1', '测试标签']
 const tagColor = [
@@ -16,8 +17,39 @@ const tagColor = [
   'geekblue',
   'purple'
 ]
+const avaMap = new Map([
+  ['default', <UserOutlined />],
+  [
+    'man1',
+    <img
+      src={require('@/assets/experimental-mans-head-1.png')}
+      className={style.avaImg}
+    />
+  ],
+  [
+    'woman1',
+    <img
+      src={require('@/assets/experimental-womans-head-1.png')}
+      className={style.avaImg}
+    />
+  ],
+  [
+    'woman2',
+    <img
+      src={require('@/assets/experimental-womans-head-2.png')}
+      className={style.avaImg}
+    />
+  ],
+  [
+    'woman3',
+    <img
+      src={require('@/assets/experimental-womans-head-3.png')}
+      className={style.avaImg}
+    />
+  ]
+])
 
-export default function UserLable() {
+function UserLable({ user }) {
   const [isUpdataModalVisible, setIsUpdataModalVisible] =
     useState<boolean>(false)
   const { formatMessage } = useIntl()
@@ -45,9 +77,9 @@ export default function UserLable() {
   return (
     <div className={style.userlable}>
       <div className={style.userlableLeft}>
-        <Avatar size={128} shape="square" icon={<UserOutlined />} />
+        <Avatar size={128} shape="square" icon={avaMap.get(user?.user.img)} />
         <div className={style.userDetail}>
-          <h3>Noob-Builder-JD</h3>
+          <h3>{user?.user.name}</h3>
           <p>{formatMessage({ id: 'overview.等级' })} : 301</p>
           <p>{formatMessage({ id: 'overview.工作' })} : null</p>
           <p>
@@ -69,3 +101,5 @@ export default function UserLable() {
     </div>
   )
 }
+
+export default connect(({ user }) => ({ user }))(UserLable)
