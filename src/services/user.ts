@@ -21,7 +21,7 @@ export const signUpFunc = (data: registerBody) => {
   return request('/core-api/user/register', { method: 'post', data })
 }
 
-export const sendEmailFunc = (data: string) => {
+export const sendEmailFunc = (data: any) => {
   return request('/core-api/user/send-email', { method: 'post', data })
 }
 
