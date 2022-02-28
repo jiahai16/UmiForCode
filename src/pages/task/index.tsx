@@ -3,7 +3,7 @@ import { IRouteProps } from 'umi'
 
 export default function TaskPage({ children }: IRouteProps) {
   return (
-    <div>
+    <div className={style.wrap}>
       {children}
     </div>
   )

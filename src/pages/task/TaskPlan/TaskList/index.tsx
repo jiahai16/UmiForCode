@@ -15,11 +15,10 @@ const initParams: taskGetParams = {
 }
 
 const TaskList: React.FC<any> = (props) => {
-  const [todayTaskData, setTodayTaskData] = useState<todayPlan>([])
-  const [longTaskData, setLongTaskData] = useState<todayPlan>([])
-  const [countDownTaskData, setCountDownTaskData] = useState<todayPlan>([])
+  const [todayTaskData, setTodayTaskData] = useState<todayPlan[]>([])
+  const [longTaskData, setLongTaskData] = useState<todayPlan[]>([])
+  const [countDownTaskData, setCountDownTaskData] = useState<todayPlan[]>([])
   const { formatMessage } = useIntl()
-
 
   const initData = () => {
     getTask('TODAY_PLAN', setTodayTaskData)
@@ -80,20 +79,26 @@ const TaskList: React.FC<any> = (props) => {
   }
   return (
     <div className={style.wrap}>
-      <Collapse defaultActiveKey={['1']}>
-        {renderPanel(
-          `${formatMessage({ id: 'taskplan.今日任务' })}`,
-          todayTaskData
-        )}
-        {renderPanel(
-          `${formatMessage({ id: 'taskplan.进行中的长期任务' })}`,
-          longTaskData
-        )}
-        {renderPanel(
-          `${formatMessage({ id: 'taskplan.倒计时中的任务' })}`,
-          countDownTaskData
-        )}
-      </Collapse>
+      {todayTaskData?.length === 0 &&
+      longTaskData?.length === 0 &&
+      countDownTaskData?.length === 0 ? (
+        <h1>还没有任务呢！快创建一个吧～</h1>
+      ) : (
+        <Collapse defaultActiveKey={['1']}>
+          {renderPanel(
+            `${formatMessage({ id: 'taskplan.今日任务' })}`,
+            todayTaskData
+          )}
+          {renderPanel(
+            `${formatMessage({ id: 'taskplan.进行中的长期任务' })}`,
+            longTaskData
+          )}
+          {renderPanel(
+            `${formatMessage({ id: 'taskplan.倒计时中的任务' })}`,
+            countDownTaskData
+          )}
+        </Collapse>
+      )}
     </div>
   )
 }

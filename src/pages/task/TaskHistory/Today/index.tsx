@@ -1,4 +1,4 @@
-import { Collapse, List, Typography } from 'antd'
+import { Collapse, Empty, List, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { getTaskList } from 'services/task'
 import { task, taskGetParams, todayPlan } from 'task/type'
@@ -13,7 +13,7 @@ const initParams: taskGetParams = {
 }
 
 const Today: React.FC<any> = () => {
-  const [todayTask, setTodayTask] = useState<todayPlan>([])
+  const [todayTask, setTodayTask] = useState<todayPlan[]>([])
 
   const initData = async () => {
     const res = await getTaskList(initParams)
@@ -62,8 +62,8 @@ const Today: React.FC<any> = () => {
     ))
   }
   return (
-    <div>
-      <Collapse>{renderPanel(todayTask)}</Collapse>
+    <div className={style.wrap}>
+      {todayTask ? <Collapse>{renderPanel(todayTask)}</Collapse> : <Empty />}
     </div>
   )
 }

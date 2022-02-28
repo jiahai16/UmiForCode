@@ -11,7 +11,7 @@ const TaskHistory: React.FC<any> = () => {
   const { formatMessage } = useIntl()
 
   return (
-    <div>
+    <div className={style.wrap}>
       <Tabs defaultActiveKey="1" centered>
         <TabPane tab={formatMessage({ id: 'taskplan.今日任务' })} key="today">
           <Today />

@@ -1,11 +1,10 @@
-import { Collapse, List, Typography } from 'antd'
+import { Collapse, List, Typography, Empty } from 'antd'
 import { useEffect, useState } from 'react'
 import { getTaskList } from 'services/task'
 import { task, taskGetParams, todayPlan } from 'task/type'
 import style from './index.less'
 
 const { Panel } = Collapse
-
 
 const initParams: taskGetParams = {
   userId: 1,
@@ -14,7 +13,7 @@ const initParams: taskGetParams = {
 }
 
 const CountDown: React.FC<any> = () => {
-  const [todayTask, setTodayTask] = useState<todayPlan>([])
+  const [todayTask, setTodayTask] = useState<todayPlan[]>([])
 
   const initData = async () => {
     const res = await getTaskList(initParams)
@@ -63,8 +62,8 @@ const CountDown: React.FC<any> = () => {
     ))
   }
   return (
-    <div>
-      <Collapse>{renderPanel(todayTask)}</Collapse>
+    <div className={style.wrap}>
+      {todayTask ? <Collapse>{renderPanel(todayTask)}</Collapse> : <Empty />}
     </div>
   )
 }
