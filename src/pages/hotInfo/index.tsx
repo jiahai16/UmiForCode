@@ -17,7 +17,11 @@ const HotInfo: React.FC = () => {
   }, [])
   return (
     <div className={style.wrap}>
-      {hotspot.length > 0 ? hotspot.map((e) => <Card data={e} />) : <Empty />}
+      {hotspot.length > 0 ? (
+        hotspot.map((e, idx) => <Card key={idx} data={e} />)
+      ) : (
+        <Empty />
+      )}
     </div>
   )
 }

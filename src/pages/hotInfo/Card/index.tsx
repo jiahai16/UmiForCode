@@ -3,7 +3,6 @@ import { useIntl } from 'umi'
 
 function index(data: any) {
   const { formatMessage } = useIntl()
-  console.log(data.data)
   return (
     <div>
       <Card
