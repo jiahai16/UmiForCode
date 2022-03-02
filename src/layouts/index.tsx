@@ -3,97 +3,125 @@ import { IRouteProps, history, useIntl, connect } from 'umi'
 import SiderBar from 'SiderBar'
 import 'style/index.less' // 全局样式引入
 import style from './index.less'
-import { hasAccess, isLoginAccess } from '@/../config/userAccess'
 import { pageRoutes } from '@/../config/routes'
 import enUS from 'antd/lib/locale/en_US'
 import zhCN from 'antd/lib/locale/zh_CN'
 import HeaderBar from 'HeaderBar'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { queryUser } from 'services/user'
+import useLocalStorageState from 'utils/useLocalStorageState/useLocalStorageState'
 
 const { Header, Content, Footer } = Layout
 
-function renderChildren(props: IRouteProps) {
-  const routerURL = history.location.pathname
-  const { formatMessage } = useIntl()
-
-  // 这个根据自己判断是否登录
-  const isLogin = localStorage.getItem('login') === 'true'
-
-  // if (!isLogin && accessRouter.includes(routerURL)) {
-  //   return <Redirect to="/login" />
-  // }
-
-  const pageRoutesJSON = JSON.stringify(pageRoutes)
-  if (!pageRoutesJSON.includes(routerURL)) {
-    return (
-      <div className={style.antResultWrap}>
-        <Result
-          icon={
-            <img
-              style={{ width: 300 }}
-              src={require('@/assets/ikigai-cat-putting-up-a-404-error-sign-1.png')}
-            />
-          }
-          subTitle={formatMessage({ id: '404.标题' })}
-          extra={
-            <Button type="primary" onClick={() => history.go(-1)}>
-              {formatMessage({ id: '404.返回按钮' })}
-            </Button>
-          }
-        />
-      </div>
-    )
+function LayoutPage({ children, dispatch }: IRouteProps) {
+  //const [locale, setLocale] = useState(zhCN)
+  const [isLogin, setIsLogin] = useLocalStorageState('login', {
+    defaultValue: false
+  })
+  const loadUserInfo = useCallback(
+    (data) => {
+      dispatch({
+        type: 'user/updateUserInfo',
+        payload: {
+          user: { ...data }
+        }
+      })
+    },
+    [dispatch]
+  )
+  const getUserInfo = async () => {
+    try {
+      const res = await queryUser()
+      if (res?.code === 200) {
+        loadUserInfo(res.data)
+        setIsLogin(true)
+      }
+    } catch (error) {}
   }
 
-  if (!isLoginAccess(routerURL)) {
-    return (
-      <div className={style.antResultWrap}>
-        <Result
-          title="403"
-          icon={
-            <img
-              style={{ width: 300 }}
-              src={require('@/assets/ikigai-black-maneki-neko-with-figurine-and-houseplant.png')}
-            />
-          }
-          subTitle={formatMessage({ id: '403.标题' })}
-          extra={
-            <Button type="primary" onClick={() => history.push('/login')}>
-              {formatMessage({ id: '403.返回按钮' })}
-            </Button>
-          }
-        />
-      </div>
-    )
+  function isLoginAccess(access: string, isLogin: boolean) {
+    const accessRouter = ['/overview', '/task/task-plan', '/task/task-history']
+    if (isLogin) return true
+    return !accessRouter.includes(access)
   }
 
-  localStorage.setItem('routerURL', routerURL)
-  return <>{props.children}</>
-}
+  function renderChildren(props: IRouteProps) {
+    const routerURL = history.location.pathname
+    const { formatMessage } = useIntl()
 
-function LayoutPage({ children }: IRouteProps) {
-  const [locale, setLocale] = useState(zhCN)
- 
+    const pageRoutesJSON = JSON.stringify(pageRoutes)
+    if (!pageRoutesJSON.includes(routerURL)) {
+      return (
+        <div className={style.antResultWrap}>
+          <Result
+            icon={
+              <img
+                style={{ width: 300 }}
+                src={require('@/assets/ikigai-cat-putting-up-a-404-error-sign-1.png')}
+              />
+            }
+            subTitle={formatMessage({ id: '404.标题' })}
+            extra={
+              <Button type="primary" onClick={() => history.go(-1)}>
+                {formatMessage({ id: '404.返回按钮' })}
+              </Button>
+            }
+          />
+        </div>
+      )
+    }
+
+    if (!isLoginAccess(routerURL, isLogin)) {
+      return (
+        <div className={style.antResultWrap}>
+          <Result
+            title="403"
+            icon={
+              <img
+                style={{ width: 300 }}
+                src={require('@/assets/ikigai-black-maneki-neko-with-figurine-and-houseplant.png')}
+              />
+            }
+            subTitle={formatMessage({ id: '403.标题' })}
+            extra={
+              <Button type="primary" onClick={() => history.push('/login')}>
+                {formatMessage({ id: '403.返回按钮' })}
+              </Button>
+            }
+          />
+        </div>
+      )
+    }
+
+    localStorage.setItem('routerURL', routerURL)
+    return <>{props.children}</>
+  }
+  useEffect(() => {
+    getUserInfo()
+  }, [])
+  useEffect(() => {
+    console.log(isLogin)
+  }, [isLogin])
   return (
-    <ConfigProvider locale={locale}>
-      <Layout style={{ minHeight: '100vh' }}>
-        <SiderBar></SiderBar>
-        <Layout className={style.siteLayout}>
-          <Header className={style.siteLayoutHeader} style={{ padding: 0 }}>
-            <HeaderBar />
-          </Header>
-          <Content className={style.content}>
-            <div className={style.contentBody}>
-              {renderChildren({ children })}
-            </div>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            <a href="#">KKO</a> Design ©2021 Power by XJH
-          </Footer>
-        </Layout>
+    //<ConfigProvider locale={locale}>
+    <Layout style={{ minHeight: '100vh' }}>
+      <SiderBar></SiderBar>
+      <Layout className={style.siteLayout}>
+        <Header className={style.siteLayoutHeader} style={{ padding: 0 }}>
+          <HeaderBar />
+        </Header>
+        <Content className={style.content}>
+          <div className={style.contentBody}>
+            {renderChildren({ children })}
+          </div>
+        </Content>
+        <Footer style={{ textAlign: 'center' }}>
+          <a href="#">KKO</a> Design ©2021 Power by XJH
+        </Footer>
       </Layout>
-    </ConfigProvider>
+    </Layout>
+    // </ConfigProvider>
   )
 }
 
-export default LayoutPage
+export default connect(({ user }) => ({ user }))(LayoutPage)

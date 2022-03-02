@@ -34,11 +34,19 @@ interface error {
  * 异常处理程序
  */
 const errorHandler = (error: error) => {
-  if (error.data.status !== 200) {
+  if (error.data.status === 500) {
     notification.error({
       message: `请求错误`,
       description: '服务器Boooooom了，请稍后再试'
     })
+    return
+  }
+  if (error.data.code === 400) {
+    notification.info({
+      message: `还没有登录哦`,
+      description: '去登录解锁更多姿势！',
+    })
+    localStorage.removeItem('login')
     return
   }
   if (error.name === 'BizError') {

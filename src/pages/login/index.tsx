@@ -35,10 +35,6 @@ export default function LoginPage() {
   const handleGoHome = () => {
     history.push('/hotInfo')
   }
-  const insertValue = () => {
-    localStorage.setItem('login', 'true')
-    history.push('/overview')
-  }
 
   return (
     <Layout style={{ minHeight: '100vh' }}>

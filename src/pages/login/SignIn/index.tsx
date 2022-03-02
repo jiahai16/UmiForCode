@@ -4,31 +4,17 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 import classNames from 'classnames'
 
 import style from '../index.less'
-import { useCallback, useState } from 'react'
-import { connect, useIntl, IRouteProps } from 'umi'
+import { useState } from 'react'
+import { history, useIntl, IRouteProps } from 'umi'
 import { signInFunc } from 'services/user'
-import { IUser } from 'login/type'
 
 type SignIn = IRouteProps & {
   isForget: () => void
 }
-function SignIn({ isForget, dispatch }: SignIn) {
+function SignIn({ isForget }: SignIn) {
   const [freeLoginCheck, setFreeLoginCheck] = useState(false)
   const [form] = Form.useForm()
   const { formatMessage } = useIntl()
-  //const [userInfo, setUserInfo] = useState<IUser>()
-
-  const loadUserInfo = useCallback(
-    (data) => {
-      dispatch({
-        type: 'user/updateUserInfo',
-        payload: {
-          user: { ...data }
-        }
-      })
-    },
-    [dispatch]
-  )
 
   const handleFreeLogin = (): void => {
     setFreeLoginCheck(!freeLoginCheck)
@@ -43,8 +29,7 @@ function SignIn({ isForget, dispatch }: SignIn) {
         user: user
       })
       if (res.code === 200) {
-        loadUserInfo(res.data)
-        history.go(-1)
+        history.push('/overview')
       }
     } catch (error) {}
   }
@@ -128,4 +113,4 @@ function SignIn({ isForget, dispatch }: SignIn) {
   )
 }
 
-export default connect(({ user }) => ({ user }))(SignIn)
+export default SignIn

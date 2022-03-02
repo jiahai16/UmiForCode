@@ -4,7 +4,6 @@ import { UserOutlined, PlusOutlined } from '@ant-design/icons'
 import style from './index.less'
 import UserUpdataModal from 'overview/UserUpdataModal'
 import { connect, useIntl } from 'umi'
-import { IUser } from 'login/type'
 
 const tagData = ['标签1', '测试标签']
 const tagColor = [
