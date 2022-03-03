@@ -13,22 +13,20 @@ import { initDrawerProps, taskPostParams } from 'task/type'
 import moment from 'moment'
 import style from './index.less'
 import { useIntl } from 'umi'
+import { postTask } from 'services/task'
 
 const { RangePicker } = DatePicker
 
-const initParams: taskPostParams = {
+let initParams: taskPostParams = {
   name: '',
   type: '',
-  userId: 0,
-  tasks: {
-    id: undefined,
-    name: '',
-    content: '',
-    createTime: undefined,
-    planId: undefined,
-    status: '',
-    userId: 0
-  }
+  tasks: [
+    {
+      name: '',
+      content: '',
+      status: '0'
+    }
+  ]
 }
 
 const NewPlanDrawer = ({
@@ -45,16 +43,29 @@ const NewPlanDrawer = ({
     ['COUNTDOWN_PLAN', `${formatMessage({ id: 'taskplan.新建倒计时任务' })}`]
   ])
 
-  const onFinish = () => {
+  let isComplete: boolean = false
+  const onFinish = async () => {
     form.setFieldsValue({ type: planType })
     form
       .validateFields()
       .then(() => {
+        isComplete = true
+        initParams = { ...form.getFieldsValue(true) }
         console.log(form.getFieldsValue(true))
       })
       .catch(() => {
         message.warn('请补充完必填项')
       })
+    if (isComplete) {
+      try {
+        const { code } = await postTask(initParams)
+        if (code === 200) {
+          message.success('创建成功！')
+          form.resetFields()
+          onClose && onClose()
+        }
+      } catch (error) {}
+    }
   }
   const onCancel = () => {
     form.resetFields()
@@ -199,7 +210,11 @@ const NewPlanDrawer = ({
                       placeholder={formatMessage({ id: 'input.请输入' })}
                     />
                   </Form.Item>
-                  <MinusCircleOutlined onClick={() => remove(name)} />
+                  {form.getFieldValue('tasks').length > 1 ? (
+                    <MinusCircleOutlined onClick={() => remove(name)} />
+                  ) : (
+                    ''
+                  )}
                 </Space>
               ))}
               <Form.Item>
