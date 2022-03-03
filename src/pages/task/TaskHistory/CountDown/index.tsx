@@ -63,7 +63,11 @@ const CountDown: React.FC<any> = () => {
   }
   return (
     <div className={style.wrap}>
-      {todayTask ? <Collapse>{renderPanel(todayTask)}</Collapse> : <Empty />}
+      {todayTask && todayTask.length !== 0 ? (
+        <Collapse>{renderPanel(todayTask)}</Collapse>
+      ) : (
+        <Empty />
+      )}
     </div>
   )
 }
