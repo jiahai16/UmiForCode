@@ -15,9 +15,10 @@ const { Header, Content, Footer } = Layout
 
 function LayoutPage({ children, dispatch }: IRouteProps) {
   //const [locale, setLocale] = useState(zhCN)
-  const [isLogin, setIsLogin] = useLocalStorageState('login', {
-    defaultValue: false
-  })
+  const [isLogin, setIsLogin, { removeItem, isPersistent }] =
+    useLocalStorageState('login', {
+      defaultValue: false
+    })
   const loadUserInfo = useCallback(
     (data) => {
       dispatch({
@@ -35,6 +36,8 @@ function LayoutPage({ children, dispatch }: IRouteProps) {
       if (res?.code === 200) {
         loadUserInfo(res.data)
         setIsLogin(true)
+      } else {
+        removeItem()
       }
     } catch (error) {}
   }
@@ -99,9 +102,7 @@ function LayoutPage({ children, dispatch }: IRouteProps) {
   useEffect(() => {
     getUserInfo()
   }, [])
-  useEffect(() => {
-    console.log(isLogin)
-  }, [isLogin])
+ 
   return (
     //<ConfigProvider locale={locale}>
     <Layout style={{ minHeight: '100vh' }}>
