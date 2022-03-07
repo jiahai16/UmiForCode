@@ -1,4 +1,4 @@
-import { Collapse, List, Typography } from 'antd'
+import { Collapse, List, Typography, Select, Table } from 'antd'
 import { getTaskList } from 'services/task'
 import { FC, useEffect, useState } from 'react'
 import { todayPlan, task, taskGetParams } from '../../type'
@@ -7,6 +7,7 @@ import style from './index.less'
 import { useIntl } from 'umi'
 
 const { Panel } = Collapse
+const { Option } = Select
 
 const initParams: taskGetParams = {
   userId: 1,
@@ -19,6 +20,32 @@ const TaskList: React.FC<any> = (props) => {
   const [longTaskData, setLongTaskData] = useState<todayPlan[]>([])
   const [countDownTaskData, setCountDownTaskData] = useState<todayPlan[]>([])
   const { formatMessage } = useIntl()
+
+  const columns = [
+    {
+      title: '任务名',
+      dataIndex: 'name'
+    },
+    {
+      title: '任务内容',
+      dataIndex: 'content'
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      render: (status: any) => (
+        <Select
+          defaultValue={status}
+          style={{ width: 100 }}
+          bordered={false}
+          onChange={handleTaskUpdata}
+        >
+          <Option value="UN_FINISH_TASK">未完成</Option>
+          <Option value="FINISH_TASK">已完成</Option>
+        </Select>
+      )
+    }
+  ]
 
   const initData = () => {
     getTask('TODAY_PLAN', setTodayTaskData)
@@ -36,7 +63,6 @@ const TaskList: React.FC<any> = (props) => {
 
   const handleTaskUpdata = (value: any) => {
     console.log(value)
-    value.status === 0 ? 1 : 0
   }
 
   useEffect(() => {
@@ -45,34 +71,14 @@ const TaskList: React.FC<any> = (props) => {
 
   const renderPanel = (title: string, data: any) => {
     return data?.map((e: todayPlan, idx: any) => (
-      <Panel header={title} key={e.id}>
+      <Panel header={title} key={title}>
         <h3>{e?.name}</h3>
-        <List
-          bordered
+        <Table
+          columns={columns}
           dataSource={e?.tasks}
-          renderItem={(item: task) => (
-            <List.Item
-              className={
-                item?.status === 'UN_FINSH_TASK'
-                  ? style.normal
-                  : style.completed
-              }
-              actions={[
-                <a
-                  className={
-                    item?.status === 'UN_FINSH_TASK'
-                      ? style.contentNormal
-                      : style.contentCompleted
-                  }
-                >
-                  {' '}
-                  {item?.content}
-                </a>
-              ]}
-            >
-              <Typography.Text mark>{item?.name}</Typography.Text>
-            </List.Item>
-          )}
+          size="middle"
+          pagination={false}
+          bordered
         />
       </Panel>
     ))
@@ -84,7 +90,9 @@ const TaskList: React.FC<any> = (props) => {
       countDownTaskData?.length === 0 ? (
         <h1>还没有任务呢！快创建一个吧～</h1>
       ) : (
-        <Collapse defaultActiveKey={['1']}>
+        <Collapse
+          defaultActiveKey={[`${formatMessage({ id: 'taskplan.今日任务' })}`]}
+        >
           {renderPanel(
             `${formatMessage({ id: 'taskplan.今日任务' })}`,
             todayTaskData
