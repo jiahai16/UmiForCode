@@ -20,11 +20,14 @@ const { RangePicker } = DatePicker
 let initParams: taskPostParams = {
   name: '',
   type: '',
+  createTime: undefined,
+  endTime: undefined,
   tasks: [
     {
+      id: '',
+      planId: '',
       name: '',
-      content: '',
-      status: '0'
+      content: ''
     }
   ]
 }
@@ -50,8 +53,19 @@ const NewPlanDrawer = ({
       .validateFields()
       .then(() => {
         isComplete = true
-        initParams = { ...form.getFieldsValue(true) }
-        console.log(form.getFieldsValue(true))
+        initParams = {
+          ...form.getFieldsValue(true),
+          createTime:
+            planType === 'LONG_PLAN'
+              ? form
+                  .getFieldValue('createTime')[0]
+              : undefined,
+          endTime:
+            planType === 'LONG_PLAN'
+              ? form
+                  .getFieldValue('createTime')[1]
+              : form.getFieldValue('endTime')
+        }
       })
       .catch(() => {
         message.warn('请补充完必填项')
@@ -139,7 +153,7 @@ const NewPlanDrawer = ({
         )}
         {planType === 'COUNTDOWN_PLAN' ? (
           <Form.Item
-            name="createTime"
+            name="endTime"
             label={
               <Tooltip
                 title={formatMessage({ id: 'taskplan.新建抽屉.结束日期.提示' })}

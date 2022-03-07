@@ -28,6 +28,8 @@ export type taskGetParams = {
 export type taskPostParams = {
   name: string
   type: string | planTypeEnum
+  createTime: string | undefined
+  endTime: string | undefined
   tasks: task[] 
   timeLen?: number 
 }
@@ -46,12 +48,12 @@ export type taskStatusPutParams = {
 }
 
 export type task = {
-  id: number | string
-  planId: number | string
+  id?: number | string
+  planId?: number | string
   name: string
   content: string
   createTime?: string
-  status: taskStatusEnum | string
+  status?: taskStatusEnum | string
 }
 
 export type todayPlan = {
