@@ -14,13 +14,18 @@ type registerBody = {
   code: string
 }
 
+type checkBody = {
+  user: {
+    name?: string
+    email?: string
+  }
+}
+
 export const queryUser = () => {
   return request('/core-api/user/query', { method: 'get' })
 }
 
-export const logoutFunc = () => {
-  
-}
+export const logoutFunc = () => {}
 
 export const signInFunc = (data: loginBody) => {
   return request('/core-api/user/login', { method: 'post', data })
@@ -36,4 +41,12 @@ export const sendEmailFunc = (data: any) => {
 
 export const changePassword = (data: string) => {
   return request('/core-api/user/send-email', { method: 'post', data })
+}
+
+export const checkUserName = (data: checkBody) => {
+  return request('/core-api/user/check-param', { method: 'post', data })
+}
+
+export const checkEmail = (data: checkBody) => {
+  return request('/core-api/user/check-param', { method: 'post', data })
 }

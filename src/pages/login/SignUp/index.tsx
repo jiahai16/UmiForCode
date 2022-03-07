@@ -12,6 +12,8 @@ type IModal = {
 export default function SignUp({ changeLoginState }: IModal) {
   const { formatMessage } = useIntl()
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
+  const [checkNameStatus, setCheckNameStatus] = useState<boolean>(false)
+  const [checkEmailStatus, setCheckEmailStatus] = useState<boolean>(false)
   const [checkBtnText, setCheckBtnText] = useState<string>(
     `${formatMessage({ id: 'login.注册.邮箱验证按钮' })}`
   )
