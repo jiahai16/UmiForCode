@@ -4,7 +4,11 @@ import { useEffect } from 'react'
 import { cloneDeep } from 'lodash'
 import classNames from 'classnames'
 import { message, Switch, Button } from 'antd'
-import { PlusCircleOutlined } from '@ant-design/icons'
+import {
+  PlusCircleOutlined,
+  MinusCircleOutlined,
+  CloudUploadOutlined
+} from '@ant-design/icons'
 import style from './index.less'
 import openNotification from '@/components/Notification'
 import { useIntl } from 'umi'
@@ -445,9 +449,29 @@ function GraphLable() {
             shape="round"
             icon={<PlusCircleOutlined />}
             size={'small'}
+            style={{ marginRight: 20 }}
             onClick={addChildItem}
           >
             {formatMessage({ id: 'hotelStudyGuide.添加子节点' })}
+          </Button>
+          <Button
+            type="primary"
+            danger
+            shape="round"
+            icon={<MinusCircleOutlined />}
+            size={'small'}
+            style={{ marginRight: 40 }}
+            onClick={addChildItem}
+          >
+            {formatMessage({ id: 'hotelStudyGuide.删除该节点' })}
+          </Button>
+          <Button
+            type="dashed"
+            size={'small'}
+            icon={<CloudUploadOutlined />}
+            onClick={addChildItem}
+          >
+            导出分享
           </Button>
         </div>
       </div>

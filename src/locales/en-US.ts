@@ -2,10 +2,10 @@
 export default {
   'input.请输入': 'Please Enter',
   'input.搜索框': 'Master programmer secret ?',
-  
+
   'input.完成': 'OK',
   'input.取消': 'Cancel',
- 
+
   'login.登录': 'Login',
   'login.登录.标题': 'Log in',
   'login.登录.子标题': 'Existing account! Just log in',
@@ -21,7 +21,7 @@ export default {
   'login.找回密码.初始邮箱': 'Initial Email',
   'login.找回密码.邮箱验证': 'Email Verification',
   'login.找回密码.邮箱验证按钮': 'Send',
-  
+
   'login.找回密码.新密码': 'New Password',
   'login.找回密码.密码确认': 'Password Confirmation',
 
@@ -30,8 +30,8 @@ export default {
   'login.注册.子标题': 'No account yet! Sign up now',
   'login.注册.按钮': 'Register Now',
   'login.注册.邮箱': 'Email',
-  'login.注册.邮箱.校验': 'Can\'t hand in blank paper? ',
-  'login.注册.邮箱.校验.长度': 'It\'s too long baby',
+  'login.注册.邮箱.校验': "Can't hand in blank paper? ",
+  'login.注册.邮箱.校验.长度': "It's too long baby",
   'login.注册.邮箱.校验.格式': 'This is not a fucking Email ',
   'login.注册.邮箱验证码': 'Email CheckCode',
   'login.注册.邮箱验证按钮': 'Send',
@@ -91,6 +91,13 @@ export default {
   'taskplan.长期任务': 'Long Tasks',
   'taskplan.倒计时任务': 'Countdown Task',
   'taskplan.今日任务': 'Today Tasks',
+  'taskplan.任务名': 'PlanName',
+  'taskplan.任务内容': 'Content',
+  'taskplan.分割线': 'Im Divider 🌹',
+
+  'taskplan.状态': 'Status',
+  'taskplan.状态.完成': 'Yes',
+  'taskplan.状态.未完成': 'No',
 
   'taskplan.进行中的长期任务': 'Long Tasks in progress',
   'taskplan.倒计时中的任务': 'Tasks in the countdown',
@@ -122,13 +129,13 @@ export default {
   'hotelStudyGuide.添加节点': 'Add a node',
   'hotelStudyGuide.添加同级节点': 'Adding peer Nodes',
   'hotelStudyGuide.添加子节点': 'Adding child Nodes',
+  'hotelStudyGuide.删除该节点': 'Delete Node',
 
   '404.返回按钮': 'Go Back',
-  '404.标题': 'Don\'t look for it. It doesn\'t exist.',
+  '404.标题': "Don't look for it. It doesn't exist.",
   '403.标题': 'Log in to unlock more poses! Please log in first',
   '403.返回按钮': 'To Login',
 
   'setting.主题设置.语言': 'Language',
-  'setting.主题设置.颜色': 'Theme Color',
-
+  'setting.主题设置.颜色': 'Theme Color'
 }

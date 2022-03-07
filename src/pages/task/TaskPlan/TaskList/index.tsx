@@ -1,5 +1,5 @@
-import { Collapse, List, Typography, Select, Table } from 'antd'
-import { getTaskList } from 'services/task'
+import { Collapse, Divider, message, Select, Table } from 'antd'
+import { getTaskList, putTaskStatus } from 'services/task'
 import { FC, useEffect, useState } from 'react'
 import { todayPlan, task, taskGetParams } from '../../type'
 import { EditOutlined } from '@ant-design/icons'
@@ -23,25 +23,29 @@ const TaskList: React.FC<any> = (props) => {
 
   const columns = [
     {
-      title: '任务名',
+      title: `${formatMessage({ id: 'taskplan.任务名' })}`,
       dataIndex: 'name'
     },
     {
-      title: '任务内容',
+      title: `${formatMessage({ id: 'taskplan.任务内容' })}`,
       dataIndex: 'content'
     },
     {
-      title: '状态',
+      title: `${formatMessage({ id: 'taskplan.状态' })}`,
       dataIndex: 'status',
-      render: (status: any) => (
+      render: (_: any, record: any) => (
         <Select
-          defaultValue={status}
+          defaultValue={record.status}
           style={{ width: 100 }}
           bordered={false}
-          onChange={handleTaskUpdata}
+          onChange={() => handleTaskUpdata(record)}
         >
-          <Option value="UN_FINISH_TASK">未完成</Option>
-          <Option value="FINISH_TASK">已完成</Option>
+          <Option value="UN_FINISH_TASK">
+            {formatMessage({ id: 'taskplan.状态.未完成' })}
+          </Option>
+          <Option value="FINISH_TASK">
+            {formatMessage({ id: 'taskplan.状态.完成' })}
+          </Option>
         </Select>
       )
     }
@@ -61,8 +65,17 @@ const TaskList: React.FC<any> = (props) => {
     }
   }
 
-  const handleTaskUpdata = (value: any) => {
-    console.log(value)
+  const handleTaskUpdata = async (record: any) => {
+    try {
+      const { code } = await putTaskStatus({
+        tId: record.id,
+        status: record.status
+      })
+      if (code === 200) {
+        message.success('恭喜完成任务！')
+        initData()
+      }
+    } catch (error) {}
   }
 
   useEffect(() => {
@@ -71,16 +84,18 @@ const TaskList: React.FC<any> = (props) => {
 
   const renderPanel = (title: string, data: any) => {
     return data?.map((e: todayPlan, idx: any) => (
-      <Panel header={title} key={title}>
+      <div className={style.planWrap} key={idx}>
         <h3>{e?.name}</h3>
         <Table
+          rowKey={(record) => record.id}
           columns={columns}
           dataSource={e?.tasks}
           size="middle"
           pagination={false}
           bordered
         />
-      </Panel>
+        <Divider plain>{formatMessage({ id: 'taskplan.分割线' })}</Divider>
+      </div>
     ))
   }
   return (
@@ -90,21 +105,34 @@ const TaskList: React.FC<any> = (props) => {
       countDownTaskData?.length === 0 ? (
         <h1>还没有任务呢！快创建一个吧～</h1>
       ) : (
-        <Collapse
-          defaultActiveKey={[`${formatMessage({ id: 'taskplan.今日任务' })}`]}
-        >
-          {renderPanel(
-            `${formatMessage({ id: 'taskplan.今日任务' })}`,
-            todayTaskData
-          )}
-          {renderPanel(
-            `${formatMessage({ id: 'taskplan.进行中的长期任务' })}`,
-            longTaskData
-          )}
-          {renderPanel(
-            `${formatMessage({ id: 'taskplan.倒计时中的任务' })}`,
-            countDownTaskData
-          )}
+        <Collapse>
+          <Panel
+            header={`${formatMessage({ id: 'taskplan.今日任务' })}`}
+            key={'1'}
+          >
+            {renderPanel(
+              `${formatMessage({ id: 'taskplan.今日任务' })}`,
+              todayTaskData
+            )}
+          </Panel>
+          <Panel
+            header={`${formatMessage({ id: 'taskplan.进行中的长期任务' })}`}
+            key={'2'}
+          >
+            {renderPanel(
+              `${formatMessage({ id: 'taskplan.进行中的长期任务' })}`,
+              longTaskData
+            )}
+          </Panel>
+          <Panel
+            header={`${formatMessage({ id: 'taskplan.倒计时中的任务' })}`}
+            key={'3'}
+          >
+            {renderPanel(
+              `${formatMessage({ id: 'taskplan.倒计时中的任务' })}`,
+              countDownTaskData
+            )}
+          </Panel>
         </Collapse>
       )}
     </div>

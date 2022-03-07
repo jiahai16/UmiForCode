@@ -40,8 +40,14 @@ export type taskPutParams = {
   timeLen?: number 
 }
 
+export type taskStatusPutParams = {
+  tId: number
+  status: string
+}
+
 export type task = {
-  id?: number
+  id: number | string
+  planId: number | string
   name: string
   content: string
   createTime?: string

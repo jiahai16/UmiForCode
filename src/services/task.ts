@@ -1,4 +1,4 @@
-import { taskGetParams, taskPostParams, taskPutParams } from 'task/type'
+import { taskGetParams, taskPostParams, taskPutParams, taskStatusPutParams } from 'task/type'
 import { request } from 'umi'
 
 
@@ -9,6 +9,10 @@ export const getTaskList = (params: taskGetParams) => {
 
 export const postTask = (data: taskPostParams) => {
   return request('/core-api/task/plan', { method: 'post', data })
+}
+
+export const putTaskStatus = (data: taskStatusPutParams) => {
+  return request('/core-api/task/status', { method: 'put', data })
 }
 
 export const putTask = (data: taskPutParams) => {
