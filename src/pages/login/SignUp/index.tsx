@@ -56,6 +56,7 @@ export default function SignUp({ changeLoginState }: IModal) {
       if (res.code === 200 && res.data === true) {
         setCheckNameStatus('true')
       } else {
+        message.warning('该名称已被注册去登录吧！')
         setCheckNameStatus('false')
       }
     } catch (error) {}
@@ -69,6 +70,7 @@ export default function SignUp({ changeLoginState }: IModal) {
       if (res.code === 200 && res.data === true) {
         setCheckEmailStatus('true')
       } else {
+        message.warning('该邮箱已被注册去登录吧！')
         setCheckEmailStatus('false')
       }
     } catch (error) {}
