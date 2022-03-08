@@ -43,10 +43,7 @@ export const changePassword = (data: string) => {
   return request('/core-api/user/send-email', { method: 'post', data })
 }
 
-export const checkUserName = (data: checkBody) => {
+export const checkRepeatStatus = (data: checkBody) => {
   return request('/core-api/user/check-param', { method: 'post', data })
 }
 
-export const checkEmail = (data: checkBody) => {
-  return request('/core-api/user/check-param', { method: 'post', data })
-}

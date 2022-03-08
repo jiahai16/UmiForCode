@@ -1,37 +1,77 @@
 import { Input, Button, Form, message } from 'antd'
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
+import {
+  EyeInvisibleOutlined,
+  EyeTwoTone,
+  FrownTwoTone,
+  SmileTwoTone,
+  MehTwoTone
+} from '@ant-design/icons'
 import classNames from 'classnames'
 
 import style from '../index.less'
 import { useState } from 'react'
 import { useIntl } from 'umi'
-import { sendEmailFunc, signUpFunc } from 'services/user'
+import { checkRepeatStatus, sendEmailFunc, signUpFunc } from 'services/user'
 type IModal = {
   changeLoginState: () => void
 }
 export default function SignUp({ changeLoginState }: IModal) {
   const { formatMessage } = useIntl()
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
-  const [checkNameStatus, setCheckNameStatus] = useState<boolean>(false)
-  const [checkEmailStatus, setCheckEmailStatus] = useState<boolean>(false)
+  const [checkNameStatus, setCheckNameStatus] = useState<string>('default')
+  const [checkEmailStatus, setCheckEmailStatus] = useState<string>('default')
   const [checkBtnText, setCheckBtnText] = useState<string>(
     `${formatMessage({ id: 'login.注册.邮箱验证按钮' })}`
   )
   const [form] = Form.useForm()
 
+  const checkStatusMap = new Map([
+    ['default', <MehTwoTone />],
+    ['true', <SmileTwoTone twoToneColor="green" />],
+    ['false', <FrownTwoTone twoToneColor="red" />]
+  ])
+
   const handleSendEmail = () => {
-    sendEmail()
-    let a = 60
-    setConfirmLoading(true)
-    const timer = setInterval(() => {
-      setCheckBtnText(`${a}s`)
-      a -= 1
-    }, 1000)
-    setTimeout(() => {
-      clearInterval(timer)
-      setCheckBtnText(`${formatMessage({ id: 'login.注册.邮箱验证按钮' })}`)
-      setConfirmLoading(false)
-    }, 60000)
+    if (form.getFieldsValue().email) {
+      sendEmail()
+      let a = 60
+      setConfirmLoading(true)
+      const timer = setInterval(() => {
+        setCheckBtnText(`${a}s`)
+        a -= 1
+      }, 1000)
+      setTimeout(() => {
+        clearInterval(timer)
+        setCheckBtnText(`${formatMessage({ id: 'login.注册.邮箱验证按钮' })}`)
+        setConfirmLoading(false)
+      }, 60000)
+    } else message.warn('请输入邮箱')
+  }
+
+  const checkNameRepeat = async (value: any) => {
+    try {
+      const res = await checkRepeatStatus({
+        user: { name: value.target.value }
+      })
+      if (res.code === 200 && res.data === true) {
+        setCheckNameStatus('true')
+      } else {
+        setCheckNameStatus('false')
+      }
+    } catch (error) {}
+  }
+
+  const checkEmailRepeat = async (value: any) => {
+    try {
+      const res = await checkRepeatStatus({
+        user: { email: value.target.value }
+      })
+      if (res.code === 200 && res.data === true) {
+        setCheckEmailStatus('true')
+      } else {
+        setCheckEmailStatus('false')
+      }
+    } catch (error) {}
   }
 
   const sendEmail = async () => {
@@ -93,7 +133,13 @@ export default function SignUp({ changeLoginState }: IModal) {
           <Input
             className={style.input}
             placeholder={formatMessage({ id: 'login.注册.用户名' })}
+            prefix={
+              checkStatusMap.has(checkNameStatus)
+                ? checkStatusMap.get(checkNameStatus)
+                : ''
+            }
             maxLength={8}
+            onBlur={checkNameRepeat}
             showCount
           />
         </Form.Item>
@@ -138,6 +184,12 @@ export default function SignUp({ changeLoginState }: IModal) {
           <Input
             className={style.input}
             placeholder={formatMessage({ id: 'login.注册.邮箱' })}
+            prefix={
+              checkStatusMap.has(checkEmailStatus)
+                ? checkStatusMap.get(checkEmailStatus)
+                : ''
+            }
+            onBlur={checkEmailRepeat}
           />
         </Form.Item>
         <Form.Item

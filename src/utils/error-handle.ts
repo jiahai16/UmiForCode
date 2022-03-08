@@ -34,14 +34,14 @@ interface error {
  * 异常处理程序
  */
 const errorHandler = (error: error) => {
-  if (error.data.status === 500) {
+  if (error?.data?.status === 500) {
     notification.error({
       message: `请求错误`,
       description: '服务器Boooooom了，请稍后再试'
     })
     return
   }
-  if (error.data.code === 400) {
+  if (error?.data?.code === 400) {
     notification.info({
       message: `还没有登录哦`,
       description: '去登录解锁更多姿势！',
@@ -51,13 +51,13 @@ const errorHandler = (error: error) => {
   }
   if (error.name === 'BizError') {
     notification.error({
-      message: `请求错误 ${error.data.code}`,
-      description: error.data.resultMsg
+      message: `请求错误 ${error?.data?.code}`,
+      description: error?.data?.resultMsg
     })
     return error.data.code
   }
   const { response } = error
-  const errortext = codeMessage[response.status] || response.statusText
+  const errortext = codeMessage[response?.status] || response?.statusText
   const { status, url } = response
   notification.error({
     message: `请求错误 ${status}: ${url}`,
