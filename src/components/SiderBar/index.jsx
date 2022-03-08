@@ -100,7 +100,7 @@ function Sidebar({ location }) {
           setCollapsed(!collapsed)
         }}
       >
-        <div className={style.siderHeader}></div>
+        <div className={collapsed ? style.siderHeaderHide :style.siderHeader}></div>
         <Menu
           theme="dark"
           defaultOpenKeys={openKeys}
