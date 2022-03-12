@@ -1,8 +1,9 @@
-import { Modal, Button, Form, Input, Checkbox, Image } from 'antd'
+import { Modal, Button, Form, Input, Checkbox, Image, message } from 'antd'
 const { TextArea } = Input
 import style from '../index.less'
 import { useState } from 'react'
 import { useIntl } from 'umi'
+import { postShare } from 'services/hotel'
 type IModal = {
   visible: boolean
   uploadImg: string
@@ -16,7 +17,7 @@ export default function Forget({
   uploadImg,
   onHandleCancel
 }: IModal) {
-  const [freeLoginCheck, setFreeLoginCheck] = useState(false)
+  const [commentStatus, setCommentStatus] = useState(false)
 
   const { formatMessage } = useIntl()
   const [form] = Form.useForm()
@@ -33,7 +34,7 @@ export default function Forget({
   }
 
   const handleFreeLogin = (): void => {
-    setFreeLoginCheck(!freeLoginCheck)
+    setCommentStatus(!commentStatus)
   }
 
   const handleOk = () => {}
@@ -42,9 +43,30 @@ export default function Forget({
     onHandleCancel && onHandleCancel()
   }
 
+  const shareStudyRoad = async () => {
+    try {
+      const res = await postShare({
+        share: { ...form.getFieldsValue() },
+        img: uploadImg
+      })
+      if(res.code === 200) {
+        message.success('分享成功！请等待审核哦！')
+        handleCancel()
+        form.resetFields()
+      }
+    } catch (error) {}
+  }
+
   const onFinish = () => {
-    form.setFieldsValue({})
-    console.log('Success:', form.getFieldsValue())
+    form
+      .validateFields()
+      .then(() => {
+        form.setFieldsValue({ isDiscuss: commentStatus ? 1 : 0 })
+        shareStudyRoad()
+      })
+      .catch(() => {
+        message.warn('不许交白卷！')
+      })
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -83,7 +105,7 @@ export default function Forget({
           <Input placeholder={formatMessage({ id: 'input.请输入' })} />
         </Form.Item>
         <Form.Item
-          name="content"
+          name="details"
           label={'简介'}
           rules={[{ required: true, message: '交白卷可不行！！!' }]}
         >
@@ -93,9 +115,9 @@ export default function Forget({
             maxLength={100}
           />
         </Form.Item>
-        <Form.Item name="status" label={'开放评论'}>
+        <Form.Item name="isDiscuss" label={'开放评论'}>
           <Checkbox
-            checked={freeLoginCheck}
+            checked={commentStatus}
             onChange={handleFreeLogin}
           ></Checkbox>
         </Form.Item>
