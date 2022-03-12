@@ -12,6 +12,7 @@ import {
 import style from './index.less'
 import openNotification from '@/components/Notification'
 import { useIntl } from 'umi'
+import GraphUpload from '../GraphUpload'
 
 // 初始数据
 const initData = {
@@ -50,6 +51,24 @@ function GraphLable() {
   const [fontSize, setFontSize] = useState<number>(14)
   const [treeData, setTreeData] = useState(initData)
 
+  const [isUploadModalVisible, setIsUploadModalVisible] =
+    useState<boolean>(false)
+
+  const [uploadImg, setUploadImg] = useState<string>('')
+  const handleClickUpload = (): void => {
+    const dataURL = graph.toDataURL('image/png','#fff');
+    setUploadImg(dataURL)
+    setIsUploadModalVisible(true)
+  }
+
+  const handleUploadCancel = (): void => {
+    setIsUploadModalVisible(false)
+  }
+
+  const handleUploadOk = (): void => {
+    setIsUploadModalVisible(false)
+  }
+
   const saveLocal = (): void => {
     localStorage.setItem('localGuideData', JSON.stringify(treeData))
   }
@@ -72,8 +91,8 @@ function GraphLable() {
   const addItem = (target: any) => {
     // 添加节点
     let id = null
-    if (target.children && target.children.length > 0) {
-      const tId = target.children[target.children.length - 1].id
+    if (target?.children && target?.children?.length > 0) {
+      const tId = target?.children[target?.children?.length - 1].id
       const cIds = tId.split('-')
       cIds[cIds.length - 1] = `${~~cIds[cIds.length - 1] + 1}`
       id = cIds.join('-')
@@ -141,6 +160,26 @@ function GraphLable() {
     }
     const data = addItem(parent)
     graph?.addChild(data, target.parent)
+    setTreeData(graph?.findDataById('1'))
+    saveLocal()
+    graph?.paint()
+    graph?.fitView()
+  }
+
+  const removeItem = () => {
+    if (!edit) {
+      message.warning('请先切换编辑模式～')
+      return
+    }
+    if (!currentId) {
+      message.warning('请先选择目标节点～')
+      return
+    }
+    if (currentId === '1') {
+      message.warning('根节点不能删除～')
+      return
+    }
+    graph?.removeChild(currentId)
     setTreeData(graph?.findDataById('1'))
     saveLocal()
     graph?.paint()
@@ -461,7 +500,7 @@ function GraphLable() {
             icon={<MinusCircleOutlined />}
             size={'small'}
             style={{ marginRight: 40 }}
-            onClick={addChildItem}
+            onClick={removeItem}
           >
             {formatMessage({ id: 'hotelStudyGuide.删除该节点' })}
           </Button>
@@ -469,11 +508,17 @@ function GraphLable() {
             type="dashed"
             size={'small'}
             icon={<CloudUploadOutlined />}
-            onClick={addChildItem}
+            onClick={handleClickUpload}
           >
             导出分享
           </Button>
         </div>
+        <GraphUpload
+          uploadImg={uploadImg}
+          visible={isUploadModalVisible}
+          onHandleCancel={handleUploadCancel}
+          onHandleOk={handleUploadOk}
+        />
       </div>
       <div>
         <div id={'container'}>
