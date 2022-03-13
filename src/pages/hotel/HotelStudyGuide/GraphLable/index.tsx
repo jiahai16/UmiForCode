@@ -180,6 +180,7 @@ function GraphLable() {
       return
     }
     graph?.removeChild(currentId)
+    setCurrentId(null)
     setTreeData(graph?.findDataById('1'))
     saveLocal()
     graph?.paint()

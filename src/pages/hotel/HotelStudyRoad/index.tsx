@@ -3,24 +3,31 @@ import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons'
 import style from './index.less'
 import React, { useEffect, useState } from 'react'
 import ListComment from './ListComment'
+import { getShare } from 'services/hotel'
 
 export default function HotelStudyRoad() {
   const [loading, setLoading] = useState<boolean>(true)
   const [isCommentListVisible, setIsCommentListVisible] =
     useState<boolean>(false)
-  const load = setTimeout(() => {
-    setLoading(false)
-  }, 300)
+  const [shareData, setShareData] = useState([])
 
   const handleCommentClick = () => {
     setIsCommentListVisible(!isCommentListVisible)
   }
 
+  const initData = async () => {
+    try {
+      const res = await getShare({ number: 1, size: 10 })
+      if (res.code === 200) {
+        setShareData(res.data.data)
+        setLoading(false)
+      }
+    } catch (error) {}
+  }
+
   useEffect(() => {
-    load
-    return () => {
-      clearTimeout(load)
-    }
+    initData()
+    return () => {}
   }, [])
 
   const listData = [
@@ -49,65 +56,67 @@ export default function HotelStudyRoad() {
 
   return (
     <div>
-      <List
-        itemLayout="vertical"
-        size="large"
-        dataSource={listData}
-        renderItem={(item) => (
-          <>
-            <List.Item
-              key={item.title}
-              actions={
-                !loading
-                  ? [
-                      <IconText
-                        icon={StarOutlined}
-                        text="156"
-                        key="list-vertical-star-o"
-                      />,
-                      <IconText
-                        icon={LikeOutlined}
-                        text="156"
-                        key="list-vertical-like-o"
-                      />,
-                      <div onClick={handleCommentClick}>
+      <Skeleton loading={loading} active avatar>
+        <List
+          itemLayout="vertical"
+          size="large"
+          dataSource={shareData}
+          renderItem={(item: any) => (
+            <>
+              <List.Item
+                key={item?.id}
+                actions={
+                  !loading
+                    ? [
                         <IconText
-                          icon={MessageOutlined}
-                          text="2"
-                          key="list-vertical-message"
-                        />
-                      </div>
-                    ]
-                  : undefined
-              }
-              extra={
-                !loading && (
-                  <Image
-                    width={272}
-                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                  />
-                )
-              }
-            >
-              <Skeleton loading={loading} active avatar>
+                          icon={StarOutlined}
+                          text="156"
+                          key="list-vertical-star-o"
+                        />,
+                        <IconText
+                          icon={LikeOutlined}
+                          text="156"
+                          key="list-vertical-like-o"
+                        />,
+                        <div
+                          onClick={handleCommentClick}
+                          className={
+                            item?.share?.isDiscuss === 1
+                              ? ''
+                              : style.commentBtnHide
+                          }
+                        >
+                          <IconText
+                            icon={MessageOutlined}
+                            text="2"
+                            key="list-vertical-message"
+                          />
+                        </div>
+                      ]
+                    : undefined
+                }
+                extra={!loading && <Image width={272} src={item.share.img} />}
+              >
                 <List.Item.Meta
-                  avatar={<Avatar src={item.avatar} />}
-                  title={<a href={item.href}>{item.title}</a>}
-                  description={item.description}
+                  avatar={<Avatar src={item?.user?.img} />}
+                  title={<a>{item?.share?.title}</a>}
+                  description={item?.user?.name}
                 />
-                {item.content}
-              </Skeleton>
-            </List.Item>
-            <div
-              className={
-                isCommentListVisible ? style.commentWrap : style.commentWrapHide
-              }
-            >
-              <ListComment />
-            </div>
-          </>
-        )}
-      />
+                {item?.share?.details}
+              </List.Item>
+              <div
+                className={
+                  isCommentListVisible
+                    ? style.commentWrap
+                    : style.commentWrapHide
+                }
+              >
+                <ListComment />
+              </div>
+            </>
+          )}
+        />
+      </Skeleton>
     </div>
   )
 }
