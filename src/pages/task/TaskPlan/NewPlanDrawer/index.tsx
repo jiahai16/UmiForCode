@@ -13,7 +13,8 @@ import { initDrawerProps, taskPostParams } from 'task/type'
 import moment from 'moment'
 import style from './index.less'
 import { useIntl } from 'umi'
-import { postTask } from 'services/task'
+import { postTask, putTask } from 'services/task'
+import { useEffect } from 'react'
 
 const { RangePicker } = DatePicker
 
@@ -35,6 +36,7 @@ let initParams: taskPostParams = {
 const NewPlanDrawer = ({
   planType,
   visible,
+  record,
   onClose = () => {}
 }: initDrawerProps) => {
   const [form] = Form.useForm()
@@ -47,7 +49,8 @@ const NewPlanDrawer = ({
   ])
 
   let isComplete: boolean = false
-  const onFinish = async () => {
+
+  const NewPlan = async () => {
     form.setFieldsValue({ type: planType })
     form
       .validateFields()
@@ -57,13 +60,11 @@ const NewPlanDrawer = ({
           ...form.getFieldsValue(true),
           createTime:
             planType === 'LONG_PLAN'
-              ? form
-                  .getFieldValue('createTime')[0]
+              ? form.getFieldValue('createTime')[0]
               : undefined,
           endTime:
             planType === 'LONG_PLAN'
-              ? form
-                  .getFieldValue('createTime')[1]
+              ? form.getFieldValue('createTime')[1]
               : form.getFieldValue('endTime')
         }
       })
@@ -81,6 +82,48 @@ const NewPlanDrawer = ({
       } catch (error) {}
     }
   }
+
+  const UpDataPlan = async () => {
+    form.setFieldsValue({ type: planType })
+    form
+      .validateFields()
+      .then(() => {
+        isComplete = true
+        initParams = {
+          id: record.id,
+          ...form.getFieldsValue(true),
+          createTime:
+            planType === 'LONG_PLAN'
+              ? form.getFieldValue('createTime')[0]
+              : undefined,
+          endTime:
+            planType === 'LONG_PLAN'
+              ? form.getFieldValue('createTime')[1]
+              : form.getFieldValue('endTime')
+        }
+      })
+      .catch(() => {
+        message.warn('请补充完必填项')
+      })
+    if (isComplete) {
+      try {
+        const { code } = await putTask(initParams)
+        if (code === 200) {
+          message.success('编辑成功！')
+          form.resetFields()
+          onClose && onClose()
+        }
+      } catch (error) {}
+    }
+  }
+
+  const onFinish = () => {
+    if (record) {
+      UpDataPlan()
+    } else {
+      NewPlan()
+    }
+  }
   const onCancel = () => {
     form.resetFields()
     onClose && onClose()
@@ -90,6 +133,19 @@ const NewPlanDrawer = ({
     // Can not select days before today and today
     return current && current < moment().endOf('day')
   }
+
+  useEffect(() => {
+    if (record) {
+      form.setFieldsValue({
+        ...record,
+        createTime:
+          planType === 'LONG_PLAN'
+            ? [moment(record.createTime), moment(record.endTime)]
+            : moment(record.createTime),
+        endTime: moment(record.endTime)
+      })
+    }
+  }, [form, record])
 
   return (
     <Drawer
@@ -203,6 +259,7 @@ const NewPlanDrawer = ({
                       placeholder={formatMessage({ id: 'input.请输入' })}
                     />
                   </Form.Item>
+
                   <Form.Item
                     {...restField}
                     label={

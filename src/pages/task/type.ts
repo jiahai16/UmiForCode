@@ -7,6 +7,7 @@ export type initDrawerProps = DrawerProps & {
   planType: string
   visible: boolean
   onClose?: () => void
+  record?: any
 }
 export interface taskLable {
   title: string
@@ -26,6 +27,7 @@ export type taskGetParams = {
 }
 
 export type taskPostParams = {
+  id?: number | undefined
   name: string
   type: string | planTypeEnum
   createTime: string | undefined
@@ -35,7 +37,7 @@ export type taskPostParams = {
 }
 
 export type taskPutParams = {
-  id: number
+  id?: number | undefined
   name: string
   type: string | planTypeEnum
   tasks: task[] 

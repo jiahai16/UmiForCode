@@ -96,6 +96,11 @@ const TaskList: React.FC<any> = (props) => {
     } catch (error) {}
   }
 
+  const handleEditClick = (record: any) => {
+    props.handleEditPlanClick(record.type ,'edit', record)
+
+  }
+
   useEffect(() => {
     initData()
   }, [])
@@ -106,7 +111,7 @@ const TaskList: React.FC<any> = (props) => {
         <div className={style.editWrap}>
           <h3>{e?.name}</h3>
           <span>
-            <Button type="link">编辑</Button>
+            <Button type="link" onClick={() => handleEditClick(e)}>编辑</Button>
             <Popconfirm
               title="你确定要删除吗？该行为不可恢复."
               onConfirm={() => handleDeleteClick(e?.id)}
