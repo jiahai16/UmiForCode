@@ -1,7 +1,10 @@
-import { taskGetParams, taskPostParams, taskPutParams, taskStatusPutParams } from 'task/type'
+import {
+  taskGetParams,
+  taskPostParams,
+  taskPutParams,
+  taskStatusPutParams
+} from 'task/type'
 import { request } from 'umi'
-
-
 
 export const getTaskList = (params: taskGetParams) => {
   return request('/core-api/task/plan', { method: 'get', params })
@@ -19,8 +22,8 @@ export const putTask = (data: taskPutParams) => {
   return request('/core-api/task/plan', { method: 'put', data })
 }
 
-export const deleteTask = (id: number) => {
-  return request('/core-api/task/plan', { method: 'delete', id })
+export const deleteTask = (params: any) => {
+  return request('/core-api/task/plan', { method: 'delete', params })
 }
 
 export const getTodayTaskList = () => {

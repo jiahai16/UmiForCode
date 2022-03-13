@@ -1,5 +1,13 @@
-import { Collapse, Divider, message, Select, Table } from 'antd'
-import { getTaskList, putTaskStatus } from 'services/task'
+import {
+  Button,
+  Collapse,
+  Divider,
+  message,
+  Select,
+  Table,
+  Popconfirm
+} from 'antd'
+import { deleteTask, getTaskList, putTaskStatus } from 'services/task'
 import { FC, useEffect, useState } from 'react'
 import { todayPlan, task, taskGetParams } from '../../type'
 import { EditOutlined } from '@ant-design/icons'
@@ -78,6 +86,16 @@ const TaskList: React.FC<any> = (props) => {
     } catch (error) {}
   }
 
+  const handleDeleteClick = async (id: any) => {
+    try {
+      const { code } = await deleteTask({ id: id })
+      if (code === 200) {
+        message.success('计划删除成功～')
+        initData()
+      }
+    } catch (error) {}
+  }
+
   useEffect(() => {
     initData()
   }, [])
@@ -85,9 +103,24 @@ const TaskList: React.FC<any> = (props) => {
   const renderPanel = (title: string, data: any) => {
     return data?.map((e: todayPlan, idx: any) => (
       <div className={style.planWrap} key={idx}>
-        <h3>{e?.name}</h3>
+        <div className={style.editWrap}>
+          <h3>{e?.name}</h3>
+          <span>
+            <Button type="link">编辑</Button>
+            <Popconfirm
+              title="你确定要删除吗？该行为不可恢复."
+              onConfirm={() => handleDeleteClick(e?.id)}
+              okText="确定"
+              cancelText="否"
+            >
+              <Button type="link" danger>
+                删除
+              </Button>
+            </Popconfirm>
+          </span>
+        </div>
         <Table
-          rowKey={(record) => record.id}
+          rowKey={(record) => `${record.id}`}
           columns={columns}
           dataSource={e?.tasks}
           size="middle"
