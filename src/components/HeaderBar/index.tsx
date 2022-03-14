@@ -6,12 +6,15 @@ const { Search } = Input
 import style from './index.less'
 import { cookies } from 'utils/cookie'
 import { logoutFunc } from 'services/user'
+import useLocalStorageState from 'utils/useLocalStorageState/useLocalStorageState'
 
 const HeaderBar: React.FC = ({ user }) => {
   const onSearch = (value: string) => console.log(value)
   const { formatMessage } = useIntl()
-
-  const isLogin = localStorage.getItem('login') === 'true'
+  const [isLogin, setIsLogin, { removeItem, isPersistent }] =
+  useLocalStorageState('login', {
+    defaultValue: false
+  })
 
   const avaMap = new Map([
     ['default', <UserOutlined />],
@@ -49,7 +52,7 @@ const HeaderBar: React.FC = ({ user }) => {
   }
   const handleLoginOut = async () => {
     cookies.removeUserToken()
-    localStorage.removeItem('login')
+    removeItem()
     history.push('/overview')
     window.location.reload()
     const res = await logoutFunc()
