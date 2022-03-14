@@ -1,14 +1,18 @@
 import { List, Comment, Tooltip, Input, Button, Avatar, Form } from 'antd'
 const { TextArea } = Input
 import moment from 'moment'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import style from './index.less'
-type IModal = {
+type IEditorModal = {
   submitting: boolean
   value: string
   onChange: (e: any) => void
   onSubmit: () => void
   handleOpenEditor: () => void
+}
+
+type IListModal = {
+  shareId: number | string
 }
 
 const Editor = ({
@@ -17,7 +21,7 @@ const Editor = ({
   submitting,
   value,
   handleOpenEditor
-}: IModal) => (
+}: IEditorModal) => (
   <>
     <Form.Item>
       <TextArea
@@ -43,7 +47,7 @@ const Editor = ({
   </>
 )
 
-export default function ListComment() {
+export default function ListComment({ shareId }: IListModal) {
   const [comments, setComments] = useState<any[]>([])
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [isEditorShow, setIsEditorShow] = useState<boolean>(false)
@@ -76,6 +80,9 @@ export default function ListComment() {
   const handleOpenEditor = () => {
     setIsEditorShow(!isEditorShow)
   }
+
+  useEffect(()=> {
+  })
 
   return (
     <>

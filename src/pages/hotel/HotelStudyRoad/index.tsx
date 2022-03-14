@@ -7,12 +7,19 @@ import { getShare } from 'services/hotel'
 
 export default function HotelStudyRoad() {
   const [loading, setLoading] = useState<boolean>(true)
-  const [isCommentListVisible, setIsCommentListVisible] =
-    useState<boolean>(false)
+  const [isCommentListVisible, setIsCommentListVisible] = useState<
+    number | null
+  >(null)
   const [shareData, setShareData] = useState([])
 
-  const handleCommentClick = () => {
-    setIsCommentListVisible(!isCommentListVisible)
+  const handleCommentClick = (id: number) => {
+    if (isCommentListVisible && isCommentListVisible !== id) {
+      setIsCommentListVisible(id)
+    } else if(isCommentListVisible === null){
+      setIsCommentListVisible(id)
+    }else{
+      setIsCommentListVisible(null)
+    }
   }
 
   const initData = async () => {
@@ -30,22 +37,6 @@ export default function HotelStudyRoad() {
     return () => {}
   }, [])
 
-  const listData = [
-    {
-      href: 'https://ant.design',
-      title: `测试名称`,
-      avatar: 'https://joeschmoe.io/api/v1/random',
-      description: '前端菜鸟！',
-      content: '一个前端初学者的学习路线分享！如果感觉好的话就点个赞吧！'
-    },
-    {
-      href: 'https://ant.design',
-      title: `测试名称2222`,
-      avatar: 'https://joeschmoe.io/api/v1/random',
-      description: '前端大佬！',
-      content: '一个前端进阶的学习路线分享！如果感觉好的话就点个赞吧！'
-    }
-  ]
 
   const IconText = ({ icon, text }) => (
     <Space>
@@ -79,7 +70,7 @@ export default function HotelStudyRoad() {
                           key="list-vertical-like-o"
                         />,
                         <div
-                          onClick={handleCommentClick}
+                          onClick={() => handleCommentClick(item?.id)}
                           className={
                             item?.share?.isDiscuss === 1
                               ? ''
@@ -106,12 +97,12 @@ export default function HotelStudyRoad() {
               </List.Item>
               <div
                 className={
-                  isCommentListVisible
+                  isCommentListVisible === item?.id
                     ? style.commentWrap
                     : style.commentWrapHide
                 }
               >
-                <ListComment />
+                <ListComment shareId={item?.id} />
               </div>
             </>
           )}
