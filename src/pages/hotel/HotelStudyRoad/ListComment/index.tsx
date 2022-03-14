@@ -1,7 +1,20 @@
-import { List, Comment, Tooltip, Input, Button, Avatar, Form } from 'antd'
+import {
+  List,
+  Comment,
+  Skeleton,
+  Input,
+  Button,
+  Avatar,
+  Form,
+  message,
+  Divider
+} from 'antd'
 const { TextArea } = Input
 import moment from 'moment'
 import { useEffect, useState } from 'react'
+import { getDiscuss, postDiscuss } from 'services/hotel'
+import InfiniteScroll from 'react-infinite-scroll-component'
+
 import style from './index.less'
 type IEditorModal = {
   submitting: boolean
@@ -47,30 +60,73 @@ const Editor = ({
   </>
 )
 
+const pageParams = {
+  number: 1,
+  size: 5,
+  totalSize: 0,
+  totalNumber: 1
+}
+
 export default function ListComment({ shareId }: IListModal) {
   const [comments, setComments] = useState<any[]>([])
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [isEditorShow, setIsEditorShow] = useState<boolean>(false)
   const [commentValue, setCommentValue] = useState<string>('')
+  const [userInfo, setUserInfo] = useState<any>()
+  const [dataLoading, setDataLoading] = useState(false)
+  const [page, setPage] = useState(pageParams)
+
+  const loadMoreData = () => {
+    console.log('123123')
+    if (dataLoading) {
+      return
+    }
+    setDataLoading(true)
+    page.number += 1
+    initData()
+  }
+
+  const initData = async () => {
+    try {
+      const res = await getDiscuss({
+        share: { id: shareId },
+        number: page.number,
+        size: page.size
+      })
+      if (res && res.code === 200) {
+        setComments([...comments, ...res.data.data])
+        page.totalSize = res.data.totalSize
+        page.totalNumber = res.data.totalNumber
+        setPage(page)
+        setDataLoading(false)
+      }
+    } catch (error) {
+      setDataLoading(false)
+    }
+  }
+
+  const sendComment = async (value: string) => {
+    try {
+      setSubmitting(true)
+      const res = await postDiscuss({
+        share: { id: shareId },
+        discuss: { detail: value }
+      })
+      if (res && res.code === 200) {
+        message.success('评论成功！')
+        setSubmitting(false)
+        setCommentValue('')
+        initData()
+      }
+    } catch (error) {}
+  }
 
   const handleSubmit = () => {
     if (!commentValue) {
+      message.warn('请输入评论啊！')
       return
     }
-    setSubmitting(true)
-    setTimeout(() => {
-      setSubmitting(false)
-      setCommentValue('')
-      setComments((comments) => [
-        ...comments,
-        {
-          author: 'Han Solo',
-          avatar: 'https://joeschmoe.io/api/v1/random',
-          content: <p>{commentValue}</p>,
-          datetime: moment().fromNow()
-        }
-      ])
-    }, 1000)
+    sendComment(commentValue)
   }
 
   const handleChange = (e: any) => {
@@ -81,16 +137,18 @@ export default function ListComment({ shareId }: IListModal) {
     setIsEditorShow(!isEditorShow)
   }
 
-  useEffect(()=> {
-  })
+  useEffect(() => {
+    if (localStorage.getItem('user') !== null) {
+      setUserInfo(JSON.parse(localStorage.getItem('user') as string))
+    }
+    initData()
+  }, [])
 
   return (
-    <>
+    <div id={style.scrollWrap}>
       {isEditorShow ? (
         <Comment
-          avatar={
-            <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
-          }
+          avatar={<Avatar src={userInfo?.img} alt={userInfo?.name} />}
           content={
             <Editor
               onChange={handleChange}
@@ -106,24 +164,34 @@ export default function ListComment({ shareId }: IListModal) {
           发表评论
         </Button>
       )}
-
-      <List
-        className="comment-list"
-        itemLayout="vertical"
-        dataSource={comments}
-        locale={{ emptyText: '暂无评论，快来评论吧！' }}
-        renderItem={(item) => (
-          <li>
-            <Comment
-              actions={item.actions}
-              author={item.author}
-              avatar={item.avatar}
-              content={item.content}
-              datetime={item.datetime}
-            />
-          </li>
-        )}
-      ></List>
-    </>
+      <InfiniteScroll
+        dataLength={comments.length}
+        next={loadMoreData}
+        hasMore={comments.length < page.totalSize}
+        loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+        endMessage={
+          <Divider plain>只有这么多了，地主家也没有余粮了 🤐</Divider>
+        }
+        scrollableTarget={style.scrollWrap}
+      >
+        <List
+          className="comment-list"
+          itemLayout="vertical"
+          dataSource={comments}
+          locale={{ emptyText: '暂无评论，快来评论吧！' }}
+          renderItem={(item) => (
+            <li>
+              <Comment
+                actions={item.actions}
+                author={item.user.name}
+                avatar={'https://joeschmoe.io/api/v1/random'}
+                content={item.discuss.detail}
+                datetime={item.discuss.createTime.replace('T', ' ')}
+              />
+            </li>
+          )}
+        ></List>
+      </InfiniteScroll>
+    </div>
   )
 }

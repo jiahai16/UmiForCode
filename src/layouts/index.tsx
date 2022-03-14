@@ -35,6 +35,7 @@ function LayoutPage({ children, dispatch }: IRouteProps) {
       const res = await queryUser()
       if (res?.code === 200) {
         loadUserInfo(res.data)
+        localStorage.setItem('user', JSON.stringify(res.data))
         setIsLogin(true)
       } else {
         removeItem()
@@ -102,7 +103,7 @@ function LayoutPage({ children, dispatch }: IRouteProps) {
   useEffect(() => {
     getUserInfo()
   }, [])
- 
+
   return (
     //<ConfigProvider locale={locale}>
     <Layout style={{ minHeight: '100vh' }}>

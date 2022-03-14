@@ -47,6 +47,7 @@ const errorHandler = (error: error) => {
       description: '去登录解锁更多姿势！',
     })
     localStorage.removeItem('login')
+    localStorage.removeItem('user')
     return
   }
   if (error.name === 'BizError') {

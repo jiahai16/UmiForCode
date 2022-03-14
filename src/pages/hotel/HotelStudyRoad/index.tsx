@@ -1,4 +1,4 @@
-import { List, Avatar, Space, Image, Skeleton } from 'antd'
+import { List, Avatar, Space, Image, Skeleton, message } from 'antd'
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons'
 import style from './index.less'
 import React, { useEffect, useState } from 'react'
@@ -11,15 +11,28 @@ export default function HotelStudyRoad() {
     number | null
   >(null)
   const [shareData, setShareData] = useState([])
+  const isLogin = localStorage.getItem('login') === 'true'
 
   const handleCommentClick = (id: number) => {
-    if (isCommentListVisible && isCommentListVisible !== id) {
-      setIsCommentListVisible(id)
-    } else if(isCommentListVisible === null){
-      setIsCommentListVisible(id)
+    if (isLogin) {
+      if (isCommentListVisible && isCommentListVisible !== id) {
+        setIsCommentListVisible(id)
+      } else if (isCommentListVisible === null) {
+        setIsCommentListVisible(id)
+      } else {
+        setIsCommentListVisible(null)
+      }
     }else{
-      setIsCommentListVisible(null)
+      message.info('请先登录再进行评论哦')
     }
+  }
+
+  const handleLikeClick = (id: number) => {
+    console.log(id)
+  }
+
+  const handleStarClick = (id: number) => {
+    console.log(id)
   }
 
   const initData = async () => {
@@ -37,14 +50,6 @@ export default function HotelStudyRoad() {
     return () => {}
   }, [])
 
-
-  const IconText = ({ icon, text }) => (
-    <Space>
-      {React.createElement(icon)}
-      {text}
-    </Space>
-  )
-
   return (
     <div>
       <Skeleton loading={loading} active avatar>
@@ -59,29 +64,37 @@ export default function HotelStudyRoad() {
                 actions={
                   !loading
                     ? [
-                        <IconText
-                          icon={StarOutlined}
-                          text="156"
-                          key="list-vertical-star-o"
-                        />,
-                        <IconText
-                          icon={LikeOutlined}
-                          text="156"
-                          key="list-vertical-like-o"
-                        />,
+                        <div
+                          onClick={() => handleStarClick(item?.id)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <Space>
+                            <StarOutlined />
+                            {0}
+                          </Space>
+                        </div>,
+                        <div
+                          onClick={() => handleLikeClick(item?.id)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <Space>
+                            <LikeOutlined />
+                            {0}
+                          </Space>
+                        </div>,
                         <div
                           onClick={() => handleCommentClick(item?.id)}
+                          style={{ cursor: 'pointer' }}
                           className={
                             item?.share?.isDiscuss === 1
                               ? ''
                               : style.commentBtnHide
                           }
                         >
-                          <IconText
-                            icon={MessageOutlined}
-                            text="2"
-                            key="list-vertical-message"
-                          />
+                          <Space>
+                            <MessageOutlined />
+                            {0}
+                          </Space>
                         </div>
                       ]
                     : undefined

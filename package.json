@@ -32,6 +32,7 @@
     "moment": "^2.29.1",
     "node-git-info": "^1.1.0",
     "react-countup": "^5.2.0",
+    "react-infinite-scroll-component": "^6.1.0",
     "umi": "^3.4.25"
   },
   "devDependencies": {
