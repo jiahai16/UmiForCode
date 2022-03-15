@@ -13,6 +13,11 @@ export default function About() {
         <Timeline.Item label="2022-02-06">登录页面开发</Timeline.Item>
         <Timeline.Item label="2022-02-15">沉迷APEX了</Timeline.Item>
         <Timeline.Item label="2022-02-23">个人数据页面开发</Timeline.Item>
+        <Timeline.Item label="2022-03-03">排行榜开发完成</Timeline.Item>
+        <Timeline.Item label="2022-03-07">任务计划创建编辑删除完成</Timeline.Item>
+        <Timeline.Item label="2022-03-11">学习路线页面功能完成</Timeline.Item>
+        <Timeline.Item label="2022-03-15">导图分享功能完成</Timeline.Item>
+        <Timeline.Item label="2022-03-xx">🥺</Timeline.Item>
       </Timeline>
     </div>
   )
