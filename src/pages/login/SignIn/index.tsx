@@ -29,7 +29,7 @@ function SignIn({ isForget }: SignIn) {
         user: user
       })
       if (res.code === 200) {
-        history.push('/overview')
+        history.go(-1)
       }
     } catch (error) {}
   }

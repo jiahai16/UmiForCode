@@ -7,7 +7,8 @@ import {
   Avatar,
   Form,
   message,
-  Divider
+  Divider,
+  Pagination
 } from 'antd'
 const { TextArea } = Input
 import moment from 'moment'
@@ -74,15 +75,17 @@ export default function ListComment({ shareId }: IListModal) {
   const [commentValue, setCommentValue] = useState<string>('')
   const [userInfo, setUserInfo] = useState<any>()
   const [dataLoading, setDataLoading] = useState(false)
-  const [page, setPage] = useState(pageParams)
+  const [page, setPage] = useState({ ...pageParams })
+
+  const isLogin = localStorage.getItem('login') === 'true'
 
   const loadMoreData = () => {
-    console.log('123123')
     if (dataLoading) {
       return
     }
     setDataLoading(true)
     page.number += 1
+    setPage(page)
     initData()
   }
 
@@ -116,7 +119,6 @@ export default function ListComment({ shareId }: IListModal) {
         message.success('评论成功！')
         setSubmitting(false)
         setCommentValue('')
-        initData()
       }
     } catch (error) {}
   }
@@ -134,7 +136,17 @@ export default function ListComment({ shareId }: IListModal) {
   }
 
   const handleOpenEditor = () => {
-    setIsEditorShow(!isEditorShow)
+    if (isLogin) {
+      setIsEditorShow(!isEditorShow)
+    } else {
+      message.info('请先登录再进行评论哦')
+    }
+  }
+
+  const handleLoadMore = () => {
+    page.number += 1
+    setPage(page)
+    initData()
   }
 
   useEffect(() => {
@@ -164,34 +176,30 @@ export default function ListComment({ shareId }: IListModal) {
           发表评论
         </Button>
       )}
-      <InfiniteScroll
-        dataLength={comments.length}
-        next={loadMoreData}
-        hasMore={comments.length < page.totalSize}
-        loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-        endMessage={
-          <Divider plain>只有这么多了，地主家也没有余粮了 🤐</Divider>
-        }
-        scrollableTarget={style.scrollWrap}
-      >
-        <List
-          className="comment-list"
-          itemLayout="vertical"
-          dataSource={comments}
-          locale={{ emptyText: '暂无评论，快来评论吧！' }}
-          renderItem={(item) => (
-            <li>
-              <Comment
-                actions={item.actions}
-                author={item.user.name}
-                avatar={'https://joeschmoe.io/api/v1/random'}
-                content={item.discuss.detail}
-                datetime={item.discuss.createTime.replace('T', ' ')}
-              />
-            </li>
-          )}
-        ></List>
-      </InfiniteScroll>
+      <List
+        className="comment-list"
+        itemLayout="vertical"
+        dataSource={comments}
+        locale={{ emptyText: '暂无评论，快来评论吧！' }}
+        renderItem={(item) => (
+          <li>
+            <Comment
+              actions={item?.actions}
+              author={item?.user?.name}
+              avatar={'https://joeschmoe.io/api/v1/random'}
+              content={item?.discuss?.detail}
+              datetime={item?.discuss?.createTime.replace('T', ' ')}
+            />
+          </li>
+        )}
+      ></List>
+      {comments.length < page?.totalSize ? (
+        <Button onClick={handleLoadMore} type="link">
+          加载更多
+        </Button>
+      ) : (
+        <Divider plain>只有这么多了，地主家也没有余粮了 🤐</Divider>
+      )}
     </div>
   )
 }

@@ -11,10 +11,8 @@ export default function HotelStudyRoad() {
     number | null
   >(null)
   const [shareData, setShareData] = useState([])
-  const isLogin = localStorage.getItem('login') === 'true'
 
   const handleCommentClick = (id: number) => {
-    if (isLogin) {
       if (isCommentListVisible && isCommentListVisible !== id) {
         setIsCommentListVisible(id)
       } else if (isCommentListVisible === null) {
@@ -22,13 +20,10 @@ export default function HotelStudyRoad() {
       } else {
         setIsCommentListVisible(null)
       }
-    }else{
-      message.info('请先登录再进行评论哦')
-    }
+    
   }
 
   const handleLikeClick = (id: number) => {
-    console.log(id)
   }
 
   const handleStarClick = (id: number) => {
