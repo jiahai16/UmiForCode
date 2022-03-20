@@ -61,6 +61,7 @@ export default {
   'overview.编辑资料': '编辑资料',
   'overview.编辑资料.编辑头像': '编辑头像',
   'overview.编辑资料.用户名': '用户名',
+  'overview.编辑资料.个性签名': '个性签名',
   'overview.编辑资料.用户名.校验': '名字忘了吗？',
 
   'overview.编辑资料.旧密码': '旧密码',

@@ -62,6 +62,7 @@ export default {
   'overview.标签': 'Tags',
   'overview.编辑资料': 'Edit',
   'overview.编辑资料.编辑头像': 'Avatar',
+  'overview.编辑资料.个性签名': 'Signature',
   'overview.编辑资料.用户名': 'Username',
 
   'overview.编辑资料.用户名.校验': 'Have you forgotten the name?',
