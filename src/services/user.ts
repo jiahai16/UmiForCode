@@ -21,6 +21,15 @@ type checkBody = {
   }
 }
 
+type changeBody = {
+  reqType: string
+  oldPassword?: string
+  newPassword?: string
+  newName?: string
+  newEmail?: string
+  code?: string
+}
+
 export const queryUser = () => {
   return request('/core-api/user/query', { method: 'get' })
 }
@@ -47,3 +56,9 @@ export const checkRepeatStatus = (data: checkBody) => {
   return request('/core-api/user/check-param', { method: 'post', data })
 }
 
+export const uploadAva = (data) => {
+  return request('/core-api/user/uploadImg', { method: 'post', data })
+}
+export const changeInfo = (data: changeBody) => {
+  return request('/core-api/user/change', { method: 'post', data })
+}
