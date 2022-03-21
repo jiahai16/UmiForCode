@@ -30,6 +30,7 @@ export default {
   'login.注册.子标题': 'No account yet! Sign up now',
   'login.注册.按钮': 'Register Now',
   'login.注册.邮箱': 'Email',
+  'login.注册.新邮箱': 'New Email',
   'login.注册.邮箱.校验': "Can't hand in blank paper? ",
   'login.注册.邮箱.校验.长度': "It's too long baby",
   'login.注册.邮箱.校验.格式': 'This is not a fucking Email ',
