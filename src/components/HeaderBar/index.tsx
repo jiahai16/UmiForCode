@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Popover, Input, message } from 'antd'
+import { Avatar, Popover, Input, message, Image } from 'antd'
 import { connect, history, useIntl } from 'umi'
 import { UserOutlined } from '@ant-design/icons'
 const { Search } = Input
@@ -12,41 +12,10 @@ const HeaderBar: React.FC = ({ user }) => {
   const onSearch = (value: string) => console.log(value)
   const { formatMessage } = useIntl()
   const [isLogin, setIsLogin, { removeItem, isPersistent }] =
-  useLocalStorageState('login', {
-    defaultValue: false
-  })
+    useLocalStorageState('login', {
+      defaultValue: false
+    })
 
-  const avaMap = new Map([
-    ['default', <UserOutlined />],
-    [
-      'man1',
-      <img
-        src={require('@/assets/experimental-mans-head-1.png')}
-        className={style.avaImg}
-      />
-    ],
-    [
-      'woman1',
-      <img
-        src={require('@/assets/experimental-womans-head-1.png')}
-        className={style.avaImg}
-      />
-    ],
-    [
-      'woman2',
-      <img
-        src={require('@/assets/experimental-womans-head-2.png')}
-        className={style.avaImg}
-      />
-    ],
-    [
-      'woman3',
-      <img
-        src={require('@/assets/experimental-womans-head-3.png')}
-        className={style.avaImg}
-      />
-    ]
-  ])
   const handleLoginClick = () => {
     history.push('/login')
   }
@@ -92,7 +61,17 @@ const HeaderBar: React.FC = ({ user }) => {
           <Avatar
             className={style.avatar}
             shape="square"
-            icon={isLogin ? avaMap.get(user?.user.img) : <UserOutlined />}
+            icon={
+              isLogin ? (
+                <Image
+                  src={user?.user.img}
+                  fallback={require('@/assets/fallimg.png')}
+                  preview={false}
+                />
+              ) : (
+                <UserOutlined />
+              )
+            }
           />
         </Popover>
       </div>

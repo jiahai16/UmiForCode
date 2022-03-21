@@ -5,6 +5,7 @@ import TagItem from './TagItem'
 import style from './index.less'
 import { useState } from 'react'
 import { useIntl } from 'umi'
+import AvaImg from './AvaImg'
 type IModal = {
   visible: boolean
   onHandleOk: () => void
@@ -100,63 +101,27 @@ export default function UserUpdataModal({
         form={form}
         {...formItemLayout}
       >
-        <Form.Item name="avatar" label={formatMessage({ id: 'overview.编辑资料.编辑头像' })}>
-          <>
-            <Avatar size={128} shape="square" icon={avaMap.get(avaImgData)} />
-            <div className={style.avaList}>
-              <Avatar
-                size={64}
-                shape="square"
-                icon={avaMap.get('man1')}
-                style={{ background: '#81ecec' }}
-              />
-              <Avatar
-                size={64}
-                shape="square"
-                icon={avaMap.get('woman1')}
-                style={{ marginLeft: 14, background: '#74b9ff' }}
-              />
-              <Avatar
-                size={64}
-                shape="square"
-                icon={avaMap.get('woman2')}
-                style={{ marginLeft: 14, background: '#ff7675' }}
-              />
-              <Avatar
-                size={64}
-                shape="square"
-                icon={avaMap.get('woman3')}
-                style={{ marginLeft: 14, background: '#fd79a8' }}
-              />
-            </div>
-          </>
+        <Form.Item label={formatMessage({ id: 'overview.编辑资料.编辑头像' })}>
+          <AvaImg />
         </Form.Item>
         <Form.Item
           name="username"
-          label={formatMessage({ id: 'overview.编辑资料.用户名' })}
-          rules={[{ required: true, message: `${formatMessage({ id: 'overview.编辑资料.用户名.校验' })}` }]}
+          label={formatMessage({ id: 'overview.编辑资料.个性签名' })}
         >
-          <Input placeholder={formatMessage({ id: 'input.请输入' })} maxLength={8} showCount />
-        </Form.Item>
-
-        <Form.Item
-          name="oldPassword"
-          label={formatMessage({ id: 'overview.编辑资料.旧密码' })}
-          rules={[{ required: true, message: `${formatMessage({ id: 'overview.编辑资料.旧密码.校验' })}` }]}
-        >
-          <Input.Password placeholder={formatMessage({ id: 'input.请输入' })} maxLength={16} />
+          <Input
+            placeholder={formatMessage({ id: 'input.请输入' })}
+            maxLength={8}
+            showCount
+          />
         </Form.Item>
         <Form.Item
-          name="newPassword"
-          label={formatMessage({ id: 'overview.编辑资料.新密码' })}
-          rules={[
-            { required: true, message: `${formatMessage({ id: 'overview.编辑资料.新密码.校验' })}` }
-          ]}
+          label={formatMessage({ id: 'overview.编辑资料.添加标签' })}
+          name="tags"
         >
-          <Input.Password placeholder={formatMessage({ id: 'input.请输入' })} maxLength={16} />
-        </Form.Item>
-        <Form.Item label={formatMessage({ id: 'overview.编辑资料.添加标签' })} name="tags">
           <TagItem setTagToForm={form.setFieldsValue} />
+        </Form.Item>
+        <Form.Item label="个人设置">
+          <Button type="link">更改用户名，密码，邮箱等..</Button>
         </Form.Item>
       </Form>
     </Modal>

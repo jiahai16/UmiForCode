@@ -122,7 +122,6 @@ export default function GraphBar() {
     const data = addItem(target)
     graph.addChild(data, currentId)
     updataTreeData(graph.findDataById('1'))
-    console.log(treeData)
     graph.paint()
     graph.fitView()
   }

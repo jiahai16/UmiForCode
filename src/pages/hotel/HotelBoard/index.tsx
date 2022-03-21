@@ -18,7 +18,6 @@ const HotelBoard: React.FC<any> = () => {
     try {
       const res = await getRankList()
       if (res.code === 200) {
-        console.log(res.data)
         setAllData(res.data.OVER_ALL_RANK)
         setMonthlData(res.data.MONTH_RANK)
         setWeekData(res.data.WEEK_RANK)

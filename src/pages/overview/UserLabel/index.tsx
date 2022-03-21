@@ -1,6 +1,5 @@
 import { ReactNode, useState } from 'react'
-import { Avatar, Tag, Input, Tooltip, Button } from 'antd'
-import { UserOutlined, PlusOutlined } from '@ant-design/icons'
+import { Avatar, Tag, Input, Image, Button } from 'antd'
 import style from './index.less'
 import UserUpdataModal from 'overview/UserUpdataModal'
 import { connect, useIntl } from 'umi'
@@ -16,37 +15,6 @@ const tagColor = [
   'geekblue',
   'purple'
 ]
-const avaMap = new Map([
-  ['default', <UserOutlined />],
-  [
-    'man1',
-    <img
-      src={require('@/assets/experimental-mans-head-1.png')}
-      className={style.avaImg}
-    />
-  ],
-  [
-    'woman1',
-    <img
-      src={require('@/assets/experimental-womans-head-1.png')}
-      className={style.avaImg}
-    />
-  ],
-  [
-    'woman2',
-    <img
-      src={require('@/assets/experimental-womans-head-2.png')}
-      className={style.avaImg}
-    />
-  ],
-  [
-    'woman3',
-    <img
-      src={require('@/assets/experimental-womans-head-3.png')}
-      className={style.avaImg}
-    />
-  ]
-])
 
 function UserLable({ user }) {
   const [isUpdataModalVisible, setIsUpdataModalVisible] =
@@ -76,7 +44,17 @@ function UserLable({ user }) {
   return (
     <div className={style.userlable}>
       <div className={style.userlableLeft}>
-        <Avatar size={128} shape="square" icon={avaMap.get(user?.user.img)} />
+        <Avatar
+          size={128}
+          shape="square"
+          icon={
+            <Image
+              src={user?.user.img}
+              fallback={require('@/assets/fallimg.png')}
+              preview={false}
+            />
+          }
+        />
         <div className={style.userDetail}>
           <h3>{user?.user.name}</h3>
           <p>{formatMessage({ id: 'overview.等级' })} : 301</p>
