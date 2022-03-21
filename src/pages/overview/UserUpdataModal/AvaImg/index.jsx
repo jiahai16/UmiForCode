@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Avatar, Upload } from 'antd'
+import { Avatar, Upload, message } from 'antd'
 import { UserOutlined, PlusOutlined } from '@ant-design/icons'
 import style from './index.less'
 
@@ -18,32 +18,47 @@ const AvaImg = () => {
     }
   ])
 
-  const onChange = ({ fileList: newFileList }) => {
-    setFileList(newFileList)
-  }
-
   const handleAvaChange = (avaKey) => {
     setAvaImgData(avaKey)
   }
 
+  const uploadProps = {
+    beforeUpload: (file) => {
+      const next = ['png', 'jpg', 'jpeg', 'svg'].some((item) =>
+        file.type.includes(item)
+      )
+      if (!next) {
+        message.error(`${file.name} 不是图片类型`)
+      }
+      return next ? true : Upload.LIST_IGNORE
+    },
+    onChange: (info) => {
+      setFileList(info.fileList)
+      if (info.fileList.length !== 0) {
+        if (info?.file?.response?.code === 200) {
+          message.success('图片上传成功')
+        } else if (info?.file?.response && info?.file?.response?.code !== 200) {
+          message.error(info?.file?.response?.resultMsg)
+        }
+      }
+    },
+    action: '/core-api/user/uploadImg'
+  }
   return (
     <div>
       <ImgCrop rotate>
-        <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          listType="picture-card"
-          fileList={fileList}
-          onChange={onChange}
-        >
+        <Upload listType="picture-card" fileList={fileList} {...uploadProps}>
           {fileList.length < 1 && '+ Upload'}
         </Upload>
       </ImgCrop>
       <div className={style.avaList}>
         <div className={style.avaImg} style={{ background: '#81ecec' }}>
           <img
-            src='http://101.43.25.47/user/img/default/001.JPG'
+            src="http://101.43.25.47/user/img/default/001.JPG"
             className={style.avaUrl}
-            onClick={() => handleAvaChange('man1')}
+            onClick={() =>
+              handleAvaChange('http://101.43.25.47/user/img/default/001.JPG')
+            }
           />
         </div>
         <div
@@ -51,9 +66,11 @@ const AvaImg = () => {
           style={{ marginLeft: 14, background: '#74b9ff' }}
         >
           <img
-            src='http://101.43.25.47/user/img/default/002.JPG'
+            src="http://101.43.25.47/user/img/default/002.JPG"
             className={style.avaUrl}
-            onClick={() => handleAvaChange('woman1')}
+            onClick={() =>
+              handleAvaChange('http://101.43.25.47/user/img/default/002.JPG')
+            }
           />
         </div>
         <div
@@ -61,9 +78,11 @@ const AvaImg = () => {
           style={{ marginLeft: 14, background: '#ff7675' }}
         >
           <img
-            src='http://101.43.25.47/user/img/default/003.JPG'
+            src="http://101.43.25.47/user/img/default/003.JPG"
             className={style.avaUrl}
-            onClick={() => handleAvaChange('woman2')}
+            onClick={() =>
+              handleAvaChange('http://101.43.25.47/user/img/default/003.JPG')
+            }
           />
         </div>
         <div
@@ -71,9 +90,11 @@ const AvaImg = () => {
           style={{ marginLeft: 14, background: '#74b9ff' }}
         >
           <img
-            src='http://101.43.25.47/user/img/default/004.JPG'
+            src="http://101.43.25.47/user/img/default/004.JPG"
             className={style.avaUrl}
-            onClick={() => handleAvaChange('woman3')}
+            onClick={() =>
+              handleAvaChange('http://101.43.25.47/user/img/default/004.JPG')
+            }
           />
         </div>
       </div>
