@@ -1,10 +1,10 @@
-import { Modal, Button, Form, Input, Avatar, Tag } from 'antd'
-import { UserOutlined, PlusOutlined } from '@ant-design/icons'
-
+import { Modal, Button, Form, Input, Avatar, Tag, message } from 'antd'
+import { FrownTwoTone, SmileTwoTone, MehTwoTone } from '@ant-design/icons'
 import style from './index.less'
 import { useState } from 'react'
 import { useIntl } from 'umi'
 import Title from 'antd/lib/skeleton/Title'
+import { checkRepeatStatus, sendEmailFunc } from 'services/user'
 type IModal = {
   visible: boolean
   onHandleOk: () => void
@@ -20,6 +20,65 @@ export default function UserUpdataModal({
   const [form] = Form.useForm()
   const [avaImgData, setAvaImgData] = useState<string>('default')
   const { formatMessage } = useIntl()
+  const [confirmLoading, setConfirmLoading] = useState<boolean>(false)
+  const [checkBtnText, setCheckBtnText] = useState<string>(
+    `${formatMessage({ id: 'login.找回密码.邮箱验证按钮' })}`
+  )
+  const [checkNameStatus, setCheckNameStatus] = useState<string>('default')
+  const [checkEmailStatus, setCheckEmailStatus] = useState<string>('default')
+
+  const checkStatusMap = new Map([
+    ['default', <MehTwoTone />],
+    ['true', <SmileTwoTone twoToneColor="green" />],
+    ['false', <FrownTwoTone twoToneColor="red" />]
+  ])
+
+  const handleSendEmail = () => {
+    form.validateFields(['email']).then(() => {
+      if (form.getFieldsValue().email) {
+        sendEmail()
+        let a = 60
+        setConfirmLoading(true)
+        const timer = setInterval(() => {
+          setCheckBtnText(`${a}s`)
+          a -= 1
+        }, 1000)
+        setTimeout(() => {
+          clearInterval(timer)
+          setCheckBtnText(`${formatMessage({ id: 'login.注册.邮箱验证按钮' })}`)
+          setConfirmLoading(false)
+        }, 60000)
+      } else message.warn('请输入邮箱')
+    })
+  }
+
+  const handleCheck = (value: any) => {
+    form.validateFields(['email']).then(() => {
+      checkEmailRepeat(value)
+    })
+  }
+
+  const checkEmailRepeat = async (value: any) => {
+    try {
+      const res = await checkRepeatStatus({
+        user: { email: value.target.value }
+      })
+      if (res.code === 200 && res.data === true) {
+        setCheckEmailStatus('true')
+      } else {
+        message.warning('该邮箱已被注册去登录吧！')
+        setCheckEmailStatus('false')
+      }
+    } catch (error) {}
+  }
+
+  const sendEmail = async () => {
+    const email = form.getFieldsValue().email
+    try {
+      const { code } = await sendEmailFunc({ email: email })
+      if (code === 200) message.success('发送成功，去查看邮箱吧！')
+    } catch (error) {}
+  }
 
   const formItemLayout = {
     labelCol: {
@@ -121,6 +180,62 @@ export default function UserUpdataModal({
               placeholder={formatMessage({ id: 'input.请输入' })}
               maxLength={16}
             />
+          </Form.Item>
+        </Form>
+      )}
+      {title === '更改邮箱' && (
+        <Form
+          name="basic"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          form={form}
+          {...formItemLayout}
+        >
+          <Form.Item
+            name="email"
+            label={formatMessage({ id: 'login.注册.新邮箱' })}
+            rules={[
+              {
+                required: true,
+                message: `${formatMessage({ id: 'login.注册.邮箱.校验' })}`
+              },
+              {
+                pattern:
+                  /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
+                message: `${formatMessage({ id: 'login.注册.邮箱.校验.格式' })}`
+              },
+
+              {
+                max: 50,
+                message: `${formatMessage({ id: 'login.注册.邮箱.校验.长度' })}`
+              }
+            ]}
+          >
+            <Input
+              placeholder={formatMessage({ id: 'input.请输入' })}
+              onBlur={handleCheck}
+              prefix={
+                checkStatusMap.has(checkEmailStatus)
+                  ? checkStatusMap.get(checkEmailStatus)
+                  : ''
+              }
+            />
+          </Form.Item>
+          <Form.Item
+            name="emailCheckCode"
+            label={formatMessage({ id: 'login.找回密码.邮箱验证' })}
+            rules={[{ required: true, message: '交白卷可不行！！!' }]}
+          >
+            <div className={style.emailWrap}>
+              <Input placeholder={formatMessage({ id: 'input.请输入' })} />
+              <Button
+                type="primary"
+                onClick={handleSendEmail}
+                loading={confirmLoading}
+              >
+                {checkBtnText}
+              </Button>
+            </div>
           </Form.Item>
         </Form>
       )}
