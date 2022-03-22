@@ -42,7 +42,8 @@ const AvaImg = () => {
         }
       }
     },
-    action: '/core-api/user/uploadImg'
+    action: '/core-api/user/uploadImg',
+    name: 'img'
   }
   return (
     <div>
@@ -51,7 +52,7 @@ const AvaImg = () => {
           {fileList.length < 1 && '+ Upload'}
         </Upload>
       </ImgCrop>
-      <div className={style.avaList}>
+      <div className={style.avaList} style={{ display: 'none'}}>
         <div className={style.avaImg} style={{ background: '#81ecec' }}>
           <img
             src="http://101.43.25.47/user/img/default/001.JPG"

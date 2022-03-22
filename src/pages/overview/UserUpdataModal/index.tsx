@@ -1,11 +1,12 @@
-import { Modal, Button, Form, Input, Avatar, Tag } from 'antd'
+import { Modal, Button, Form, Input, Avatar, Tag, message } from 'antd'
 import { UserOutlined, PlusOutlined } from '@ant-design/icons'
 import TagItem from './TagItem'
 
 import style from './index.less'
-import { useState } from 'react'
-import { useIntl } from 'umi'
+import { useEffect, useState } from 'react'
+import { useIntl, history } from 'umi'
 import AvaImg from './AvaImg'
+import { userUpdate } from 'services/user'
 type IModal = {
   visible: boolean
   onHandleOk: () => void
@@ -17,44 +18,7 @@ export default function UserUpdataModal({
   onHandleCancel
 }: IModal) {
   const [form] = Form.useForm()
-  const [avaImgData, setAvaImgData] = useState<string>('default')
   const { formatMessage } = useIntl()
-
-  const avaMap = new Map([
-    ['default', <UserOutlined />],
-    [
-      'man1',
-      <img
-        src={require('@/assets/experimental-mans-head-1.png')}
-        className={style.avaImg}
-        onClick={() => handleAvaChange('man1')}
-      />
-    ],
-    [
-      'woman1',
-      <img
-        src={require('@/assets/experimental-womans-head-1.png')}
-        className={style.avaImg}
-        onClick={() => handleAvaChange('woman1')}
-      />
-    ],
-    [
-      'woman2',
-      <img
-        src={require('@/assets/experimental-womans-head-2.png')}
-        className={style.avaImg}
-        onClick={() => handleAvaChange('woman2')}
-      />
-    ],
-    [
-      'woman3',
-      <img
-        src={require('@/assets/experimental-womans-head-3.png')}
-        className={style.avaImg}
-        onClick={() => handleAvaChange('woman3')}
-      />
-    ]
-  ])
 
   const formItemLayout = {
     labelCol: {
@@ -67,28 +31,46 @@ export default function UserUpdataModal({
     }
   }
 
-  const handleAvaChange = (avaKey: string) => {
-    setAvaImgData(avaKey)
-    form.setFieldsValue({
-      avatar: avaKey
-    })
-  }
-
   const handleCancel = () => {
     onHandleCancel && onHandleCancel()
   }
 
+  const userUpdateFn = async () => {
+    try {
+      const res = await userUpdate({
+        tag: form.getFieldValue('tags'),
+        user: { sign: form.getFieldValue('sign') }
+      })
+      if (res.code === 200) {
+        message.success('更新成功！')
+        onHandleOk()
+      } else {
+        message.error('更新失败！')
+      }
+    } catch (error) {}
+  }
+
   const onFinish = () => {
-    form.setFieldsValue({})
-    console.log('Success:', form.getFieldsValue())
+    // form.setFieldsValue({})
+    userUpdateFn()
+    //console.log('Success:', form.getFieldsValue())
   }
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo)
   }
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user') as string)
+    form.setFieldsValue({
+      ...user,
+      tags: user.tag
+    })
+  }, [])
+
   return (
     <Modal
+      forceRender
       title={formatMessage({ id: 'overview.编辑资料' })}
       visible={visible}
       onOk={onFinish}
@@ -105,7 +87,7 @@ export default function UserUpdataModal({
           <AvaImg />
         </Form.Item>
         <Form.Item
-          name="username"
+          name="sign"
           label={formatMessage({ id: 'overview.编辑资料.个性签名' })}
         >
           <Input
@@ -121,7 +103,14 @@ export default function UserUpdataModal({
           <TagItem setTagToForm={form.setFieldsValue} />
         </Form.Item>
         <Form.Item label="个人设置">
-          <Button type="link">更改用户名，密码，邮箱等..</Button>
+          <Button
+            type="link"
+            onClick={() => {
+              history.push('/setting/personal-settings')
+            }}
+          >
+            更改用户名，密码，邮箱等..
+          </Button>
         </Form.Item>
       </Form>
     </Modal>

@@ -7,22 +7,43 @@ import {
   LikeOutlined
 } from '@ant-design/icons'
 import { useIntl } from 'umi'
+import { useEffect, useState } from 'react'
 
+type user = {
+  email?: string
+  img?: string
+  name?: string
+  password?: string
+  sign?: string
+  tag?: string[]
+  userId?: number
+  loginNumber?: number
+  planNumber?: number
+  shareNumber?: number
+}
 export default function UserPerformanceData() {
   const { formatMessage } = useIntl()
-
+  const [user, setUser] = useState<user>({
+    loginNumber: 0,
+    planNumber: 0,
+    shareNumber: 0
+  })
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user') as string)
+    setUser(user)
+  }, [])
   const data = [
     {
       name: `${formatMessage({ id: 'overview.表现总结.任务' })}`,
-      star: 10371
+      star: user.planNumber ? user.planNumber : 0
     },
     {
       name: `${formatMessage({ id: 'overview.表现总结.分享' })}`,
-      star: 7380
+      star: user.shareNumber ? user.shareNumber : 0
     },
     {
       name: `${formatMessage({ id: 'overview.表现总结.登录' })}`,
-      star: 17414
+      star: user.loginNumber ? user.loginNumber : 0
     }
   ]
   const config = {
@@ -35,7 +56,7 @@ export default function UserPerformanceData() {
         alias: 'star 数量',
         min: 0,
         nice: true,
-        formatter: (v) => Number(v).toFixed(2)
+        formatter: (v: any) => Number(v).toFixed(2)
       }
     },
     xAxis: {

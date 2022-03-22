@@ -30,6 +30,13 @@ type changeBody = {
   code?: string
 }
 
+type userUpdataBody = {
+  tag: string[]
+  user: {
+    sign: string
+  }
+}
+
 export const queryUser = () => {
   return request('/core-api/user/query', { method: 'get' })
 }
@@ -56,9 +63,14 @@ export const checkRepeatStatus = (data: checkBody) => {
   return request('/core-api/user/check-param', { method: 'post', data })
 }
 
-export const uploadAva = (data) => {
+export const uploadAva = (data: any) => {
   return request('/core-api/user/uploadImg', { method: 'post', data })
 }
+
+export const userUpdate = (data: userUpdataBody) => {
+  return request('/core-api/user/update', { method: 'post', data })
+}
+
 export const changeInfo = (data: changeBody) => {
   return request('/core-api/user/change', { method: 'post', data })
 }
