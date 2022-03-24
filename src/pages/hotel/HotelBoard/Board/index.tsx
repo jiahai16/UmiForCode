@@ -15,7 +15,7 @@ const Board: React.FC<any> = ({ data }) => {
                 <Avatar
                   icon={
                     <Image
-                      src={item?.name}
+                      src={item?.img}
                       fallback={require('@/assets/fallimg.png')}
                       preview={false}
                     />
