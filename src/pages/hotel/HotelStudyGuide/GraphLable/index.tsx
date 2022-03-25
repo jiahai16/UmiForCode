@@ -45,7 +45,7 @@ function GraphLable() {
   const [editFlag, setEditFlag] = useState(false)
   const [editValue, setEditValue] = useState('')
   const [currentType, setCurrentType] = useState(null)
-  const [currentId, setCurrentId] = useState(null)
+  const [currentId, setCurrentId] = useState<any>(null)
   const [edit, setEdit] = useState<boolean>(false)
   const [defaultFontSize, setDefaultFontSize] = useState<number>(14)
   const [fontSize, setFontSize] = useState<number>(14)
@@ -56,7 +56,7 @@ function GraphLable() {
 
   const [uploadImg, setUploadImg] = useState<string>('')
   const handleClickUpload = (): void => {
-    const dataURL = graph.toDataURL('image/png','#fff');
+    const dataURL = graph.toDataURL('image/png', '#fff')
     setUploadImg(dataURL)
     setIsUploadModalVisible(true)
   }
@@ -208,6 +208,10 @@ function GraphLable() {
     setEditFlag(!editFlag)
   }
 
+  const setCurrentIdFc = (value: any) => {
+    setCurrentId(() => value)
+  }
+
   const textChange = (event) => {
     // 设置改变的文本内容
     const val = event.target.value
@@ -215,6 +219,8 @@ function GraphLable() {
   }
 
   const setGraphObj = () => {
+    let curId: any = null
+
     const graph = new G6.TreeGraph({
       container: 'container',
       width: 1300,
@@ -239,7 +245,11 @@ function GraphLable() {
       },
       defaultNode: {
         type: 'rect',
-        size: [80, 30]
+        size: [80, 30],
+        style: {
+          opacity: 0.8,
+          cursor: 'pointer'
+        }
       },
       defaultEdge: {
         type: 'cubic-horizontal',
@@ -262,7 +272,14 @@ function GraphLable() {
           lineWidth: 1,
           shadowBlur: 5,
           fill: '#F5F5F7',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          opacity: 1
+        },
+        hover: {
+          opacity: 1
+        },
+        animation: {
+          type: 'circle-running'
         }
       },
       // 布局
@@ -286,7 +303,6 @@ function GraphLable() {
         }
       }
     })
-
     graph.on('node:click', (evt) => {
       const { item } = evt
       const model = item!.getModel()
@@ -294,20 +310,22 @@ function GraphLable() {
       if (mode === 'edit') {
         // 编辑模式 显示红框
         // 清除其他节点的选中状态
-        if (currentId && currentId !== model.id) {
-          const oldItem = graph.findById(currentId)
+        if (curId && curId !== model.id) {
+          const oldItem = graph.findById(curId)
           oldItem && graph.clearItemStates(oldItem, ['selected'])
         }
         const { states } = item._cfg
         if (states.includes('selected')) {
           graph.setItemState(item, 'selected', false)
           graph.setItemState(item, 'unselected', true)
-          setCurrentId(null)
+          setCurrentIdFc(null)
+          curId = null
           setCurrentType(null)
         } else {
           graph.setItemState(item, 'selected', true)
           graph.setItemState(item, 'unselected', false)
-          setCurrentId(model.id)
+          setCurrentIdFc(model.id)
+          curId = model.id
           setCurrentType('node')
         }
       }
@@ -322,7 +340,7 @@ function GraphLable() {
       if (mode === 'edit') {
         // 显示input编辑框  设置目标节点id 类型 初始化input样式
         textShow()
-        setCurrentId(model.id)
+        setCurrentIdFc(model.id)
         setCurrentType('node')
         initEdit(model, 'node', realPosition)
         saveLocal()
@@ -430,34 +448,23 @@ function GraphLable() {
     }
   }, [editFlag, currentId, editValue])
 
-  // document.onkeydown = (e) => {
-  //   // 键盘按下操作
-  //   e.preventDefault()
-  //   const { keyCode } = e
-  //   if (keyCode === 9 && currentId) {
-  //     // tab键 添加子节点
-  //     addChildItem()
-  //   }
-  //   if (keyCode === 13 && currentId) {
-  //     // 回车时 找到目标节点 显示文本编辑框
-  //     const model = graph.findDataById(currentId)
-  //     textShow()
-  //     setCurrentId(model.id)
-  //     setCurrentType('node')
-  //     initEdit(model, 'node')
-  //   }
-
-  //   if (keyCode === 8 && currentId) {
-  //     // 按下Backspace按钮时删除节点
-  //     if (currentId === '1') {
-  //       message.warning('根节点不能删除～')
-  //       return
-  //     }
-  //     graph.removeChild(currentId)
-  //     graph.paint()
-  //     setTreeData(graph.findDataById('1'))
-  //   }
-  // }
+  document.onkeydown = (e) => {
+    // 键盘按下操作
+    e.preventDefault()
+    const { keyCode } = e
+    if (keyCode === 9 && currentId) {
+      // tab键 添加子节点
+      addChildItem()
+    }
+    if (keyCode === 13 && currentId) {
+      // 回车时 找到目标节点 显示文本编辑框
+      const model = graph.findDataById(currentId)
+      textShow()
+      setCurrentId(model.id)
+      setCurrentType('node')
+      initEdit(model, 'node', )
+    }
+  }
 
   return (
     <div>
