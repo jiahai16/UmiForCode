@@ -2,11 +2,13 @@ import { Button, notification } from 'antd'
 import { ReactNode, useState } from 'react'
 import { useEffect } from 'react'
 
-const openNotification = (
+const key = `open${Date.now()}`
+
+export const openNotification = (
   okCallBackFC: () => void,
-  closeCallBackFC: () => void
+  closeCallBackFC: () => void,
+  closeNow?: boolean
 ) => {
-  const key = `open${Date.now()}`
   const btn = (
     <Button
       type="primary"
@@ -32,4 +34,7 @@ const openNotification = (
   })
 }
 
-export default openNotification
+export const closeNotification = () => {
+  notification.close(key)
+}
+

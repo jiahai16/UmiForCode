@@ -10,7 +10,7 @@ import {
   CloudUploadOutlined
 } from '@ant-design/icons'
 import style from './index.less'
-import openNotification from '@/components/Notification'
+import { closeNotification, openNotification } from '@/components/Notification'
 import { useIntl } from 'umi'
 import GraphUpload from '../GraphUpload'
 
@@ -419,6 +419,9 @@ function GraphLable() {
   useEffect(() => {
     setGraphObj() // 初始化画布
     isHasLoaclData() //检查是否有本地缓存数据
+    return () => {
+      closeNotification()
+    }
   }, [])
 
   useEffect(() => {
@@ -462,7 +465,7 @@ function GraphLable() {
       textShow()
       setCurrentId(model.id)
       setCurrentType('node')
-      initEdit(model, 'node', )
+      initEdit(model, 'node')
     }
   }
 
