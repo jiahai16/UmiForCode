@@ -18,6 +18,8 @@ export default function About() {
         <Timeline.Item label="2022-03-11">学习路线页面功能完成</Timeline.Item>
         <Timeline.Item label="2022-03-15">导图分享功能完成</Timeline.Item>
         <Timeline.Item label="2022-03-xx">🥺</Timeline.Item>
+        <Timeline.Item label="2022-03-20">路线图评论功能完成</Timeline.Item>
+        <Timeline.Item label="2022-03-27">聊天室视图完成</Timeline.Item>
       </Timeline>
     </div>
   )
