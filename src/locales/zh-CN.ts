@@ -50,6 +50,7 @@ export default {
   'siderBar.学习指南': '学习指南',
   'siderBar.学习路线': '学习路线',
   'siderBar.其他': '其他',
+  'siderBar.瞎聊': '瞎聊',
   'siderBar.暂未开放': '暂未开放',
   'siderBar.设置': '设置',
   'siderBar.个人设置': '个人设置',

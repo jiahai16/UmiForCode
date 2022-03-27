@@ -52,6 +52,7 @@ export default {
   'siderBar.学习指南': 'Study Guide',
   'siderBar.学习路线': 'Learning path',
   'siderBar.其他': 'Other',
+  'siderBar.瞎聊': 'Chat',
   'siderBar.暂未开放': 'Not opened',
   'siderBar.设置': 'Setting',
   'siderBar.个人设置': 'Personal Settings',
