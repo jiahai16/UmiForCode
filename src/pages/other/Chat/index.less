@@ -1,0 +1,45 @@
+.wrap {
+  height: 100%;
+  max-height: 90vh;
+  border: 1px solid rgb(199, 199, 199);
+  border-bottom: none;
+}
+.chat-wrap {
+  height: 100%;
+  .chat-header {
+    height: 50px;
+    background: rgb(238, 237, 237);
+    border-bottom: 1px solid rgb(199, 199, 199);
+    h1 {
+      line-height: 50px;
+      margin-left: 20px;
+    }
+  }
+  .chat-content {
+    height: 99.99%;
+    display: flex;
+    overflow: hidden;
+    .chat-left {
+      height: 100%;
+      width: 75%;
+      background: rgb(238, 237, 237);
+      .chat-left-content {
+        height: calc(100% - 226px);
+        overflow: hidden;
+      }
+      .chat-left-footer {
+        height: 180px;
+        background: rgb(243, 243, 243);
+      }
+    }
+    .chat-right {
+      height: 100%;
+      max-height: 800px;
+      min-width: 210px;
+      width: 25%;
+      background: rgb(248, 247, 247);
+      border-left: 1px solid rgb(199, 199, 199);
+      overflow: auto;
+    }
+  }
+}

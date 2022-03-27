@@ -1,0 +1,39 @@
+.wrap {
+  clear: both;
+  font-size: 80%;
+  .avaImg {
+    float: right;
+    height: 40px;
+    width: 40px;
+    background: #dfdede;
+    border-radius: 3px;
+  }
+  .name {
+    margin: 0px 50px 2px 50px;
+    padding: 0px;
+    color: #848484;
+    font-size: 70%;
+    text-align: right;
+  }
+  .content {
+    float: right;
+    min-width: 20px;
+    max-width: 580px;
+    background-color: #fdfdf7;
+    margin-right: 10px;
+    padding: 10px 10px 10px 10px;
+    border-radius: 2px;
+    position: relative;
+  }
+  .content::before {
+    content: '';
+    height: 0px;
+    width: 0px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent transparent #fdfdf7;
+    position: absolute;
+    right: -12px;
+    top: 5px;
+  }
+}

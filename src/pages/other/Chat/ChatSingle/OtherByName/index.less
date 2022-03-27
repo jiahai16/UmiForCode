@@ -1,0 +1,43 @@
+.wrap {
+  clear: both;
+  font-size: 80%;
+  .avaImg {
+    float: left;
+    height: 40px;
+    width: 40px;
+    background: #dfdede;
+    border-radius: 3px;
+  }
+  .name {
+    margin: 0px 50px 2px 50px;
+    padding: 0px;
+    color: #848484;
+    font-size: 70%;
+    text-align: left;
+  }
+  .content {
+    position: relative;
+    float: left;
+    min-width: 20px;
+    max-width: 580px;
+    margin-left: 10px;
+    padding: 10px 10px 10px 10px;
+    border-radius: 2px;
+    text-indent: -12px;
+    background-color: #fdfdf7;
+    .text {
+      margin-left: 10px;
+    }
+  }
+  .content::before {
+    content: '';
+    height: 0px;
+    width: 0px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent #fdfdf7 transparent transparent;
+    position: absolute;
+    left: -12px;
+    top: 5px;
+  }
+}

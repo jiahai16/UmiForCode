@@ -130,12 +130,12 @@ export function getRoutes() {
             "exact": true
           },
           {
-            "path": "/other1",
-            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__other' */'/Users/lzy/myproject/UmiForCode/src/pages/other'), loading: LoadingComponent}),
-            "name": "暂未开放",
-            "title": "程序员成长榨汁机 - 暂未开放",
+            "path": "/other/other-chat",
+            "component": dynamic({ loader: () => import(/* webpackChunkName: 'p__other__Chat' */'/Users/lzy/myproject/UmiForCode/src/pages/other/Chat'), loading: LoadingComponent}),
+            "name": "瞎聊",
+            "title": "程序员成长榨汁机 - 瞎聊",
             "icon": "",
-            "access": "",
+            "access": "other/other-chat",
             "exact": true
           },
           {

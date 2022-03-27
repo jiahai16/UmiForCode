@@ -97,12 +97,12 @@ export const pageRoutes = {
       routes: [
         { path: '/', redirect: '/other' },
         {
-          path: '/other1',
-          component: 'other',
-          name: '暂未开放',
-          title: title + '暂未开放',
+          path: '/other/other-chat',
+          component: 'other/Chat',
+          name: '瞎聊',
+          title: title + '瞎聊',
           icon: '',
-          access: ''
+          access: 'other/other-chat'
         },
         {
           path: '/other2',

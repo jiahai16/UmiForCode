@@ -1,10 +1,11 @@
+import { IRouteProps } from 'umi'
 import style from './index.less'
 
-export default function creator() {
+export default function Other({ children }: IRouteProps) {
 
   return (
-    <div>
-      other
+    <div className={style.wrap}>
+      {children}
     </div>
    )
 }
