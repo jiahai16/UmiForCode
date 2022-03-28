@@ -20,14 +20,16 @@ const HeaderBar: React.FC = ({ user }) => {
     history.push('/login')
   }
   const handleLoginOut = async () => {
-    cookies.removeUserToken()
-    removeItem()
-    history.push('/overview')
-    window.location.reload()
-    const res = await logoutFunc()
-    if (res?.code === 200) {
-      message.success('退出成功')
-    }
+    try {
+      const res = await logoutFunc()
+      if (res?.code === 200) {
+        message.success('退出成功')
+        cookies.removeUserToken()
+        removeItem()
+        history.push('/overview')
+        window.location.reload()
+      }
+    } catch (error) {}
   }
   return (
     <div className={style.wrap}>
