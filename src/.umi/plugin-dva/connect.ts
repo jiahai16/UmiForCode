@@ -6,6 +6,7 @@ import { EffectsCommandMap, SubscriptionAPI } from 'dva';
 import { match } from 'react-router-dom';
 import { Location, LocationState, History } from 'history';
 
+export * from '/Users/lzy/myproject/UmiForCode/src/models/chat';
 export * from '/Users/lzy/myproject/UmiForCode/src/models/user';
 
 export interface Action<T = any> {

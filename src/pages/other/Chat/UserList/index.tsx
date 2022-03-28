@@ -3,67 +3,10 @@ import { List, Avatar } from 'antd'
 
 const data = [
   {
-    title: 'Ant Design Title 111asdasdasdasdasdasdasdadasdasdasdasdas'
+    title: '爹'
   },
   {
-    title: 'Ant Design Title 2'
-  },
-  {
-    title: 'Ant Design Title 3'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
-  },
-  {
-    title: 'Ant Design Title 4'
+    title: 'JSON居然不是字符串'
   }
 ]
 import classNames from 'classnames'

@@ -1,18 +1,24 @@
 import { Avatar } from 'antd'
 import style from './index.less'
-
-export default function Myself() {
+type IProp = {
+  message: messageBody
+}
+export default function OtherByName({ message }: IProp) {
   return (
     <article className={style.wrap}>
-        <div className={style.avaImg}>
-          <Avatar src="https://joeschmoe.io/api/v1/random" shape="square" size={40}/>
-        </div>
-        <div className={style.name}>坏人·jiahai-test</div>
-        <div className={style.content}>
-          <span className={style.text}>
-            我是猪
-          </span>
-        </div>
+      <div className={style.avaImg}>
+        <Avatar
+          src={message?.user?.img}
+          shape="square"
+          size={40}
+        />
+      </div>
+      <div className={style.name}>{message?.user?.name}</div>
+      <div className={style.content}>
+        <span className={style.text}>
+          {message?.message}
+        </span>
+      </div>
     </article>
   )
 }

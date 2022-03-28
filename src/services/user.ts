@@ -41,7 +41,9 @@ export const queryUser = () => {
   return request('/core-api/user/query', { method: 'get' })
 }
 
-export const logoutFunc = () => {}
+export const logoutFunc = () => {
+  return request('/core-api/user/logout', { method: 'get' })
+}
 
 export const signInFunc = (data: loginBody) => {
   return request('/core-api/user/login', { method: 'post', data })
