@@ -60,7 +60,7 @@ export default {
   'siderBar.关于': 'About', //侧边栏结束
   'hotInfo.了解更多': 'More',
   'overview.等级': 'Level',
-  'overview.工作': 'Job',
+  'overview.签名': 'Sign',
   'overview.标签': 'Tags',
   'overview.编辑资料': 'Edit',
   'overview.编辑资料.编辑头像': 'Avatar',

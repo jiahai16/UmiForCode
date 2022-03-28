@@ -58,7 +58,7 @@ export default {
   'siderBar.主题设置': '主题设置', //侧边栏结束
   'hotInfo.了解更多': '了解更多',
   'overview.等级': '等级',
-  'overview.工作': '工作',
+  'overview.签名': '签名',
   'overview.标签': '标签',
   'overview.编辑资料': '编辑资料',
   'overview.编辑资料.编辑头像': '编辑头像',

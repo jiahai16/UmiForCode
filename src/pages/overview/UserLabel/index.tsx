@@ -98,7 +98,7 @@ function UserLable() {
           <h3>{user?.name}</h3>
           <p>{formatMessage({ id: 'overview.等级' })} : 98</p>
           <p>
-            {formatMessage({ id: 'overview.工作' })} :{' '}
+            {formatMessage({ id: 'overview.签名' })} :{' '}
             {user?.sign ? user?.sign : '这个人很懒'}
           </p>
           <p>
