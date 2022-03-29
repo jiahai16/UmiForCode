@@ -30,7 +30,6 @@ export default function ChatInput(prop: any) {
         className={style.input}
         value={inputValue}
         onChange={handleOnChange}
-        onPressEnter={handleSendMessage}
       />
       <Button
         onClick={handleSendMessage}
