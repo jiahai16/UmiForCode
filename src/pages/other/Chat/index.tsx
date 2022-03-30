@@ -40,7 +40,7 @@ export default function Chat() {
     return () => {
       webSocket.close()
     }
-  }, [chatList])
+  }, [])
 
   return (
     <div className={style.wrap}>

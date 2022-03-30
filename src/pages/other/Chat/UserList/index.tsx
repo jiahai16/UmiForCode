@@ -11,8 +11,8 @@ const data = [
 ]
 import classNames from 'classnames'
 
-const renderList = (data) => {
-  return data.map((e, idx) => (
+const renderList = (data: any) => {
+  return data.map((e: any, idx: any) => (
     <div className={style.userWrap} key={idx}>
       <div className={style.avaImg}>
         <Avatar src="https://joeschmoe.io/api/v1/random" shape="square" />
