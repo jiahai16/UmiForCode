@@ -9,4 +9,5 @@ type messageBody = {
   }
   message: string
   time?: string
+  type: number
 }

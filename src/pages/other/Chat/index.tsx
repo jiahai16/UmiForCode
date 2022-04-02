@@ -6,18 +6,80 @@ import style from './index.less'
 import UserList from './UserList'
 
 const localUser = JSON.parse(localStorage.getItem('user') as string)
-const webSocket = new WebSocket(
-  `ws://101.43.25.47:8230/chat/${localUser?.userId}`
-)
+let lockReconnect = false //避免重复连接
+const wsUrl: string = `ws://101.43.25.47:8230/chat/${localUser?.userId}`
+let ws: WebSocket
+let tt: NodeJS.Timeout
+const pingMessage = {
+  user: {
+    ...localUser
+  },
+  message: 'PING',
+  type: 2
+}
+function createWebSocket() {
+  try {
+    ws = new WebSocket(wsUrl)
+    init()
+  } catch (e) {
+    reconnect(wsUrl)
+  }
+}
+function init() {
+  ws.onclose = () => {
+    reconnect(wsUrl)
+  }
+  ws.onopen = () => {
+    heartCheck.start()
+  }
+  ws.onerror = () => {
+    message.error('发生异常了')
+    reconnect(wsUrl)
+  }
+}
+
+function reconnect(url: string) {
+  if (lockReconnect) {
+    return
+  }
+  lockReconnect = true
+  //没连接上会一直重连，设置延迟避免请求过多
+  tt && clearTimeout(tt)
+  tt = setTimeout(function () {
+    createWebSocket()
+    lockReconnect = false
+  }, 4000)
+}
+//心跳检测
+var heartCheck = {
+  timeout: 3000,
+  timeoutObj: null,
+  serverTimeoutObj: null,
+  start: function () {
+    var self = this
+    this.timeoutObj && clearTimeout(this.timeoutObj)
+    this.serverTimeoutObj && clearTimeout(this.serverTimeoutObj)
+    this.timeoutObj = setTimeout(function () {
+      //这里发送一个心跳，后端收到后，返回一个心跳消息，
+      ws.send(JSON.stringify(pingMessage))
+      self.serverTimeoutObj = setTimeout(function () {
+        ws.close()
+        // createWebSocket();
+      }, self.timeout)
+    }, this.timeout)
+  }
+}
+createWebSocket()
+
 export default function Chat() {
   const [chatList, setChatList] = useState<messageBody[]>([])
 
-  webSocket.onopen = () => {
-    message.success('聊天室连接成功！')
-  }
-  webSocket.onmessage = (evt) => {
+  ws.onmessage = (evt) => {
+    heartCheck.start()
     const newMessage: messageBody = JSON.parse(evt.data)
-    setChatList([...chatList, newMessage])
+    if (newMessage.type === 0) {
+      setChatList([...chatList, newMessage])
+    } else if (newMessage.type === 1) console.log(newMessage)
   }
 
   const sendMessage = useCallback(
@@ -26,19 +88,20 @@ export default function Chat() {
         user: {
           ...localUser
         },
-        message: value
+        message: value,
+        type: 0
       }
-      webSocket.send(JSON.stringify(message))
-
-      setChatList([...chatList, message])
-      //console.log(message)
+      ws.send(JSON.stringify(message))
+      if (message.type === 0) {
+        setChatList([...chatList, message])
+      }
     },
     [chatList]
   )
 
   useEffect(() => {
     return () => {
-      webSocket.close()
+      ws.close()
     }
   }, [])
 
