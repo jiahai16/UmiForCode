@@ -8,7 +8,7 @@ import { getReceiveMsg } from 'services/chat'
 
 const localUser = JSON.parse(localStorage.getItem('user') as string)
 let lockReconnect = false //避免重复连接
-const wsUrl: string = `ws://101.43.25.47/acre-api/ws/chat/${localUser?.userId}`
+const wsUrl: string = `ws://101.43.25.47/core-api/ws/chat/${localUser?.userId}`
 let ws: WebSocket
 let tt: NodeJS.Timeout
 const pingMessage = {
