@@ -10,6 +10,7 @@ const localUser = JSON.parse(localStorage.getItem('user') as string)
 let lockReconnect = false //避免重复连接
 const wsUrl: string = `ws://101.43.25.47:8230/chat/${localUser?.userId}`
 let ws: WebSocket
+let tt: NodeJS.Timeout
 const pingMessage = {
   user: {
     ...localUser
@@ -19,11 +20,47 @@ const pingMessage = {
 }
 
 function createWebSocket() {
-  console.log('连接')
   try {
     ws = new WebSocket(wsUrl)
-  } catch (e) {}
+  } catch (e) {
+    reconnect()
+  }
 }
+
+function reconnect() {
+  if (lockReconnect) {
+    return
+  }
+  lockReconnect = true
+  //没连接上会一直重连，设置延迟避免请求过多
+  tt && clearTimeout(tt)
+  tt = setTimeout(function () {
+    createWebSocket()
+    lockReconnect = false
+  }, 4000)
+}
+//心跳检测
+type heartType = {
+  timeout: number //60ms
+  timeoutObj: null | NodeJS.Timeout
+  reset: () => void
+  start: () => void
+}
+let heartCheck: heartType = {
+  timeout: 5000, //60ms
+  timeoutObj: null,
+  reset: function () {
+    clearTimeout(this.timeoutObj as NodeJS.Timeout)
+    this.start()
+  },
+  start: function () {
+    this.timeoutObj = setTimeout(function () {
+      console.log('ping')
+      ws.send(JSON.stringify(pingMessage))
+    }, this.timeout)
+  }
+}
+createWebSocket()
 
 export default function Chat() {
   const [chatList, setChatList] = useState<messageBody[]>([])
@@ -61,30 +98,37 @@ export default function Chat() {
   }
 
   useEffect(() => {
-    createWebSocket()
-    console.log('1')
-
-    ws.onmessage = (evt) => {
-      //heartCheck.start()
-      const newMessage: messageBody = JSON.parse(evt.data)
-      if (newMessage.type === 0) {
-        setChatList([...chatList, newMessage])
-      } else if (newMessage.type === 1) {
-        setUserList([...newMessage.onlineUser])
-      }
+    if (ws.readyState !== ws.OPEN || ws.readyState !== ws.CONNECTING) {
+      createWebSocket()
     }
     ws.onopen = () => {
       message.success(localUser?.name + '❤️ 成功加入啦')
+      heartCheck.start()
     }
     ws.onerror = () => {
       message.error('我敢保证,绝对是 🐻 的服务器坏了')
+      console.log('关闭重启')
+      reconnect()
+    }
+    ws.onclose = () => {
+      console.log('关闭重启')
     }
     return () => {
       ws.close()
-      console.log('断开')
-      // clearInterval(timer)
     }
   }, [])
+  ws.onmessage = (evt) => {
+    heartCheck.reset()
+    const newMessage: messageBody = JSON.parse(evt.data)
+    if (newMessage.type === 0) {
+      console.log(chatList)
+      setChatList([...chatList, newMessage])
+    } else if (newMessage.type === 1) {
+      setUserList([...newMessage.onlineUser])
+    } else if (newMessage.type === 2) {
+      console.log('pong')
+    }
+  }
 
   return (
     <div className={style.wrap}>
