@@ -80,6 +80,7 @@ export default function Chat() {
         message.error('好像掉线了？正在尝试重新连接')
       } else if (ws.readyState === ws.OPEN) {
         ws.send(JSON.stringify(Message))
+        ws.send(JSON.stringify(pingMessage))
         if (Message.type === 0) {
           setChatList([...chatList, Message])
         }
