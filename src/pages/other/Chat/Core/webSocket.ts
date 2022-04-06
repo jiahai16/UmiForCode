@@ -48,7 +48,7 @@ function reconnect(url: string) {
 //心跳检测
 var heartCheck = {
   timeout: 3000,
-  timeoutObj: null ,
+  timeoutObj: null,
   serverTimeoutObj: null,
   start: function () {
     console.log('start')
@@ -69,3 +69,48 @@ var heartCheck = {
   }
 }
 createWebSocket()
+
+// function init() {
+//   ws.onclose = () => {
+//     //reconnect(wsUrl)
+//   }
+//   ws.onopen = () => {
+//     heartCheck.start()
+//   }
+//   ws.onerror = () => {
+//     message.error('发生异常了')
+//     //reconnect(wsUrl)
+//   }
+// }
+
+// function reconnect(url: string) {
+//   if (lockReconnect) {
+//     return
+//   }
+//   lockReconnect = true
+//   //没连接上会一直重连，设置延迟避免请求过多
+//   tt && clearTimeout(tt)
+//   tt = setTimeout(function () {
+//     createWebSocket()
+//     lockReconnect = false
+//   }, 4000)
+// }
+// //心跳检测
+// var heartCheck = {
+//   timeout: 3000,
+//   timeoutObj: null,
+//   serverTimeoutObj: null,
+//   start: function () {
+//     var self = this
+//     this.timeoutObj && clearTimeout(this.timeoutObj)
+//     this.serverTimeoutObj && clearTimeout(this.serverTimeoutObj)
+//     this.timeoutObj = setTimeout(function () {
+//       //这里发送一个心跳，后端收到后，返回一个心跳消息，
+//       ws.send(JSON.stringify(pingMessage))
+//       self.serverTimeoutObj = setTimeout(function () {
+//         ws.close()
+//         // createWebSocket();
+//       }, self.timeout)
+//     }, this.timeout)
+//   }
+// }

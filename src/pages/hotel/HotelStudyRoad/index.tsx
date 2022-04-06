@@ -88,7 +88,7 @@ export default function HotelStudyRoad() {
                         >
                           <Space>
                             <MessageOutlined />
-                            {0}
+                            {item?.discussCnt}
                           </Space>
                         </div>
                       ]

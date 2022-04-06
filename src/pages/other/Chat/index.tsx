@@ -4,12 +4,12 @@ import ChatInput from './ChatInput'
 import ChatList from './ChatList'
 import style from './index.less'
 import UserList from './UserList'
+import { getReceiveMsg } from 'services/chat'
 
 const localUser = JSON.parse(localStorage.getItem('user') as string)
 let lockReconnect = false //避免重复连接
 const wsUrl: string = `ws://101.43.25.47:8230/chat/${localUser?.userId}`
 let ws: WebSocket
-let tt: NodeJS.Timeout
 const pingMessage = {
   user: {
     ...localUser
@@ -17,91 +17,72 @@ const pingMessage = {
   message: 'PING',
   type: 2
 }
+
 function createWebSocket() {
+  console.log('连接')
   try {
     ws = new WebSocket(wsUrl)
-    init()
-  } catch (e) {
-    reconnect(wsUrl)
-  }
+  } catch (e) {}
 }
-function init() {
-  ws.onclose = () => {
-    reconnect(wsUrl)
-  }
-  ws.onopen = () => {
-    heartCheck.start()
-  }
-  ws.onerror = () => {
-    message.error('发生异常了')
-    reconnect(wsUrl)
-  }
-}
-
-function reconnect(url: string) {
-  if (lockReconnect) {
-    return
-  }
-  lockReconnect = true
-  //没连接上会一直重连，设置延迟避免请求过多
-  tt && clearTimeout(tt)
-  tt = setTimeout(function () {
-    createWebSocket()
-    lockReconnect = false
-  }, 4000)
-}
-//心跳检测
-var heartCheck = {
-  timeout: 3000,
-  timeoutObj: null,
-  serverTimeoutObj: null,
-  start: function () {
-    var self = this
-    this.timeoutObj && clearTimeout(this.timeoutObj)
-    this.serverTimeoutObj && clearTimeout(this.serverTimeoutObj)
-    this.timeoutObj = setTimeout(function () {
-      //这里发送一个心跳，后端收到后，返回一个心跳消息，
-      ws.send(JSON.stringify(pingMessage))
-      self.serverTimeoutObj = setTimeout(function () {
-        ws.close()
-        // createWebSocket();
-      }, self.timeout)
-    }, this.timeout)
-  }
-}
-createWebSocket()
 
 export default function Chat() {
   const [chatList, setChatList] = useState<messageBody[]>([])
-
-  ws.onmessage = (evt) => {
-    heartCheck.start()
-    const newMessage: messageBody = JSON.parse(evt.data)
-    if (newMessage.type === 0) {
-      setChatList([...chatList, newMessage])
-    } else if (newMessage.type === 1) console.log(newMessage)
-  }
+  const [userList, setUserList] = useState<user[]>([])
 
   const sendMessage = useCallback(
     (value: string) => {
-      const message = {
+      const Message = {
         user: {
           ...localUser
         },
         message: value,
         type: 0
       }
-      ws.send(JSON.stringify(message))
-      if (message.type === 0) {
-        setChatList([...chatList, message])
+      if (ws.readyState === ws.CLOSED) {
+        createWebSocket()
+        message.error('好像掉线了？正在尝试重新连接')
+      } else if (ws.readyState === ws.OPEN) {
+        ws.send(JSON.stringify(Message))
+        if (Message.type === 0) {
+          setChatList([...chatList, Message])
+        }
       }
     },
     [chatList]
   )
 
+  const getReceive = async () => {
+    try {
+      const res = await getReceiveMsg()
+      if (res.code === 200) {
+        setChatList([...res.data, ...chatList])
+      }
+    } catch (error) {}
+  }
+
   useEffect(() => {
+    createWebSocket()
+    console.log('1')
+
+    ws.onmessage = (evt) => {
+      //heartCheck.start()
+      const newMessage: messageBody = JSON.parse(evt.data)
+      if (newMessage.type === 0) {
+        setChatList([...chatList, newMessage])
+      } else if (newMessage.type === 1) {
+        setUserList([...newMessage.onlineUser])
+      }
+    }
+    ws.onopen = () => {
+      message.success(localUser?.name + '❤️ 成功加入啦')
+    }
+    ws.onerror = () => {
+      message.error('我敢保证,绝对是 🐻 的服务器坏了')
+    }
     return () => {
       ws.close()
+      console.log('断开')
+      // clearInterval(timer)
     }
   }, [])
 
@@ -114,14 +95,14 @@ export default function Chat() {
         <div className={style.chatContent}>
           <div className={style.chatLeft}>
             <div className={style.chatLeftContent}>
-              <ChatList data={chatList} />
+              <ChatList data={chatList} receiveFC={getReceive} />
             </div>
             <div className={style.chatLeftFooter}>
               <ChatInput sendFc={sendMessage} />
             </div>
           </div>
           <div className={style.chatRight}>
-            <UserList />
+            <UserList userList={userList} />
           </div>
         </div>
       </div>

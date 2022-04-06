@@ -12,8 +12,17 @@ export default function ChatInput(prop: any) {
     setInputValue(value.target.value)
   }
 
+  const isNull = (str: string) => {
+    if (str == '' || str.indexOf('\\n') >= 0) {
+      return true
+    }
+    var regu = '^[ ]+$'
+    var re = new RegExp(regu)
+    return re.test(str)
+  }
+
   const handleSendMessage = () => {
-    if (inputValue === '') {
+    if (isNull(inputValue)) {
       message.warn('说点什么啊。')
       return
     } else {
@@ -30,6 +39,7 @@ export default function ChatInput(prop: any) {
         className={style.input}
         value={inputValue}
         onChange={handleOnChange}
+        onPressEnter={handleSendMessage}
       />
       <Button
         onClick={handleSendMessage}
