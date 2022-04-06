@@ -44,7 +44,7 @@ function LayoutPage({ children, dispatch }: IRouteProps) {
   }
 
   function isLoginAccess(access: string, isLogin: boolean) {
-    const accessRouter = ['/overview', '/task/task-plan', '/task/task-history', '/setting/personal-settings']
+    const accessRouter = ['/overview', '/task/task-plan', '/task/task-history','/other/other-chat' ,'/setting/personal-settings']
     if (isLogin) return true
     return !accessRouter.includes(access)
   }
