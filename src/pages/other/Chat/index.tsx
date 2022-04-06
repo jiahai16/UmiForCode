@@ -55,7 +55,7 @@ export default function Chat() {
     try {
       const res = await getReceiveMsg()
       if (res.code === 200) {
-        setChatList([...res.data, ...chatList])
+        setChatList([...res.data])
       }
     } catch (error) {}
   }
