@@ -13,6 +13,7 @@ import style from './index.less'
 import { closeNotification, openNotification } from '@/components/Notification'
 import { useIntl } from 'umi'
 import GraphUpload from '../GraphUpload'
+import useCurrentRef from 'utils/useCurrentRef'
 
 // 初始数据
 const initData = {
@@ -50,6 +51,9 @@ function GraphLable() {
   const [defaultFontSize, setDefaultFontSize] = useState<number>(14)
   const [fontSize, setFontSize] = useState<number>(14)
   const [treeData, setTreeData] = useState(initData)
+  const currentIdRef = useCurrentRef(currentId)
+  const editFlagRef = useCurrentRef(editFlag)
+  const editValuedRef = useCurrentRef(editValue)
 
   const [isUploadModalVisible, setIsUploadModalVisible] =
     useState<boolean>(false)
@@ -208,10 +212,6 @@ function GraphLable() {
     setEditFlag(!editFlag)
   }
 
-  const setCurrentIdFc = (value: any) => {
-    setCurrentId(() => value)
-  }
-
   const textChange = (event) => {
     // 设置改变的文本内容
     const val = event.target.value
@@ -219,8 +219,6 @@ function GraphLable() {
   }
 
   const setGraphObj = () => {
-    let curId: any = null
-
     const graph = new G6.TreeGraph({
       container: 'container',
       width: 1300,
@@ -310,22 +308,20 @@ function GraphLable() {
       if (mode === 'edit') {
         // 编辑模式 显示红框
         // 清除其他节点的选中状态
-        if (curId && curId !== model.id) {
-          const oldItem = graph.findById(curId)
+        if (currentIdRef.current && currentIdRef.current !== model.id) {
+          const oldItem = graph.findById(currentIdRef.current)
           oldItem && graph.clearItemStates(oldItem, ['selected'])
         }
         const { states } = item._cfg
         if (states.includes('selected')) {
           graph.setItemState(item, 'selected', false)
           graph.setItemState(item, 'unselected', true)
-          setCurrentIdFc(null)
-          curId = null
+          setCurrentId(null)
           setCurrentType(null)
         } else {
           graph.setItemState(item, 'selected', true)
           graph.setItemState(item, 'unselected', false)
-          setCurrentIdFc(model.id)
-          curId = model.id
+          setCurrentId(model.id)
           setCurrentType('node')
         }
       }
@@ -340,7 +336,7 @@ function GraphLable() {
       if (mode === 'edit') {
         // 显示input编辑框  设置目标节点id 类型 初始化input样式
         textShow()
-        setCurrentIdFc(model.id)
+        setCurrentId(model.id)
         setCurrentType('node')
         initEdit(model, 'node', realPosition)
         saveLocal()
@@ -401,9 +397,10 @@ function GraphLable() {
   }
 
   const initEdit = (target, type, position) => {
+    console.log(target)
     const edit = inputEditRef.current
     setEditValue(() => '')
-    edit.value = target.label
+    edit.value = ''
     if (type === 'node') {
       edit.style.left = `${position.x + 1}px`
       edit.style.top = `${position.y + 1}px`
@@ -433,16 +430,16 @@ function GraphLable() {
   useEffect(() => {
     // 当编辑文本的内容改变时  更新数据的label
     // 根据文本的字数 修改节点的宽度
-    if (!editFlag && currentId) {
-      const item = graph.findById(currentId)
+    if (!editFlag && currentIdRef.current) {
+      const item = graph.findById(currentIdRef.current)
       const model = item.getModel()
       const fontSize = model.labelCfg.style.fontSize
-      if (editValue) {
+      if (editValuedRef.current) {
         graph.updateItem(
           item,
           {
-            label: editValue,
-            size: [(editValue.length + 2) * fontSize, model.size[1]]
+            label: editValuedRef.current,
+            size: [(editValuedRef.current.length + 2) * fontSize, model.size[1]]
           },
           true
         )
@@ -451,23 +448,23 @@ function GraphLable() {
     }
   }, [editFlag, currentId, editValue])
 
-  document.onkeydown = (e) => {
-    // 键盘按下操作
-    e.preventDefault()
-    const { keyCode } = e
-    if (keyCode === 9 && currentId) {
-      // tab键 添加子节点
-      addChildItem()
-    }
-    if (keyCode === 13 && currentId) {
-      // 回车时 找到目标节点 显示文本编辑框
-      const model = graph.findDataById(currentId)
-      textShow()
-      setCurrentId(model.id)
-      setCurrentType('node')
-      initEdit(model, 'node')
-    }
-  }
+  // document.onkeydown = (e) => {
+  //   // 键盘按下操作
+  //   e.preventDefault()
+  //   const { keyCode } = e
+  //   if (keyCode === 9 && currentId) {
+  //     // tab键 添加子节点
+  //     addChildItem()
+  //   }
+  //   if (keyCode === 13 && currentId) {
+  //     // 回车时 找到目标节点 显示文本编辑框
+  //     const model = graph.findDataById(currentId)
+  //     textShow()
+  //     setCurrentId(model.id)
+  //     setCurrentType('node')
+  //     initEdit(model, 'node')
+  //   }
+  // }
 
   return (
     <div>
