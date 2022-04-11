@@ -57,7 +57,6 @@ export default function UserUpdataModal({
   }
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo)
   }
 
   useEffect(() => {

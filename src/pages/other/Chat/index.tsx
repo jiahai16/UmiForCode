@@ -55,7 +55,6 @@ let heartCheck: heartType = {
   },
   start: function () {
     this.timeoutObj = setTimeout(function () {
-      console.log('ping')
       ws.send(JSON.stringify(pingMessage))
     }, this.timeout)
   }
@@ -107,11 +106,9 @@ export default function Chat() {
     }
     ws.onerror = () => {
       message.error('我敢保证,绝对是 🐻 的服务器坏了')
-      console.log('关闭重启')
       reconnect()
     }
     ws.onclose = () => {
-      console.log('关闭重启')
     }
     return () => {
       ws.close()
@@ -121,12 +118,10 @@ export default function Chat() {
     heartCheck.reset()
     const newMessage: messageBody = JSON.parse(evt.data)
     if (newMessage.type === 0) {
-      console.log(chatList)
       setChatList([...chatList, newMessage])
     } else if (newMessage.type === 1) {
       setUserList([...newMessage.onlineUser])
     } else if (newMessage.type === 2) {
-      console.log('pong')
     }
   }
 

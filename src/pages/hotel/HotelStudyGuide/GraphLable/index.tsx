@@ -397,7 +397,6 @@ function GraphLable() {
   }
 
   const initEdit = (target, type, position) => {
-    console.log(target)
     const edit = inputEditRef.current
     setEditValue(() => '')
     edit.value = ''

@@ -24,6 +24,7 @@ const initParams: taskGetParams = {
 }
 
 const TaskList: React.FC<any> = (props) => {
+  const [mounted, setMounted] = useState<boolean>(true)
   const [todayTaskData, setTodayTaskData] = useState<todayPlan[]>([])
   const [longTaskData, setLongTaskData] = useState<todayPlan[]>([])
   const [countDownTaskData, setCountDownTaskData] = useState<todayPlan[]>([])
@@ -69,6 +70,7 @@ const TaskList: React.FC<any> = (props) => {
     initParams.type = type
     const res = await getTaskList(initParams)
     if (res && res.code === 200) {
+      if (!mounted) return
       fn(res.data)
     }
   }
@@ -103,7 +105,10 @@ const TaskList: React.FC<any> = (props) => {
 
   useEffect(() => {
     initData()
-  }, [])
+    return function cleanup() {
+      setMounted(false)
+    }
+  }, [props.isPlanDrawerVisble])
 
   const renderPanel = (title: string, data: any) => {
     return data?.map((e: todayPlan, idx: any) => (

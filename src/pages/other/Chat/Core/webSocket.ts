@@ -9,7 +9,6 @@ function createWebSocket() {
     ws = new WebSocket(wsUrl)
     init()
   } catch (e) {
-    console.log('catch')
     reconnect(wsUrl)
   }
 }

@@ -42,7 +42,6 @@ function SignIn({ isForget }: SignIn) {
   }
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo)
   }
   return (
     <div className={style.signInForm}>
