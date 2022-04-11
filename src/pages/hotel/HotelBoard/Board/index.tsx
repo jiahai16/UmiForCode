@@ -23,7 +23,7 @@ const Board: React.FC<any> = ({ data }) => {
                 />
               }
               title={<a>{item?.name}</a>}
-              description="Ant Design, a design language "
+              description={item?.sign === "" ? '这个人很懒' : item.sign}
             />
           </List.Item>
         )}
