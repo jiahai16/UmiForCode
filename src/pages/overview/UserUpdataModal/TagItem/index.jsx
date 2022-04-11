@@ -2,10 +2,12 @@ import { Tag, Input, Tooltip } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import style from './index.less'
 import React from 'react'
+const localUser = JSON.parse(localStorage.getItem('user'))
 
 class EditableTagGroup extends React.Component {
+
   state = {
-    tags: [],
+    tags: localUser?.tag,
     inputVisible: false,
     inputValue: '',
     editInputIndex: -1,
