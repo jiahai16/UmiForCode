@@ -50,11 +50,9 @@ export default function Forget({
 
   const onFinish = () => {
     form.setFieldsValue({})
-    console.log('Success:', form.getFieldsValue())
   }
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo)
   }
 
   return (

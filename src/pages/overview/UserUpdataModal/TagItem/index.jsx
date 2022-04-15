@@ -2,10 +2,12 @@ import { Tag, Input, Tooltip } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import style from './index.less'
 import React from 'react'
+const localUser = JSON.parse(localStorage.getItem('user'))
 
 class EditableTagGroup extends React.Component {
+
   state = {
-    tags: [],
+    tags: localUser?.tag,
     inputVisible: false,
     inputValue: '',
     editInputIndex: -1,
@@ -14,7 +16,6 @@ class EditableTagGroup extends React.Component {
 
   handleClose = (removedTag) => {
     const tags = this.state.tags.filter((tag) => tag !== removedTag)
-    console.log(tags)
     this.setState({ tags })
     this.props?.setTagToForm({
       tags: tags
@@ -35,7 +36,6 @@ class EditableTagGroup extends React.Component {
     if (inputValue && tags.indexOf(inputValue) === -1) {
       tags = [...tags, inputValue]
     }
-    console.log(tags)
     this.setState({
       tags,
       inputVisible: false,

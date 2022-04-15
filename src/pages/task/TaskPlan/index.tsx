@@ -78,7 +78,7 @@ const TaskForNow: React.FC = () => {
         </Button>
       </div>
       <div className={style.foot}>
-        <TaskList handleEditPlanClick={handleNewPlanClick}/>
+        <TaskList isPlanDrawerVisble={isPlanDrawerVisble} handleEditPlanClick={handleNewPlanClick}/>
       </div>
       <NewPlanDrawer
         visible={isPlanDrawerVisble}

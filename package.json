@@ -34,6 +34,7 @@
     "node-git-info": "^1.1.0",
     "react-countup": "^5.2.0",
     "react-infinite-scroll-component": "^6.1.0",
+    "socket.io-client": "^4.4.1",
     "umi": "^3.4.25"
   },
   "devDependencies": {
