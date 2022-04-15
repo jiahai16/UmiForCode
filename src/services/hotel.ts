@@ -50,3 +50,12 @@ export const postDiscuss = (data: postDiscussBody) => {
 export const getDiscuss = (data: getDiscussBody) => {
   return request('/core-api/hostel/discuss/query', { method: 'post', data })
 }
+
+export const Like = (data: { shareId: number }) => {
+  return request('/core-api/hostel/admire', { method: 'post', data })
+}
+
+export const Star = (data: { shareId: number }) => {
+  return request('/core-api/hostel/follow', { method: 'post', data })
+}
+

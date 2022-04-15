@@ -1,9 +1,10 @@
 import { List, Avatar, Space, Image, Skeleton, message } from 'antd'
-import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons'
+import { MessageTwoTone, HeartTwoTone, LikeTwoTone } from '@ant-design/icons'
 import style from './index.less'
 import React, { useEffect, useState } from 'react'
 import ListComment from './ListComment'
-import { getShare } from 'services/hotel'
+import { getShare, Like, Star } from 'services/hotel'
+import { debounce } from 'utils'
 
 export default function HotelStudyRoad() {
   const [loading, setLoading] = useState<boolean>(true)
@@ -12,22 +13,53 @@ export default function HotelStudyRoad() {
   >(null)
   const [shareData, setShareData] = useState([])
 
+  const isLogin = localStorage.getItem('login') === 'true'
+
   const handleCommentClick = (id: number) => {
-      if (isCommentListVisible && isCommentListVisible !== id) {
-        setIsCommentListVisible(id)
-      } else if (isCommentListVisible === null) {
-        setIsCommentListVisible(id)
-      } else {
-        setIsCommentListVisible(null)
-      }
-    
+    if (isCommentListVisible && isCommentListVisible !== id) {
+      setIsCommentListVisible(id)
+    } else if (isCommentListVisible === null) {
+      setIsCommentListVisible(id)
+    } else {
+      setIsCommentListVisible(null)
+    }
   }
 
-  const handleLikeClick = (id: number) => {
+  const handleLikeClick = async (item: any) => {
+    if (isLogin) {
+      try {
+        const res = await Like({ shareId: item.id })
+        if (res.code === 200) {
+          if (item.isGood) {
+            message.success('取消成功～')
+          } else {
+            message.success('👍成功！')
+          }
+
+          initData()
+        }
+      } catch (error) {}
+    } else {
+      message.info('请先登录再进行点赞哦')
+    }
   }
 
-  const handleStarClick = (id: number) => {
-    console.log(id)
+  const handleStarClick = async (item: any) => {
+    if (isLogin) {
+      try {
+        const res = await Star({ shareId: item.id })
+        if (res.code === 200) {
+          if (item.isFollow) {
+            message.success('取消成功～')
+          } else {
+            message.success('🌟成功！')
+          }
+          initData()
+        }
+      } catch (error) {}
+    } else {
+      message.info('请先登录再进行收藏哦')
+    }
   }
 
   const initData = async () => {
@@ -60,21 +92,25 @@ export default function HotelStudyRoad() {
                   !loading
                     ? [
                         <div
-                          onClick={() => handleStarClick(item?.id)}
+                          onClick={() => handleStarClick(item)}
                           style={{ cursor: 'pointer' }}
                         >
                           <Space>
-                            <StarOutlined />
-                            {0}
+                            <HeartTwoTone
+                              twoToneColor={item?.isFollow ? '#ff7979' : ''}
+                            />
+                            {item?.followCnt}
                           </Space>
                         </div>,
                         <div
-                          onClick={() => handleLikeClick(item?.id)}
+                          onClick={() => handleLikeClick(item)}
                           style={{ cursor: 'pointer' }}
                         >
                           <Space>
-                            <LikeOutlined />
-                            {0}
+                            <LikeTwoTone
+                              twoToneColor={item?.isGood ? '#f9ca24' : ''}
+                            />
+                            {item?.goodCnt}
                           </Space>
                         </div>,
                         <div
@@ -87,7 +123,7 @@ export default function HotelStudyRoad() {
                           }
                         >
                           <Space>
-                            <MessageOutlined />
+                            <MessageTwoTone />
                             {item?.discussCnt}
                           </Space>
                         </div>
