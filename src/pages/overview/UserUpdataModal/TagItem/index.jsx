@@ -82,7 +82,7 @@ class EditableTagGroup extends React.Component {
       this.state
     return (
       <>
-        {tags.map((tag, index) => {
+        {tags?.map((tag, index) => {
           if (editInputIndex === index) {
             return (
               <Input
@@ -98,7 +98,7 @@ class EditableTagGroup extends React.Component {
             )
           }
 
-          const isLongTag = tag.length > 10
+          const isLongTag = tag?.length > 10
 
           const tagElem = (
             <Tag
@@ -130,7 +130,7 @@ class EditableTagGroup extends React.Component {
             tagElem
           )
         })}
-        {tags.length < 4 && (
+        {tags?.length < 4 && (
           <>
             {inputVisible && (
               <Input
