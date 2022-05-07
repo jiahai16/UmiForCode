@@ -64,7 +64,7 @@ export default function HotelStudyRoad() {
 
   const initData = async () => {
     try {
-      const res = await getShare({ number: 1, size: 10 })
+      const res = await getShare({ number: 1, size: 100 })
       if (res.code === 200) {
         setShareData(res.data.data)
         setLoading(false)

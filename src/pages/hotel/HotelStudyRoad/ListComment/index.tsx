@@ -186,7 +186,7 @@ export default function ListComment({ shareId }: IListModal) {
             <Comment
               actions={item?.actions}
               author={item?.user?.name}
-              avatar={'https://joeschmoe.io/api/v1/random'}
+              avatar={item?.user?.img}
               content={item?.discuss?.detail}
               datetime={item?.discuss?.createTime.replace('T', ' ')}
             />
