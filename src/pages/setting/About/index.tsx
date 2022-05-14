@@ -20,6 +20,9 @@ export default function About() {
         <Timeline.Item label="2022-03-xx">🥺</Timeline.Item>
         <Timeline.Item label="2022-03-20">路线图评论功能完成</Timeline.Item>
         <Timeline.Item label="2022-03-27">聊天室视图完成</Timeline.Item>
+        <Timeline.Item label="2022-04-10">聊天室完成</Timeline.Item>
+        <Timeline.Item label="2022-04-21">聊天室Bug修复</Timeline.Item>
+        <Timeline.Item label="2022-05-07">项目Bug修复</Timeline.Item>
       </Timeline>
     </div>
   )
