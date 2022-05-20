@@ -31,7 +31,6 @@ export default function UserUpdataModal({
   const [checkBtnText, setCheckBtnText] = useState<string>(
     `${formatMessage({ id: 'login.找回密码.邮箱验证按钮' })}`
   )
-  const [checkNameStatus, setCheckNameStatus] = useState<string>('default')
   const [checkEmailStatus, setCheckEmailStatus] = useState<string>('default')
 
   const checkStatusMap = new Map([
@@ -41,8 +40,8 @@ export default function UserUpdataModal({
   ])
 
   const handleSendEmail = () => {
-    form.validateFields(['email']).then(() => {
-      if (form.getFieldsValue().email) {
+    form.validateFields(['newEmail']).then(() => {
+      if (form.getFieldsValue().newEmail) {
         sendEmail()
         let a = 60
         setConfirmLoading(true)
@@ -73,14 +72,14 @@ export default function UserUpdataModal({
       if (res.code === 200 && res.data === true) {
         setCheckEmailStatus('true')
       } else {
-        message.warning('该邮箱已被注册去登录吧！')
+        message.warning('该邮箱已被注册！')
         setCheckEmailStatus('false')
       }
     } catch (error) {}
   }
 
   const sendEmail = async () => {
-    const email = form.getFieldsValue().email
+    const email = form.getFieldsValue().newEmail
     try {
       const { code } = await sendEmailFunc({ email: email })
       if (code === 200) message.success('发送成功，去查看邮箱吧！')
