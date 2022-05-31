@@ -4,18 +4,25 @@ import style from './index.less'
 import { useState } from 'react'
 import { useIntl } from 'umi'
 import Title from 'antd/lib/skeleton/Title'
-import { checkRepeatStatus, sendEmailFunc } from 'services/user'
+import {
+  changeInfo,
+  checkRepeatStatus,
+  queryUser,
+  sendEmailFunc
+} from 'services/user'
 type IModal = {
   visible: boolean
   onHandleOk: () => void
   onHandleCancel: () => void
   title: string
+  reqType: string
 }
 export default function UserUpdataModal({
   visible,
   onHandleOk,
   onHandleCancel,
-  title
+  title,
+  reqType
 }: IModal) {
   const [form] = Form.useForm()
   const [avaImgData, setAvaImgData] = useState<string>('default')
@@ -24,7 +31,6 @@ export default function UserUpdataModal({
   const [checkBtnText, setCheckBtnText] = useState<string>(
     `${formatMessage({ id: 'login.找回密码.邮箱验证按钮' })}`
   )
-  const [checkNameStatus, setCheckNameStatus] = useState<string>('default')
   const [checkEmailStatus, setCheckEmailStatus] = useState<string>('default')
 
   const checkStatusMap = new Map([
@@ -34,8 +40,8 @@ export default function UserUpdataModal({
   ])
 
   const handleSendEmail = () => {
-    form.validateFields(['email']).then(() => {
-      if (form.getFieldsValue().email) {
+    form.validateFields(['newEmail']).then(() => {
+      if (form.getFieldsValue().newEmail) {
         sendEmail()
         let a = 60
         setConfirmLoading(true)
@@ -66,14 +72,14 @@ export default function UserUpdataModal({
       if (res.code === 200 && res.data === true) {
         setCheckEmailStatus('true')
       } else {
-        message.warning('该邮箱已被注册去登录吧！')
+        message.warning('该邮箱已被注册！')
         setCheckEmailStatus('false')
       }
     } catch (error) {}
   }
 
   const sendEmail = async () => {
-    const email = form.getFieldsValue().email
+    const email = form.getFieldsValue().newEmail
     try {
       const { code } = await sendEmailFunc({ email: email })
       if (code === 200) message.success('发送成功，去查看邮箱吧！')
@@ -95,12 +101,21 @@ export default function UserUpdataModal({
     onHandleCancel && onHandleCancel()
   }
 
-  const onFinish = () => {
-    form.setFieldsValue({})
+  const onFinish = async () => {
+    form.setFieldsValue({ ...form.getFieldsValue(), reqType: reqType })
+    try {
+      const { code } = await changeInfo({ ...form.getFieldsValue(true) })
+      if (code === 200) {
+        message.success('修改成功！')
+        form.resetFields()
+        onHandleOk && onHandleOk()
+      }
+    } catch (error) {
+      throw error
+    }
   }
 
-  const onFinishFailed = (errorInfo: any) => {
-  }
+  const onFinishFailed = (errorInfo: any) => {}
 
   return (
     <Modal
@@ -118,7 +133,7 @@ export default function UserUpdataModal({
           {...formItemLayout}
         >
           <Form.Item
-            name="username"
+            name="newName"
             label={formatMessage({ id: 'overview.编辑资料.用户名' })}
             rules={[
               {
@@ -190,7 +205,7 @@ export default function UserUpdataModal({
           {...formItemLayout}
         >
           <Form.Item
-            name="email"
+            name="newEmail"
             label={formatMessage({ id: 'login.注册.新邮箱' })}
             rules={[
               {
@@ -220,7 +235,7 @@ export default function UserUpdataModal({
             />
           </Form.Item>
           <Form.Item
-            name="emailCheckCode"
+            name="code"
             label={formatMessage({ id: 'login.找回密码.邮箱验证' })}
             rules={[{ required: true, message: '交白卷可不行！！!' }]}
           >
